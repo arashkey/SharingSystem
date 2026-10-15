@@ -2,8 +2,10 @@
 @{
     var isAdminView = ViewData["AdminView"] is true;
     var deleteBase = isAdminView ? "/admin/shares" : "/account/shares";
+    // After a delete the user returns to the same page of the list.
+    var returnUrl = Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString;
 }
-@if (Model.Shares.Count == 0)
+@if (Model.Shares.TotalCount == 0)
 {
     <div class="card empty-state">
         <svg class="icon empty-icon"><use href="#i-link" /></svg>
@@ -35,7 +37,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var share in Model.Shares)
+                    @foreach (var share in Model.Shares.Items)
                     {
                         var url = $"{Model.BaseUrl}/s/{share.Id}";
                         var expired = ViewFormat.IsExpired(share.ExpiresAt);
@@ -78,6 +80,7 @@ else
                                     <a class="btn btn-ghost btn-icon" href="/account/shares/@share.Id/edit" title="@Localizer["Edit"]"><svg class="icon"><use href="#i-edit" /></svg></a>
                                 }
                                 <form method="post" asp-antiforgery="true" action="@deleteBase/@share.Id/delete" class="inline-form" data-confirm="@Localizer["Do you really want to delete this share and all of its files?"]">
+                                    <input type="hidden" name="returnUrl" value="@returnUrl" />
                                     <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                                 </form>
                             </td>
@@ -87,4 +90,5 @@ else
             </table>
         </div>
     </div>
+    <partial name="_Pagination" model="Model.Shares" />
 }

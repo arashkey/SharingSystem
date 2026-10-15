@@ -2,6 +2,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharingSystem.Application.Abstractions;
+using SharingSystem.Application.Common;
 using SharingSystem.Application.Shares;
 using SharingSystem.Web.Models;
 
@@ -18,10 +19,10 @@ public sealed class SharesController(
     IAppUrlResolver appUrlResolver) : AppController
 {
     [HttpGet("")]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken) =>
+    public async Task<IActionResult> Index(int page = Pagination.FirstPage, CancellationToken cancellationToken = default) =>
         View(new ShareListViewModel
         {
-            Shares = await managementService.GetMySharesAsync(cancellationToken),
+            Shares = await managementService.GetMySharesAsync(page, Pagination.DefaultPageSize, cancellationToken),
             BaseUrl = await appUrlResolver.GetBaseUrlAsync(cancellationToken)
         });
 

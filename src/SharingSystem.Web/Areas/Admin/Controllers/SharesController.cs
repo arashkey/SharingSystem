@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SharingSystem.Application.Abstractions;
+using SharingSystem.Application.Common;
 using SharingSystem.Application.Shares;
 using SharingSystem.Web.Models;
 
@@ -11,18 +12,18 @@ public sealed class SharesController(
     IAppUrlResolver appUrlResolver) : AdminController
 {
     [HttpGet("")]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken) =>
+    public async Task<IActionResult> Index(int page = Pagination.FirstPage, CancellationToken cancellationToken = default) =>
         View(new ShareListViewModel
         {
-            Shares = await managementService.GetAllSharesAsync(cancellationToken),
+            Shares = await managementService.GetAllSharesAsync(page, Pagination.DefaultPageSize, cancellationToken),
             BaseUrl = await appUrlResolver.GetBaseUrlAsync(cancellationToken)
         });
 
     [HttpPost("{id}/delete")]
-    public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(string id, string? returnUrl, CancellationToken cancellationToken)
     {
         await managementService.DeleteAsync(id, cancellationToken);
         FlashSuccess("The share has been deleted.");
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocal(returnUrl, Url.Action(nameof(Index))!);
     }
 }

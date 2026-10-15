@@ -1072,4 +1072,16 @@
   <data name="Failed" xml:space="preserve">
     <value>ناموفق</value>
   </data>
+  <data name="Pagination" xml:space="preserve">
+    <value>صفحه‌بندی</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>قبلی</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>بعدی</value>
+  </data>
+  <data name="{0}–{1} of {2}" xml:space="preserve">
+    <value>{0} تا {1} از {2}</value>
+  </data>
 </root>

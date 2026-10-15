@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SharingSystem.Application.Common;
 using SharingSystem.Application.ReverseShares;
 using SharingSystem.Application.Shares;
 using SharingSystem.Domain.Constants;
@@ -18,7 +19,7 @@ public sealed class UploadPageViewModel
 
 public sealed class ShareListViewModel
 {
-    public required IReadOnlyList<ShareSummaryDto> Shares { get; init; }
+    public required PagedResult<ShareSummaryDto> Shares { get; init; }
     public required string BaseUrl { get; init; }
 }
 

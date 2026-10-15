@@ -10,10 +10,11 @@ namespace SharingSystem.Application.Shares;
 
 public interface IShareManagementService
 {
-    Task<IReadOnlyList<ShareSummaryDto>> GetMySharesAsync(CancellationToken cancellationToken = default);
+    /// <summary>One page of the completed shares of the current user, newest first.</summary>
+    Task<PagedResult<ShareSummaryDto>> GetMySharesAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
-    /// <summary>All completed shares of all users (administrators only).</summary>
-    Task<IReadOnlyList<ShareSummaryDto>> GetAllSharesAsync(CancellationToken cancellationToken = default);
+    /// <summary>One page of the completed shares of all users, newest first (administrators only).</summary>
+    Task<PagedResult<ShareSummaryDto>> GetAllSharesAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
     Task<ShareDetailsDto> GetForEditAsync(string shareId, CancellationToken cancellationToken = default);
 
@@ -36,24 +37,19 @@ public sealed class ShareManagementService(
     ISettingsService settingsService,
     TimeProvider timeProvider) : IShareManagementService
 {
-    public async Task<IReadOnlyList<ShareSummaryDto>> GetMySharesAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<ShareSummaryDto>> GetMySharesAsync(
+        int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var userId = currentUser.RequireUserId();
-        return await dbContext.Shares.AsNoTracking()
-            .Where(s => s.CreatorId == userId && s.IsCompleted)
-            .OrderByDescending(s => s.CreatedAt)
-            .ProjectToType<ShareSummaryDto>()
-            .ToListAsync(cancellationToken);
+        return await GetSharePageAsync(
+            dbContext.Shares.Where(s => s.CreatorId == userId && s.IsCompleted), page, pageSize, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<ShareSummaryDto>> GetAllSharesAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<ShareSummaryDto>> GetAllSharesAsync(
+        int page, int pageSize, CancellationToken cancellationToken = default)
     {
         EnsureAdmin();
-        return await dbContext.Shares.AsNoTracking()
-            .Where(s => s.IsCompleted)
-            .OrderByDescending(s => s.CreatedAt)
-            .ProjectToType<ShareSummaryDto>()
-            .ToListAsync(cancellationToken);
+        return await GetSharePageAsync(dbContext.Shares.Where(s => s.IsCompleted), page, pageSize, cancellationToken);
     }
 
     public async Task<ShareDetailsDto> GetForEditAsync(string shareId, CancellationToken cancellationToken = default)
@@ -119,6 +115,15 @@ public sealed class ShareManagementService(
         await shareRemover.RemoveAsync([share], cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    /// <summary>The identifier is a tie-breaker, so the order (and thereby the pages) stays stable.</summary>
+    private static Task<PagedResult<ShareSummaryDto>> GetSharePageAsync(
+        IQueryable<ShareEntity> shares, int page, int pageSize, CancellationToken cancellationToken) =>
+        shares.AsNoTracking()
+            .OrderByDescending(s => s.CreatedAt)
+            .ThenBy(s => s.Id)
+            .ProjectToType<ShareSummaryDto>()
+            .ToPagedResultAsync(page, pageSize, cancellationToken);
 
     private async Task<ShareEntity> LoadManageableShareAsync(string shareId, bool includeFiles, CancellationToken cancellationToken)
     {

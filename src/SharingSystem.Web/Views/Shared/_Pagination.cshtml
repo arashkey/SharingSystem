@@ -1,0 +1,78 @@
+@using System.Globalization
+@using Microsoft.AspNetCore.WebUtilities
+@model IPagedResult
+@{
+    // Number of page links shown on each side of the current page.
+    const int PageWindow = 2;
+    const string PageParameter = "page";
+
+    // Keeps all other query parameters of the current URL.
+    string PageUrl(int pageNumber)
+    {
+        var parameters = Context.Request.Query
+            .Where(parameter => !string.Equals(parameter.Key, PageParameter, StringComparison.OrdinalIgnoreCase))
+            .SelectMany(parameter => parameter.Value.Select(value => new KeyValuePair<string, string?>(parameter.Key, value)))
+            .Append(new KeyValuePair<string, string?>(PageParameter, pageNumber.ToString(CultureInfo.InvariantCulture)));
+        return QueryHelpers.AddQueryString(Context.Request.PathBase + Context.Request.Path, parameters);
+    }
+
+    var firstPage = Pagination.FirstPage;
+    var lastPage = Model.TotalPages;
+    var windowStart = Math.Max(firstPage, Model.Page - PageWindow);
+    var windowEnd = Math.Min(lastPage, Model.Page + PageWindow);
+}
+@if (Model.TotalPages > Pagination.FirstPage)
+{
+    <nav class="pagination" aria-label="@Localizer["Pagination"]">
+        <span class="muted small">@Localizer["{0}–{1} of {2}", Model.FirstItemNumber, Model.LastItemNumber, Model.TotalCount]</span>
+        <div class="pagination-pages">
+            @if (Model.Page > firstPage)
+            {
+                <a class="btn btn-sm btn-ghost" href="@PageUrl(Model.Page - 1)" rel="prev">@Localizer["Previous"]</a>
+            }
+            else
+            {
+                <span class="btn btn-sm btn-ghost is-disabled" aria-disabled="true">@Localizer["Previous"]</span>
+            }
+
+            @if (windowStart > firstPage)
+            {
+                <a class="btn btn-sm btn-ghost" href="@PageUrl(firstPage)">@firstPage</a>
+                @if (windowStart > firstPage + 1)
+                {
+                    <span class="pagination-gap">…</span>
+                }
+            }
+
+            @for (var pageNumber = windowStart; pageNumber <= windowEnd; pageNumber++)
+            {
+                if (pageNumber == Model.Page)
+                {
+                    <span class="btn btn-sm btn-primary" aria-current="page">@pageNumber</span>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-ghost" href="@PageUrl(pageNumber)">@pageNumber</a>
+                }
+            }
+
+            @if (windowEnd < lastPage)
+            {
+                @if (windowEnd < lastPage - 1)
+                {
+                    <span class="pagination-gap">…</span>
+                }
+                <a class="btn btn-sm btn-ghost" href="@PageUrl(lastPage)">@lastPage</a>
+            }
+
+            @if (Model.Page < lastPage)
+            {
+                <a class="btn btn-sm btn-ghost" href="@PageUrl(Model.Page + 1)" rel="next">@Localizer["Next"]</a>
+            }
+            else
+            {
+                <span class="btn btn-sm btn-ghost is-disabled" aria-disabled="true">@Localizer["Next"]</span>
+            }
+        </div>
+    </nav>
+}
