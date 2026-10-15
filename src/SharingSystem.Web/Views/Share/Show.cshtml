@@ -11,7 +11,7 @@
             <p class="muted prose">@share.Description</p>
         }
         <div class="meta">
-            <span><svg class="icon icon-xs"><use href="#i-file" /></svg>@Localizer["{0} files", share.Files.Count] · @ViewFormat.Bytes(share.TotalSize)</span>
+            <span><svg class="icon icon-xs"><use href="#i-file" /></svg>@Localizer["{0} files", share.FileCount] · @ViewFormat.Bytes(share.TotalSize)</span>
             <span><svg class="icon icon-xs"><use href="#i-eye" /></svg>@(share.MaxViews.HasValue ? Localizer["{0} views of {1}", share.Views, share.MaxViews.Value] : Localizer["{0} views", share.Views])</span>
             <span>
                 <svg class="icon icon-xs"><use href="#i-clock" /></svg>
@@ -36,7 +36,7 @@
         {
             <a class="btn btn-secondary" href="/account/shares/@share.Id/edit"><svg class="icon"><use href="#i-edit" /></svg>@Localizer["Edit"]</a>
         }
-        @if (share.Files.Count > 1)
+        @if (share.FileCount > 1)
         {
             <a class="btn btn-primary" href="/s/@share.Id/zip"><svg class="icon"><use href="#i-archive" /></svg>@Localizer["Download all"]</a>
         }
@@ -50,7 +50,7 @@
                 <tr><th>@Localizer["Name"]</th><th class="col-size">@Localizer["Size"]</th><th class="text-right"></th></tr>
             </thead>
             <tbody>
-                @foreach (var file in share.Files)
+                @foreach (var file in share.Files.Items)
                 {
                     var downloadUrl = $"/s/{share.Id}/files/{file.Id}";
                     <tr>
@@ -72,6 +72,7 @@
         </table>
     </div>
 </div>
+<partial name="_Pagination" model="share.Files" />
 
 <dialog class="dialog dialog-wide" id="preview-dialog">
     <div class="dialog-header">

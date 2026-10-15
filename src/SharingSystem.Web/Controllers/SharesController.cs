@@ -27,28 +27,33 @@ public sealed class SharesController(
         });
 
     [HttpGet("{id}/edit")]
-    public async Task<IActionResult> Edit(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit(string id, int page = Pagination.FirstPage, CancellationToken cancellationToken = default)
     {
-        var share = await managementService.GetForEditAsync(id, cancellationToken);
+        var share = await managementService.GetForEditAsync(id, page, Pagination.DefaultPageSize, cancellationToken);
         return View(await BuildEditPageAsync(share, share.Adapt<EditShareForm>(), cancellationToken));
     }
 
+    /// <summary>The page of the file list is kept, so the user stays where they were.</summary>
     [HttpPost("{id}/edit")]
-    public async Task<IActionResult> Edit(string id, [Bind(Prefix = "Form")] EditShareForm form, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit(
+        string id,
+        [Bind(Prefix = "Form")] EditShareForm form,
+        int page = Pagination.FirstPage,
+        CancellationToken cancellationToken = default)
     {
         if (ModelState.IsValid
             && await TryExecuteAsync(() => managementService.UpdateAsync(id, form.Adapt<UpdateShareRequest>(), cancellationToken)))
         {
             FlashSuccess("The share has been updated.");
-            return RedirectToAction(nameof(Edit), new { id });
+            return RedirectToAction(nameof(Edit), new { id, page });
         }
 
-        var share = await managementService.GetForEditAsync(id, cancellationToken);
+        var share = await managementService.GetForEditAsync(id, page, Pagination.DefaultPageSize, cancellationToken);
         return View(await BuildEditPageAsync(share, form, cancellationToken));
     }
 
     [HttpPost("{id}/files/{fileId:guid}/delete")]
-    public async Task<IActionResult> DeleteFile(string id, Guid fileId, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteFile(string id, Guid fileId, string? returnUrl, CancellationToken cancellationToken)
     {
         if (await TryExecuteAsync(() => managementService.DeleteFileAsync(id, fileId, cancellationToken)))
         {
@@ -59,7 +64,7 @@ public sealed class SharesController(
             FlashModelErrors();
         }
 
-        return RedirectToAction(nameof(Edit), new { id });
+        return RedirectToLocal(returnUrl, Url.Action(nameof(Edit), new { id })!);
     }
 
     [HttpPost("{id}/delete")]

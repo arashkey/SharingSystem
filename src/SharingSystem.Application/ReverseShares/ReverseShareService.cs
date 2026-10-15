@@ -39,7 +39,8 @@ public sealed record ReverseShareUploadDto(string Token, long MaxShareSizeBytes,
 
 public interface IReverseShareService
 {
-    Task<IReadOnlyList<ReverseShareDto>> GetMineAsync(CancellationToken cancellationToken = default);
+    /// <summary>One page of the reverse shares of the current user, newest first.</summary>
+    Task<PagedResult<ReverseShareDto>> GetMineAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
     Task<ReverseShareDto> CreateAsync(CreateReverseShareRequest request, CancellationToken cancellationToken = default);
 
@@ -57,17 +58,21 @@ public sealed class ReverseShareService(
 {
     private const int MaxUseCountLimit = 1000;
 
-    public async Task<IReadOnlyList<ReverseShareDto>> GetMineAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<ReverseShareDto>> GetMineAsync(
+        int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var userId = currentUser.RequireUserId();
+
+        // The identifier is a tie-breaker, so the order (and thereby the pages) stays stable.
         var reverseShares = await dbContext.ReverseShares.AsNoTracking()
             .Where(r => r.CreatorId == userId)
             .OrderByDescending(r => r.CreatedAt)
+            .ThenBy(r => r.Id)
             .ProjectToType<ReverseShareDto>()
-            .ToListAsync(cancellationToken);
+            .ToPagedResultAsync(page, pageSize, cancellationToken);
 
         var baseUrl = await appUrlResolver.GetBaseUrlAsync(cancellationToken);
-        foreach (var reverseShare in reverseShares)
+        foreach (var reverseShare in reverseShares.Items)
         {
             reverseShare.Url = BuildUrl(baseUrl, reverseShare.Token);
         }

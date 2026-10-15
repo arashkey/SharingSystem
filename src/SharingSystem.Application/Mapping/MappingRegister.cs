@@ -19,7 +19,10 @@ public sealed class MappingRegister : IRegister
             .Map(dest => dest.TotalSize, src => src.Files.Sum(f => f.Size))
             .Map(dest => dest.CreatorUsername, src => src.Creator != null ? src.Creator.Username : null);
 
+        // Files and their total size are loaded page by page from the database, see ShareFileQueries.
         config.NewConfig<ShareEntity, ShareDetailsDto>()
+            .Ignore(dest => dest.Files)
+            .Ignore(dest => dest.TotalSize)
             .Map(dest => dest.HasPassword, src => src.PasswordHash != null)
             .Map(dest => dest.CreatorUsername, src => src.Creator != null ? src.Creator.Username : null);
 

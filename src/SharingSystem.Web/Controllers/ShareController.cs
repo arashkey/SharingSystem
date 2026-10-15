@@ -27,9 +27,9 @@ public sealed class ShareController(
     private static readonly string[] TextContentTypes = ["application/json", "application/xml", "application/javascript"];
 
     [HttpGet("")]
-    public async Task<IActionResult> Show(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Show(string id, int page = Pagination.FirstPage, CancellationToken cancellationToken = default)
     {
-        var view = await viewerService.GetAsync(id, cancellationToken);
+        var view = await viewerService.GetAsync(id, page, Pagination.DefaultPageSize, cancellationToken);
         if (view.CanManage || shareAccess.HasAccess(id))
         {
             return await ShareViewAsync(view, cancellationToken);
@@ -109,7 +109,7 @@ public sealed class ShareController(
             return;
         }
 
-        var view = await viewerService.GetAsync(id, cancellationToken);
+        var view = await viewerService.GetAsync(id, Pagination.FirstPage, Pagination.DefaultPageSize, cancellationToken);
         if (!view.CanManage)
         {
             throw AppException.Forbidden("Open the share page first to get access to its files.");

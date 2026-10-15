@@ -1,4 +1,3 @@
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SharingSystem.Application.Abstractions;
 using SharingSystem.Application.Common;
@@ -9,8 +8,8 @@ namespace SharingSystem.Application.Shares;
 
 public interface IShareViewerService
 {
-    /// <summary>Returns a share that the current visitor is allowed to see.</summary>
-    Task<ShareViewDto> GetAsync(string shareId, CancellationToken cancellationToken = default);
+    /// <summary>Returns a share that the current visitor is allowed to see, with one page of its files.</summary>
+    Task<ShareViewDto> GetAsync(string shareId, int filePage, int pageSize, CancellationToken cancellationToken = default);
 
     /// <summary>Validates the password and the view limit and counts a new visit.</summary>
     Task RegisterVisitAsync(string shareId, string? password, CancellationToken cancellationToken = default);
@@ -36,18 +35,18 @@ public sealed class ShareViewerService(
     private const string ArchiveExtension = ".zip";
     private const string ZipContentType = "application/zip";
 
-    public async Task<ShareViewDto> GetAsync(string shareId, CancellationToken cancellationToken = default)
+    public async Task<ShareViewDto> GetAsync(
+        string shareId, int filePage, int pageSize, CancellationToken cancellationToken = default)
     {
-        var share = await LoadVisibleShareAsync(shareId, includeFiles: true, cancellationToken);
-        var details = share.Adapt<ShareDetailsDto>();
-        details.Files = [.. details.Files.OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase)];
+        var share = await LoadVisibleShareAsync(shareId, cancellationToken);
+        var details = await dbContext.GetDetailsAsync(share, filePage, pageSize, cancellationToken);
 
         return new ShareViewDto { Share = details, CanManage = currentUser.CanManage(share.CreatorId) };
     }
 
     public async Task RegisterVisitAsync(string shareId, string? password, CancellationToken cancellationToken = default)
     {
-        var share = await LoadVisibleShareAsync(shareId, includeFiles: false, cancellationToken);
+        var share = await LoadVisibleShareAsync(shareId, cancellationToken);
         if (currentUser.CanManage(share.CreatorId))
         {
             return;
@@ -71,7 +70,7 @@ public sealed class ShareViewerService(
     public async Task<FileContentDto> OpenFileAsync(string shareId, Guid fileId, CancellationToken cancellationToken = default)
     {
         // Only the requested file is loaded, so downloads stay fast for shares with many files.
-        var share = await LoadVisibleShareAsync(shareId, includeFiles: false, cancellationToken);
+        var share = await LoadVisibleShareAsync(shareId, cancellationToken);
         var file = await dbContext.ShareFiles.AsNoTracking()
                        .FirstOrDefaultAsync(f => f.Id == fileId && f.ShareId == share.Id, cancellationToken)
                    ?? throw AppException.NotFound("The file does not exist.");
@@ -82,7 +81,7 @@ public sealed class ShareViewerService(
 
     public async Task<FileContentDto> OpenArchiveAsync(string shareId, CancellationToken cancellationToken = default)
     {
-        var share = await LoadVisibleShareAsync(shareId, includeFiles: false, cancellationToken);
+        var share = await LoadVisibleShareAsync(shareId, cancellationToken);
         var settings = await settingsService.GetAsync(cancellationToken);
 
         var entries = await dbContext.ShareFiles.AsNoTracking()
@@ -94,16 +93,12 @@ public sealed class ShareViewerService(
         return new FileContentDto(stream, archiveName, ZipContentType);
     }
 
-    private async Task<ShareEntity> LoadVisibleShareAsync(string shareId, bool includeFiles, CancellationToken cancellationToken)
+    private async Task<ShareEntity> LoadVisibleShareAsync(string shareId, CancellationToken cancellationToken)
     {
         var now = timeProvider.GetUtcNow().UtcDateTime;
-        IQueryable<ShareEntity> query = dbContext.Shares.AsNoTracking().Include(s => s.Creator);
-        if (includeFiles)
-        {
-            query = query.Include(s => s.Files);
-        }
-
-        var share = await query.FirstOrDefaultAsync(s => s.Id == shareId, cancellationToken);
+        var share = await dbContext.Shares.AsNoTracking()
+            .Include(s => s.Creator)
+            .FirstOrDefaultAsync(s => s.Id == shareId, cancellationToken);
 
         if (share is null || !share.IsCompleted || share.ExpiresAt <= now)
         {

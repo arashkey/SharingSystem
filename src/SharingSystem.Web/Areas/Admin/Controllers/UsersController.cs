@@ -1,5 +1,6 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using SharingSystem.Application.Common;
 using SharingSystem.Application.Users;
 using SharingSystem.Web.Models;
 
@@ -9,8 +10,8 @@ namespace SharingSystem.Web.Areas.Admin.Controllers;
 public sealed class UsersController(IUserAdminService userAdminService) : AdminController
 {
     [HttpGet("")]
-    public async Task<IActionResult> Index(CancellationToken cancellationToken) =>
-        View(await userAdminService.ListAsync(cancellationToken));
+    public async Task<IActionResult> Index(int page = Pagination.FirstPage, CancellationToken cancellationToken = default) =>
+        View(await userAdminService.ListAsync(page, Pagination.DefaultPageSize, cancellationToken));
 
     [HttpGet("create")]
     public IActionResult Create() => View(new CreateUserForm());
@@ -52,7 +53,7 @@ public sealed class UsersController(IUserAdminService userAdminService) : AdminC
     }
 
     [HttpPost("{id:guid}/delete")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, string? returnUrl, CancellationToken cancellationToken)
     {
         if (await TryExecuteAsync(() => userAdminService.DeleteAsync(id, cancellationToken)))
         {
@@ -63,6 +64,6 @@ public sealed class UsersController(IUserAdminService userAdminService) : AdminC
             FlashModelErrors();
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocal(returnUrl, Url.Action(nameof(Index))!);
     }
 }

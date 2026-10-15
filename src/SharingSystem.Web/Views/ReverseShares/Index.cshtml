@@ -1,6 +1,8 @@
 @model ReverseSharesPageViewModel
 @{
     ViewData["Title"] = Localizer["Reverse shares"].Value;
+    // After a delete the user returns to the same page of the list.
+    var returnUrl = Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString;
 }
 <div class="page-header">
     <div>
@@ -10,7 +12,7 @@
     <button type="button" class="btn btn-primary" data-dialog-open="create-reverse-share"><svg class="icon"><use href="#i-plus" /></svg>@Localizer["Create"]</button>
 </div>
 
-@if (Model.ReverseShares.Count == 0)
+@if (Model.ReverseShares.TotalCount == 0)
 {
     <div class="card empty-state">
         <svg class="icon empty-icon"><use href="#i-inbox" /></svg>
@@ -34,7 +36,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var reverseShare in Model.ReverseShares)
+                    @foreach (var reverseShare in Model.ReverseShares.Items)
                     {
                         <tr>
                             <td>
@@ -66,6 +68,7 @@ else
                             <td class="text-right nowrap">
                                 <button type="button" class="btn btn-ghost btn-icon" data-copy="@reverseShare.Url" title="@Localizer["Copy link"]"><svg class="icon"><use href="#i-copy" /></svg></button>
                                 <form method="post" asp-antiforgery="true" action="/account/reverse-shares/@reverseShare.Id/delete" class="inline-form" data-confirm="@Localizer["Delete this reverse share? Shares created with it are kept."]">
+                                    <input type="hidden" name="returnUrl" value="@returnUrl" />
                                     <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                                 </form>
                             </td>
@@ -75,6 +78,7 @@ else
             </table>
         </div>
     </div>
+    <partial name="_Pagination" model="Model.ReverseShares" />
 }
 
 <dialog class="dialog" id="create-reverse-share" data-open-on-load="@(ViewData.ModelState.IsValid ? "false" : "true")">

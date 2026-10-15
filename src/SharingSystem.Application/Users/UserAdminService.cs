@@ -42,7 +42,8 @@ public sealed class UpdateUserRequest
 
 public interface IUserAdminService
 {
-    Task<IReadOnlyList<UserDto>> ListAsync(CancellationToken cancellationToken = default);
+    /// <summary>One page of all users, ordered by username.</summary>
+    Task<PagedResult<UserDto>> ListAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
     Task<UserDto> GetAsync(Guid id, CancellationToken cancellationToken = default);
 
@@ -66,13 +67,16 @@ public sealed class UserAdminService(
 {
     private const int GeneratedPasswordLength = 16;
 
-    public async Task<IReadOnlyList<UserDto>> ListAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<UserDto>> ListAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
         EnsureAdmin();
+
+        // The identifier is a tie-breaker, so the order (and thereby the pages) stays stable.
         return await dbContext.Users.AsNoTracking()
             .OrderBy(u => u.Username)
+            .ThenBy(u => u.Id)
             .ProjectToType<UserDto>()
-            .ToListAsync(cancellationToken);
+            .ToPagedResultAsync(page, pageSize, cancellationToken);
     }
 
     public async Task<UserDto> GetAsync(Guid id, CancellationToken cancellationToken = default)

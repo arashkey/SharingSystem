@@ -76,7 +76,7 @@ public sealed class SharePasswordViewModel
 
 public sealed class ReverseSharesPageViewModel
 {
-    public required IReadOnlyList<ReverseShareDto> ReverseShares { get; init; }
+    public required PagedResult<ReverseShareDto> ReverseShares { get; init; }
     public required CreateReverseShareForm Form { get; init; }
     public required string BaseUrl { get; init; }
     public long MaxShareSizeBytes { get; init; }

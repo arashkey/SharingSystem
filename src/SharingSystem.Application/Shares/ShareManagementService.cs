@@ -16,7 +16,8 @@ public interface IShareManagementService
     /// <summary>One page of the completed shares of all users, newest first (administrators only).</summary>
     Task<PagedResult<ShareSummaryDto>> GetAllSharesAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
-    Task<ShareDetailsDto> GetForEditAsync(string shareId, CancellationToken cancellationToken = default);
+    /// <summary>A manageable share with one page of its files.</summary>
+    Task<ShareDetailsDto> GetForEditAsync(string shareId, int filePage, int pageSize, CancellationToken cancellationToken = default);
 
     Task UpdateAsync(string shareId, UpdateShareRequest request, CancellationToken cancellationToken = default);
 
@@ -52,12 +53,11 @@ public sealed class ShareManagementService(
         return await GetSharePageAsync(dbContext.Shares.Where(s => s.IsCompleted), page, pageSize, cancellationToken);
     }
 
-    public async Task<ShareDetailsDto> GetForEditAsync(string shareId, CancellationToken cancellationToken = default)
+    public async Task<ShareDetailsDto> GetForEditAsync(
+        string shareId, int filePage, int pageSize, CancellationToken cancellationToken = default)
     {
-        var share = await LoadManageableShareAsync(shareId, includeFiles: true, cancellationToken);
-        var details = share.Adapt<ShareDetailsDto>();
-        details.Files = [.. details.Files.OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase)];
-        return details;
+        var share = await LoadManageableShareAsync(shareId, includeFiles: false, cancellationToken);
+        return await dbContext.GetDetailsAsync(share, filePage, pageSize, cancellationToken);
     }
 
     public async Task UpdateAsync(string shareId, UpdateShareRequest request, CancellationToken cancellationToken = default)

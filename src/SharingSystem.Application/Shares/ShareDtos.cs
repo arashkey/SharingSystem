@@ -1,3 +1,4 @@
+using SharingSystem.Application.Common;
 using SharingSystem.Domain.Enums;
 
 namespace SharingSystem.Application.Shares;
@@ -69,7 +70,7 @@ public sealed class ShareSummaryDto
     public string? CreatorUsername { get; init; }
 }
 
-/// <summary>Share information including the files.</summary>
+/// <summary>Share information including one page of its files.</summary>
 public sealed class ShareDetailsDto
 {
     public string Id { get; init; } = string.Empty;
@@ -83,9 +84,14 @@ public sealed class ShareDetailsDto
     public bool IsCreatorOnly { get; init; }
     public Guid? CreatorId { get; init; }
     public string? CreatorUsername { get; init; }
-    public List<ShareFileDto> Files { get; set; } = [];
+    public PagedResult<ShareFileDto> Files { get; set; } =
+        new([], Pagination.FirstPage, Pagination.DefaultPageSize, 0);
 
-    public long TotalSize => Files.Sum(f => f.Size);
+    /// <summary>Number of all files of the share, not only of the current page.</summary>
+    public int FileCount => Files.TotalCount;
+
+    /// <summary>Size of all files of the share, not only of the current page.</summary>
+    public long TotalSize { get; set; }
 }
 
 /// <summary>A share as seen by a visitor of the public share page.</summary>

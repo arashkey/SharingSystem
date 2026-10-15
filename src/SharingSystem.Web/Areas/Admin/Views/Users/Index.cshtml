@@ -1,6 +1,8 @@
-@model IReadOnlyList<UserDto>
+@model PagedResult<UserDto>
 @{
     ViewData["Title"] = Localizer["Users"].Value;
+    // After a delete the administrator returns to the same page of the list.
+    var returnUrl = Context.Request.PathBase + Context.Request.Path + Context.Request.QueryString;
 }
 <div class="page-header">
     <h1>@Localizer["User management"]</h1>
@@ -15,7 +17,7 @@
                 <tr><th>@Localizer["Username"]</th><th>@Localizer["E-mail"]</th><th>@Localizer["Role"]</th><th>@Localizer["2FA"]</th><th>@Localizer["Shares"]</th><th>@Localizer["Created"]</th><th class="text-right">@Localizer["Actions"]</th></tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (var user in Model.Items)
                 {
                     <tr>
                         <td class="strong">@user.Username</td>
@@ -27,6 +29,7 @@
                         <td class="text-right nowrap">
                             <a class="btn btn-ghost btn-icon" href="/admin/users/@user.Id/edit" title="@Localizer["Edit"]"><svg class="icon"><use href="#i-edit" /></svg></a>
                             <form method="post" asp-antiforgery="true" action="/admin/users/@user.Id/delete" class="inline-form" data-confirm="@Localizer["Delete {0} and all of their shares?", user.Username]">
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
                                 <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                             </form>
                         </td>
@@ -36,3 +39,4 @@
         </table>
     </div>
 </div>
+<partial name="_Pagination" model="Model" />

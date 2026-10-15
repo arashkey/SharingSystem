@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = Localizer["Edit share"].Value;
     var share = Model.Share;
+    // Forms keep the current page of the file list, so the user returns to the same page.
+    var queryString = Context.Request.QueryString;
+    var returnUrl = Context.Request.PathBase + Context.Request.Path + queryString;
 }
 <div class="page-header">
     <div>
@@ -19,7 +22,7 @@
 <div class="grid grid-2">
     <section class="card">
         <h2 class="card-title">@Localizer["Details"]</h2>
-        <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/edit" class="form">
+        <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/edit@(queryString)" class="form">
             <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
             <div class="form-group">
                 <label asp-for="Form.Name"></label>
@@ -69,16 +72,17 @@
     </section>
 
     <section class="card">
-        <h2 class="card-title">@Localizer["Files"] <span class="muted">(@share.Files.Count · @ViewFormat.Bytes(share.TotalSize))</span></h2>
+        <h2 class="card-title">@Localizer["Files"] <span class="muted">(@share.FileCount · @ViewFormat.Bytes(share.TotalSize))</span></h2>
         <table class="table">
             <tbody>
-                @foreach (var file in share.Files)
+                @foreach (var file in share.Files.Items)
                 {
                     <tr>
                         <td class="file-name"><svg class="icon"><use href="#i-file" /></svg>@file.Name</td>
                         <td class="col-size">@ViewFormat.Bytes(file.Size)</td>
                         <td class="text-right">
                             <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/files/@file.Id/delete" class="inline-form" data-confirm="@Localizer["Delete this file?"]">
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
                                 <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete file"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                             </form>
                         </td>
@@ -86,6 +90,7 @@
                 }
             </tbody>
         </table>
+        <partial name="_Pagination" model="share.Files" />
 
         <h3 class="subtitle">@Localizer["Add files"]</h3>
         <div class="upload compact"
