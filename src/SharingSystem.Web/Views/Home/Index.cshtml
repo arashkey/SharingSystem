@@ -7,7 +7,7 @@
     <div class="hero-text">
         <h1>@HtmlLocalizer["A <span class=\"accent\">self-hosted</span> file sharing platform."]</h1>
         <p class="lead">@Localizer["Do you really want to give your personal files in the hand of third parties like WeTransfer?"]
-            @Localizer["{0} lets you share files with anyone — simple, secure and on your own server.", Model.AppName]</p>
+            @Localizer["{0} lets you share files with anyone — simple, secure and on your own server.", Localizer.AppName(Model.AppName)]</p>
         <div class="actions">
             @if (canUpload)
             {

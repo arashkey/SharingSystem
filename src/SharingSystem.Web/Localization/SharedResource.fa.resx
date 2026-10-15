@@ -514,6 +514,9 @@
   <data name="Administration" xml:space="preserve">
     <value>مدیریت</value>
   </data>
+  <data name="Sharing System" xml:space="preserve">
+    <value>سامانه اشتراک‌گذاری</value>
+  </data>
   <data name="Users" xml:space="preserve">
     <value>کاربران</value>
   </data>

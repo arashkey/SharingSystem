@@ -145,7 +145,8 @@ code { background: var(--surface-2); border-radius: 6px; padding: .1rem .35rem; 
 }
 .nav-link:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
 .nav-link.active { color: var(--primary); background: var(--primary-soft); }
-.nav-toggle { display: none; margin-inline-start: auto; }
+/* Qualified with .btn so the later .btn display rule cannot show the toggle on desktop. */
+.btn.nav-toggle { display: none; margin-inline-start: auto; }
 .inline-form { display: inline; margin: 0; }
 
 .icon-moon { display: none; }
@@ -161,7 +162,7 @@ code { background: var(--surface-2); border-radius: 6px; padding: .1rem .35rem; 
 .footer-links { display: flex; gap: 1rem; }
 
 @media (max-width: 820px) {
-    .nav-toggle { display: inline-flex; }
+    .btn.nav-toggle { display: inline-flex; }
     .nav {
         display: none; position: absolute; top: 60px; left: 0; right: 0;
         flex-direction: column; align-items: stretch; padding: .75rem 16px;

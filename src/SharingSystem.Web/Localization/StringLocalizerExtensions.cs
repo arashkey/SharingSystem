@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using SharingSystem.Application.Common;
+using SharingSystem.Domain.Constants;
 
 namespace SharingSystem.Web.Localization;
 
@@ -13,6 +14,15 @@ public static partial class StringLocalizerExtensions
         exception.MessageArguments.Length == 0
             ? localizer[exception.MessageTemplate].Value
             : localizer[exception.MessageTemplate, exception.MessageArguments].Value;
+
+    /// <summary>
+    /// Translates the application name while it still has its default value;
+    /// a name chosen by an administrator is shown exactly as entered.
+    /// </summary>
+    public static string AppName(this IStringLocalizer localizer, string appName) =>
+        string.Equals(appName, AppSettingsDefaults.AppName, StringComparison.Ordinal)
+            ? localizer[AppSettingsDefaults.AppName].Value
+            : appName;
 
     /// <summary>Translated display name of an enum value; the English text is derived from the member name.</summary>
     public static string EnumDisplayName<TEnum>(this IStringLocalizer localizer, TEnum value)

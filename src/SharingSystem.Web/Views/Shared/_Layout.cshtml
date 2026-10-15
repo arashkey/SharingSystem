@@ -4,6 +4,7 @@
     var settings = await SettingsService.GetAsync();
     var isAuthenticated = User.Identity?.IsAuthenticated == true;
     var isAdmin = User.IsInRole(WebConstants.AdminRole);
+    var appName = Localizer.AppName(settings.AppName);
     var title = ViewData["Title"] as string;
     var canUpload = isAuthenticated || settings.AllowUnauthenticatedShares;
     var path = Context.Request.Path.Value ?? string.Empty;
@@ -17,7 +18,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
-    <title>@(string.IsNullOrEmpty(title) ? settings.AppName : $"{title} · {settings.AppName}")</title>
+    <title>@(string.IsNullOrEmpty(title) ? appName : $"{title} · {appName}")</title>
     <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
     @if (language == SupportedCultures.Persian)
     {
@@ -39,7 +40,7 @@
         <div class="container topbar-inner">
             <a class="brand" href="/">
                 <img src="~/favicon.svg" alt="" width="28" height="28" />
-                <span>@settings.AppName</span>
+                <span>@appName</span>
             </a>
             <button class="btn btn-ghost btn-icon nav-toggle" type="button" data-nav-toggle aria-label="@Localizer["Menu"]">
                 <svg class="icon"><use href="#i-menu" /></svg>
@@ -98,7 +99,7 @@
 
     <footer class="footer">
         <div class="container footer-inner">
-            <span class="muted">@settings.AppName</span>
+            <span class="muted">@appName</span>
             @if (settings.LegalEnabled)
             {
                 <span class="footer-links">
