@@ -9,6 +9,7 @@ using SharingSystem.Application;
 using SharingSystem.Application.Abstractions;
 using SharingSystem.Application.Options;
 using SharingSystem.Infrastructure;
+using SharingSystem.Infrastructure.Backup;
 using SharingSystem.Infrastructure.Persistence;
 using SharingSystem.Infrastructure.Storage;
 using SharingSystem.Web.Infrastructure;
@@ -16,6 +17,8 @@ using SharingSystem.Web.Localization;
 
 const string DataProtectionKeysFolder = "keys";
 const string ApplicationName = "SharingSystem";
+// Positional argument (ignored by the configuration system) that writes a database snapshot and exits.
+const string BackupDatabaseCommand = "backup-database";
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -108,6 +111,15 @@ builder.Services
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
+
+if (args.Contains(BackupDatabaseCommand))
+{
+    // Used by scripts/backup.*: runs next to the live application and does not start the web server.
+    await using var scope = app.Services.CreateAsyncScope();
+    var snapshotPath = await scope.ServiceProvider.GetRequiredService<IDatabaseBackupService>().CreateSnapshotAsync();
+    Console.WriteLine(snapshotPath);
+    return;
+}
 
 await app.Services.InitializeDatabaseAsync();
 

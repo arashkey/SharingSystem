@@ -133,13 +133,29 @@ public sealed partial class ShareUploadService(
             ? Guid.NewGuid()
             : throw AppException.Validation("The file identifier is missing."));
 
-        if (await dbContext.ShareFiles.AnyAsync(f => f.Id == fileId, cancellationToken))
+        var completedFileShareId = await dbContext.ShareFiles
+            .Where(f => f.Id == fileId)
+            .Select(f => f.ShareId)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (completedFileShareId is not null)
         {
+            // The last chunk was stored, but its response got lost and the client retried it.
+            if (isLastChunk && completedFileShareId == share.Id)
+            {
+                return new UploadChunkResult(fileId, true);
+            }
+
             throw AppException.Validation("This file was already uploaded.");
         }
 
         var partialLength = await fileStorage.GetPartialLengthAsync(share.Id, fileId, cancellationToken);
         var expectedOffset = (long)request.ChunkIndex * chunkSize;
+        if (!isLastChunk && partialLength == expectedOffset + chunkSize)
+        {
+            // The chunk was stored, but its response got lost and the client retried it.
+            return new UploadChunkResult(fileId, false);
+        }
+
         if (partialLength != expectedOffset)
         {
             throw AppException.Validation("The chunk was received out of order. Please restart the upload.");
@@ -151,6 +167,12 @@ public sealed partial class ShareUploadService(
         var maxShareSize = share.ReverseShare?.MaxShareSizeBytes ?? settings.MaxShareSizeBytes;
         var remainingBytes = Math.Max(0, maxShareSize - usedBytes - partialLength);
         var chunkLimit = Math.Min(chunkSize, remainingBytes);
+
+        if (!await fileStorage.HasFreeSpaceForAsync(chunkLimit, cancellationToken))
+        {
+            await fileStorage.DeletePartialFileAsync(share.Id, fileId, cancellationToken);
+            throw AppException.InsufficientStorage();
+        }
 
         var result = await fileStorage.AppendChunkAsync(share.Id, fileId, request.Content, chunkLimit, cancellationToken);
         if (result.LimitExceeded)

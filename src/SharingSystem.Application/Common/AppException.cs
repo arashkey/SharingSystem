@@ -17,6 +17,7 @@ public enum AppErrorType
 public class AppException : Exception
 {
     public const string DefaultForbiddenMessage = "You are not allowed to perform this action.";
+    public const string InsufficientStorageMessage = "The server is running out of storage space. Please try again later.";
 
     public AppException(AppErrorType errorType, string messageTemplate, params object[] messageArguments)
         : base(FormatMessage(messageTemplate, messageArguments))
@@ -39,6 +40,8 @@ public class AppException : Exception
 
     public static AppException NotFound(string messageTemplate, params object[] arguments) =>
         new(AppErrorType.NotFound, messageTemplate, arguments);
+
+    public static AppException InsufficientStorage() => new(AppErrorType.Validation, InsufficientStorageMessage);
 
     public static AppException Forbidden() => new(AppErrorType.Forbidden, DefaultForbiddenMessage);
 

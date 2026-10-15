@@ -9,6 +9,10 @@ services:
     environment:
       Security__EncryptionKey: ${SECURITY_ENCRYPTION_KEY:?SECURITY_ENCRYPTION_KEY must be set in .env}
       Upload__MaxRequestBodyBytes: ${UPLOAD_MAX_REQUEST_BODY_BYTES:-104857600}
+      Storage__MinFreeDiskSpaceBytes: ${STORAGE_MIN_FREE_DISK_SPACE_BYTES:-1073741824}
+      Storage__MaxConcurrentArchiveBuilds: ${STORAGE_MAX_CONCURRENT_ARCHIVE_BUILDS:-2}
+      Backup__IntervalHours: ${BACKUP_INTERVAL_HOURS:-6}
+      Backup__RetentionCount: ${BACKUP_RETENTION_COUNT:-28}
     volumes:
       - sharing-data:/app/data
 

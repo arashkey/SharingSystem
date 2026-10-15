@@ -9,3 +9,6 @@ obj/
 src/SharingSystem.Web/data/
 .env
 *.zip
+
+# Backups created by scripts/backup.*
+backups/

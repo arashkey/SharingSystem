@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SharingSystem.Application.Abstractions;
+using SharingSystem.Infrastructure.Backup;
 using SharingSystem.Infrastructure.BackgroundJobs;
 using SharingSystem.Infrastructure.Email;
 using SharingSystem.Infrastructure.Persistence;
@@ -21,6 +22,11 @@ public static class DependencyInjection
     {
         services.AddOptions<SecurityOptions>()
             .Bind(configuration.GetSection(SecurityOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services.AddOptions<StorageOptions>()
+            .Bind(configuration.GetSection(StorageOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
@@ -43,6 +49,13 @@ public static class DependencyInjection
         services.AddSingleton<ITotpService, TotpService>();
         services.AddScoped<IEmailSender, SmtpEmailSender>();
         services.AddHostedService<CleanupHostedService>();
+
+        services.AddOptions<BackupOptions>()
+            .Bind(configuration.GetSection(BackupOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        services.AddScoped<IDatabaseBackupService, DatabaseBackupService>();
+        services.AddHostedService<DatabaseBackupHostedService>();
 
         return services;
     }

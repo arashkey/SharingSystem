@@ -2,8 +2,11 @@
 (function () {
     "use strict";
 
-    const MAX_CHUNK_RETRIES = 3;
-    const RETRY_DELAY_MS = 1500;
+    // A chunk is retried with exponential backoff (1.5s, 3s, 6s, ... capped at 30s), so short network outages
+    // do not abort large uploads.
+    const MAX_CHUNK_RETRIES = 8;
+    const RETRY_BASE_DELAY_MS = 1500;
+    const RETRY_MAX_DELAY_MS = 30000;
     const ID_LENGTH = 8;
     const ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const UPLOAD_TOKEN_HEADER = "X-Upload-Token";
@@ -37,6 +40,8 @@
 
     /** @type {{file: File, row: HTMLTableRowElement, bar?: HTMLElement, status?: HTMLElement}[]} */
     let items = [];
+    /** Keys ("name|size") of the selected files, used to skip duplicates in constant time. */
+    const itemKeys = new Set();
     let uploading = false;
 
     // ---------- File selection ----------
@@ -66,10 +71,16 @@
     function addFiles(fileListLike) {
         if (uploading) return;
         for (const file of fileListLike) {
-            const exists = items.some((item) => item.file.name === file.name && item.file.size === file.size);
-            if (!exists) items.push({ file, row: createRow(file) });
+            const key = fileKey(file);
+            if (itemKeys.has(key)) continue;
+            itemKeys.add(key);
+            items.push({ file, row: createRow(file) });
         }
         render();
+    }
+
+    function fileKey(file) {
+        return `${file.name}|${file.size}`;
     }
 
     function createRow(file) {
@@ -92,6 +103,7 @@
         remove.innerHTML = '<svg class="icon"><use href="#i-trash" /></svg>';
         remove.addEventListener("click", () => {
             items = items.filter((item) => item.file !== file);
+            itemKeys.delete(fileKey(file));
             render();
         });
         status.appendChild(remove);
@@ -188,7 +200,7 @@
                     break;
                 } catch (error) {
                     if (!error.retryable || attempt >= MAX_CHUNK_RETRIES) throw error;
-                    await delay(RETRY_DELAY_MS);
+                    await delay(Math.min(RETRY_MAX_DELAY_MS, RETRY_BASE_DELAY_MS * 2 ** attempt));
                 }
             }
         }

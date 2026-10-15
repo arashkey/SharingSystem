@@ -38,6 +38,16 @@ docker compose up -d --build
 
 Open http://localhost:3000. Data (SQLite database, files, keys) is stored in the `sharing-data` volume.
 
+## Backup
+
+- The application writes a consistent SQLite snapshot every 6 hours to `data/backups` (settings `Backup:*`); an on-demand
+  snapshot is created with `docker exec sharing-system dotnet SharingSystem.Web.dll backup-database`.
+- `scripts/backup.sh` / `scripts/backup.ps1` create a full backup (database snapshot, uploaded files, keys) as a `.tar`
+  file without stopping the application; `scripts/restore.sh` / `scripts/restore.ps1` restore it.
+- The `.env` file (encryption key) is not part of the backup; store it separately.
+
+See the Persian guide for the recommended backup schedule and the safeguards for large uploads.
+
 ## Architecture
 
 | Project | Responsibility |

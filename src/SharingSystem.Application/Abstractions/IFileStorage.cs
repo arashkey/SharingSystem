@@ -7,6 +7,12 @@ namespace SharingSystem.Application.Abstractions;
 /// </summary>
 public interface IFileStorage
 {
+    /// <summary>
+    /// Returns <c>true</c> when <paramref name="bytes"/> more bytes can be stored without using the free disk space
+    /// that is kept in reserve for the database and the operating system.
+    /// </summary>
+    Task<bool> HasFreeSpaceForAsync(long bytes, CancellationToken cancellationToken);
+
     /// <summary>Returns the number of bytes already received for a file that is still being uploaded.</summary>
     Task<long> GetPartialLengthAsync(string shareId, Guid fileId, CancellationToken cancellationToken);
 
@@ -28,7 +34,10 @@ public interface IFileStorage
 
     Task DeleteShareAsync(string shareId, CancellationToken cancellationToken);
 
-    /// <summary>Opens (and lazily builds) a zip archive with all files of a share.</summary>
+    /// <summary>
+    /// Opens (and lazily builds) a zip archive with all files of a share.
+    /// Throws an <see cref="Common.AppException"/> when there is not enough free disk space to build it.
+    /// </summary>
     Task<Stream> OpenArchiveAsync(
         string shareId, IReadOnlyCollection<ArchiveEntry> entries, ZipCompression compression, CancellationToken cancellationToken);
 

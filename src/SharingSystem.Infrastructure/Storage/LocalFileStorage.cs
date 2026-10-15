@@ -1,7 +1,9 @@
 using System.Collections.Concurrent;
 using System.IO.Compression;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SharingSystem.Application.Abstractions;
+using SharingSystem.Application.Common;
 using SharingSystem.Domain.Enums;
 
 namespace SharingSystem.Infrastructure.Storage;
@@ -23,16 +25,23 @@ public sealed class LocalFileStorage : IFileStorage
 
     private readonly string _uploadsRoot;
     private readonly string _archivesRoot;
+    private readonly long _minFreeDiskSpaceBytes;
+    private readonly SemaphoreSlim _archiveBuildSlots;
     private readonly ILogger<LocalFileStorage> _logger;
 
-    public LocalFileStorage(DataPathProvider dataPathProvider, ILogger<LocalFileStorage> logger)
+    public LocalFileStorage(DataPathProvider dataPathProvider, IOptions<StorageOptions> options, ILogger<LocalFileStorage> logger)
     {
         _uploadsRoot = Path.Combine(dataPathProvider.DataPath, UploadsFolder);
         _archivesRoot = Path.Combine(dataPathProvider.DataPath, ArchivesFolder);
+        _minFreeDiskSpaceBytes = options.Value.MinFreeDiskSpaceBytes;
+        _archiveBuildSlots = new SemaphoreSlim(options.Value.MaxConcurrentArchiveBuilds, options.Value.MaxConcurrentArchiveBuilds);
         _logger = logger;
         Directory.CreateDirectory(_uploadsRoot);
         Directory.CreateDirectory(_archivesRoot);
     }
+
+    public Task<bool> HasFreeSpaceForAsync(long bytes, CancellationToken cancellationToken) =>
+        Task.FromResult(HasFreeSpaceFor(bytes));
 
     public Task<long> GetPartialLengthAsync(string shareId, Guid fileId, CancellationToken cancellationToken)
     {
@@ -147,7 +156,16 @@ public sealed class LocalFileStorage : IFileStorage
         {
             if (!File.Exists(archivePath))
             {
-                await Task.Run(() => BuildArchive(shareId, entries, compression, archivePath), cancellationToken);
+                // Building archives is CPU and disk intensive, so only a few are built at the same time.
+                await _archiveBuildSlots.WaitAsync(cancellationToken);
+                try
+                {
+                    await Task.Run(() => BuildArchive(shareId, entries, compression, archivePath), cancellationToken);
+                }
+                finally
+                {
+                    _archiveBuildSlots.Release();
+                }
             }
 
             return OpenForReading(archivePath);
@@ -200,6 +218,13 @@ public sealed class LocalFileStorage : IFileStorage
             _ => CompressionLevel.Fastest
         };
 
+        // The archive is at most as large as its (uncompressed) files.
+        var requiredBytes = entries.Sum(entry => new FileInfo(GetFilePath(shareId, entry.FileId)).Length);
+        if (!HasFreeSpaceFor(requiredBytes))
+        {
+            throw AppException.InsufficientStorage();
+        }
+
         try
         {
             using (var archive = ZipFile.Open(temporaryPath, ZipArchiveMode.Create))
@@ -217,6 +242,25 @@ public sealed class LocalFileStorage : IFileStorage
         {
             TryDelete(temporaryPath);
             throw;
+        }
+    }
+
+    private bool HasFreeSpaceFor(long bytes)
+    {
+        if (_minFreeDiskSpaceBytes == 0)
+        {
+            return true;
+        }
+
+        try
+        {
+            // DriveInfo resolves the volume that contains the data folder (including mounted Docker volumes).
+            return new DriveInfo(_uploadsRoot).AvailableFreeSpace - bytes >= _minFreeDiskSpaceBytes;
+        }
+        catch (Exception exception) when (exception is IOException or ArgumentException or UnauthorizedAccessException)
+        {
+            _logger.LogWarning(exception, "Could not determine the free disk space of {Path}", _uploadsRoot);
+            return true;
         }
     }
 

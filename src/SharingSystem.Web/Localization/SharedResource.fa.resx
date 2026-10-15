@@ -967,6 +967,9 @@
   <data name="The chunk was received out of order. Please restart the upload." xml:space="preserve">
     <value>تکه خارج از ترتیب دریافت شد. لطفاً آپلود را از نو شروع کنید.</value>
   </data>
+  <data name="The server is running out of storage space. Please try again later." xml:space="preserve">
+    <value>فضای ذخیره‌سازی سرور رو به اتمام است. لطفاً بعداً دوباره تلاش کنید.</value>
+  </data>
   <data name="The share exceeds the maximum size of {0}." xml:space="preserve">
     <value>حجم اشتراک از حداکثر مجاز ({0}) بیشتر است.</value>
   </data>
