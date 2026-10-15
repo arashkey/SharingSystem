@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SharingSystem.Application/SharingSystem.Application.csproj" />
+    <Project Path="src/SharingSystem.Domain/SharingSystem.Domain.csproj" />
+    <Project Path="src/SharingSystem.Infrastructure/SharingSystem.Infrastructure.csproj" />
+    <Project Path="src/SharingSystem.Web/SharingSystem.Web.csproj" />
+  </Folder>
+</Solution>

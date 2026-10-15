@@ -1,0 +1,113 @@
+@model UploadPageViewModel
+@{
+    ViewData["Title"] = "Upload";
+    var maxExpiration = Model.Limits.MaxExpirationHours;
+}
+<div class="upload"
+     data-upload-app
+     data-mode="create"
+     data-chunk-size="@Model.Limits.ChunkSizeBytes"
+     data-max-size="@Model.Limits.MaxShareSizeBytes"
+     data-reverse-token="@Model.ReverseShareToken"
+     data-simplified="@(Model.IsSimplified ? "true" : "false")">
+
+    @if (Model.ReverseShareToken is not null)
+    {
+        <div class="alert alert-info">
+            <svg class="icon"><use href="#i-inbox" /></svg>
+            <span><strong>@Model.ReverseShareCreator</strong> invited you to upload files.</span>
+        </div>
+    }
+
+    <partial name="_Dropzone" model="Model.Limits.MaxShareSizeBytes" />
+
+    <div class="actions end upload-actions" data-file-actions hidden>
+        <span class="muted" data-total-size></span>
+        <button type="button" class="btn btn-primary btn-lg" data-start>
+            <svg class="icon"><use href="#i-send" /></svg>Share
+        </button>
+    </div>
+</div>
+
+<dialog class="dialog" id="share-options">
+    <form method="dialog" class="form" data-options-form>
+        <div class="dialog-header">
+            <h2>Share options</h2>
+            <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="dialog-body">
+            <div class="form-group">
+                <label for="opt-id">Link</label>
+                <div class="input-group">
+                    <span class="input-addon">@Model.BaseUrl/s/</span>
+                    <input id="opt-id" class="input" value="@Model.SuggestedId" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_\-]+" required data-opt-id />
+                    <button type="button" class="btn btn-secondary" data-generate-id>Generate</button>
+                </div>
+                <span class="field-error" data-id-error></span>
+            </div>
+
+            <div class="form-group">
+                <label for="opt-expiration">Expiration</label>
+                <div class="expiration" data-expiration>
+                    <div class="row">
+                        <input id="opt-expiration" type="number" min="1" max="@ExpirationCalculator.MaxValue" value="7" class="input" data-opt-exp-value data-expiration-field />
+                        <select class="input" data-opt-exp-unit data-expiration-field>
+                            @foreach (var unit in Enum.GetValues<ExpirationUnit>())
+                            {
+                                <option value="@unit" selected="@(unit == ExpirationUnit.Days)">@unit</option>
+                            }
+                        </select>
+                    </div>
+                    @if (maxExpiration == 0)
+                    {
+                        <label class="checkbox"><input type="checkbox" data-opt-never data-never-toggle /><span>Never expires</span></label>
+                    }
+                    else
+                    {
+                        <span class="small muted">The maximum expiration is @maxExpiration hours.</span>
+                    }
+                </div>
+            </div>
+
+            <details class="details">
+                <summary>Description and security options</summary>
+                <div class="form-group">
+                    <label for="opt-name">Name</label>
+                    <input id="opt-name" class="input" maxlength="100" data-opt-name />
+                </div>
+                <div class="form-group">
+                    <label for="opt-description">Description</label>
+                    <textarea id="opt-description" class="input" rows="3" maxlength="1024" data-opt-description></textarea>
+                </div>
+                <div class="grid grid-2 tight">
+                    <div class="form-group">
+                        <label for="opt-password">Password protection</label>
+                        <input id="opt-password" type="password" class="input" autocomplete="new-password" data-opt-password />
+                    </div>
+                    <div class="form-group">
+                        <label for="opt-max-views">Maximum views</label>
+                        <input id="opt-max-views" type="number" min="1" class="input" placeholder="Unlimited" data-opt-max-views />
+                    </div>
+                </div>
+                @if (Model.CanSendToRecipients)
+                {
+                    <div class="form-group">
+                        <label for="opt-recipients">E-mail recipients</label>
+                        <textarea id="opt-recipients" class="input" rows="2" placeholder="alice@example.com, bob@example.com" data-opt-recipients></textarea>
+                        <span class="small muted">Recipients receive the link by e-mail.</span>
+                    </div>
+                }
+            </details>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-secondary" data-dialog-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Share</button>
+        </div>
+    </form>
+</dialog>
+
+<partial name="_ShareResultDialog" />
+
+@section Scripts {
+    <script src="~/js/upload.js" asp-append-version="true"></script>
+}

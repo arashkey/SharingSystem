@@ -1,0 +1,15 @@
+@model ExpirationInput
+@* Expects ViewData.TemplateInfo.HtmlFieldPrefix to be set by the caller (e.g. "Form.Expiration"). *@
+<div class="expiration" data-expiration>
+    <div class="row">
+        <input asp-for="Value" type="number" min="1" max="@ExpirationCalculator.MaxValue" class="input" data-expiration-field />
+        <select asp-for="Unit" asp-items="Html.GetEnumSelectList<ExpirationUnit>()" class="input" data-expiration-field></select>
+    </div>
+    @if (ViewData["HideNever"] is not true)
+    {
+        <label class="checkbox">
+            <input asp-for="NeverExpires" data-never-toggle />
+            <span>Never expires</span>
+        </label>
+    }
+</div>

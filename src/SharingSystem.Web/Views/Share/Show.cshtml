@@ -1,0 +1,86 @@
+@model ShareViewModel
+@{
+    var share = Model.View.Share;
+    ViewData["Title"] = share.Name ?? share.Id;
+}
+<div class="page-header">
+    <div>
+        <h1>@(share.Name ?? share.Id)</h1>
+        @if (!string.IsNullOrWhiteSpace(share.Description))
+        {
+            <p class="muted prose">@share.Description</p>
+        }
+        <div class="meta">
+            <span><svg class="icon icon-xs"><use href="#i-file" /></svg>@share.Files.Count files · @ViewFormat.Bytes(share.TotalSize)</span>
+            <span><svg class="icon icon-xs"><use href="#i-eye" /></svg>@share.Views views@(share.MaxViews.HasValue ? $" of {share.MaxViews}" : string.Empty)</span>
+            <span>
+                <svg class="icon icon-xs"><use href="#i-clock" /></svg>
+                @if (share.ExpiresAt is null)
+                {
+                    <span>Never expires</span>
+                }
+                else
+                {
+                    <span>Expires <time data-utc="@ViewFormat.Iso(share.ExpiresAt.Value)"></time></span>
+                }
+            </span>
+            @if (!string.IsNullOrEmpty(share.CreatorUsername))
+            {
+                <span><svg class="icon icon-xs"><use href="#i-user" /></svg>@share.CreatorUsername</span>
+            }
+        </div>
+    </div>
+    <div class="actions">
+        <button type="button" class="btn btn-secondary" data-copy="@Model.ShareUrl"><svg class="icon"><use href="#i-link" /></svg>Copy link</button>
+        @if (Model.View.CanManage)
+        {
+            <a class="btn btn-secondary" href="/account/shares/@share.Id/edit"><svg class="icon"><use href="#i-edit" /></svg>Edit</a>
+        }
+        @if (share.Files.Count > 1)
+        {
+            <a class="btn btn-primary" href="/s/@share.Id/zip"><svg class="icon"><use href="#i-archive" /></svg>Download all</a>
+        }
+    </div>
+</div>
+
+<div class="card table-card">
+    <div class="table-scroll">
+        <table class="table">
+            <thead>
+                <tr><th>Name</th><th class="col-size">Size</th><th class="text-right"></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var file in share.Files)
+                {
+                    var downloadUrl = $"/s/{share.Id}/files/{file.Id}";
+                    <tr>
+                        <td class="file-name"><svg class="icon"><use href="#i-file" /></svg>@file.Name</td>
+                        <td class="col-size">@ViewFormat.Bytes(file.Size)</td>
+                        <td class="text-right nowrap">
+                            <button type="button" class="btn btn-ghost btn-icon" title="Preview" hidden
+                                    data-preview="@downloadUrl?inline=true"
+                                    data-preview-type="@file.ContentType"
+                                    data-preview-size="@file.Size"
+                                    data-preview-name="@file.Name">
+                                <svg class="icon"><use href="#i-eye" /></svg>
+                            </button>
+                            <a class="btn btn-ghost btn-icon" href="@downloadUrl" title="Download" download><svg class="icon"><use href="#i-download" /></svg></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<dialog class="dialog dialog-wide" id="preview-dialog">
+    <div class="dialog-header">
+        <h2 data-preview-title>Preview</h2>
+        <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+    </div>
+    <div class="dialog-body preview-body" data-preview-body></div>
+</dialog>
+
+@section Scripts {
+    <script src="~/js/share.js" asp-append-version="true"></script>
+}

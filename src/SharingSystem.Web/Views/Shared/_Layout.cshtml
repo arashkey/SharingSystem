@@ -1,0 +1,109 @@
+@inject ISettingsService SettingsService
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var settings = await SettingsService.GetAsync();
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var isAdmin = User.IsInRole(WebConstants.AdminRole);
+    var title = ViewData["Title"] as string;
+    var canUpload = isAuthenticated || settings.AllowUnauthenticatedShares;
+    var path = Context.Request.Path.Value ?? string.Empty;
+    string Active(string prefix) => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+    <title>@(string.IsNullOrEmpty(title) ? settings.AppName : $"{title} · {settings.AppName}")</title>
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem("theme");
+                if (theme) document.documentElement.setAttribute("data-theme", theme);
+            } catch (e) { }
+        })();
+    </script>
+</head>
+<body>
+    <partial name="_Icons" />
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="/">
+                <img src="~/favicon.svg" alt="" width="28" height="28" />
+                <span>@settings.AppName</span>
+            </a>
+            <button class="btn btn-ghost btn-icon nav-toggle" type="button" data-nav-toggle aria-label="Menu">
+                <svg class="icon"><use href="#i-menu" /></svg>
+            </button>
+            <nav class="nav" data-nav>
+                @if (canUpload)
+                {
+                    <a class="nav-link @Active("/upload")" href="/upload"><svg class="icon"><use href="#i-upload" /></svg>Upload</a>
+                }
+                @if (isAuthenticated)
+                {
+                    <a class="nav-link @Active("/account/shares")" href="/account/shares"><svg class="icon"><use href="#i-link" /></svg>My shares</a>
+                    <a class="nav-link @Active("/account/reverse-shares")" href="/account/reverse-shares"><svg class="icon"><use href="#i-inbox" /></svg>Reverse shares</a>
+                }
+                @if (isAdmin)
+                {
+                    <a class="nav-link @Active("/admin")" href="/admin"><svg class="icon"><use href="#i-shield" /></svg>Admin</a>
+                }
+                <span class="nav-spacer"></span>
+                <button class="btn btn-ghost btn-icon" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+                    <svg class="icon icon-sun"><use href="#i-sun" /></svg>
+                    <svg class="icon icon-moon"><use href="#i-moon" /></svg>
+                </button>
+                @if (isAuthenticated)
+                {
+                    <a class="nav-link @Active("/account")" href="/account" title="Account"><svg class="icon"><use href="#i-user" /></svg>@User.Identity!.Name</a>
+                    <form method="post" asp-antiforgery="true" action="/auth/sign-out" class="inline-form">
+                        <button class="btn btn-ghost btn-icon" type="submit" title="Sign out" aria-label="Sign out">
+                            <svg class="icon"><use href="#i-logout" /></svg>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn btn-secondary btn-sm" href="/auth/sign-in">Sign in</a>
+                    @if (settings.AllowRegistration)
+                    {
+                        <a class="btn btn-primary btn-sm" href="/auth/sign-up">Sign up</a>
+                    }
+                }
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main">
+        <partial name="_Alerts" />
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span class="muted">@settings.AppName</span>
+            @if (settings.LegalEnabled)
+            {
+                <span class="footer-links">
+                    @if (!string.IsNullOrWhiteSpace(settings.ImprintText))
+                    {
+                        <a href="/imprint">Imprint</a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(settings.PrivacyPolicyText))
+                    {
+                        <a href="/privacy">Privacy policy</a>
+                    }
+                </span>
+            }
+        </div>
+    </footer>
+
+    <div class="toast-host" data-toast-host></div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,16 @@
+@{
+    var success = TempData[WebConstants.SuccessMessageKey] as string;
+    var error = TempData[WebConstants.ErrorMessageKey] as string;
+}
+@if (!string.IsNullOrEmpty(success))
+{
+    <div class="alert alert-success" role="status">
+        <svg class="icon"><use href="#i-check" /></svg><span>@success</span>
+    </div>
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-error" role="alert">
+        <svg class="icon"><use href="#i-alert" /></svg><span>@error</span>
+    </div>
+}

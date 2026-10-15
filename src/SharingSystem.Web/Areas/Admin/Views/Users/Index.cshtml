@@ -1,0 +1,38 @@
+@model IReadOnlyList<UserDto>
+@{
+    ViewData["Title"] = "Users";
+}
+<div class="page-header">
+    <h1>User management</h1>
+    <a class="btn btn-primary" href="/admin/users/create"><svg class="icon"><use href="#i-plus" /></svg>Create user</a>
+</div>
+<partial name="_AdminNav" />
+
+<div class="card table-card">
+    <div class="table-scroll">
+        <table class="table">
+            <thead>
+                <tr><th>Username</th><th>E-mail</th><th>Role</th><th>2FA</th><th>Shares</th><th>Created</th><th class="text-right">Actions</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td class="strong">@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>@if (user.IsAdmin) { <span class="badge badge-primary">Admin</span> } else { <span class="badge">User</span> }</td>
+                        <td>@if (user.TotpEnabled) { <span class="badge badge-success">On</span> } else { <span class="muted">Off</span> }</td>
+                        <td>@user.ShareCount</td>
+                        <td><time data-utc="@ViewFormat.Iso(user.CreatedAt)" data-date-only></time></td>
+                        <td class="text-right nowrap">
+                            <a class="btn btn-ghost btn-icon" href="/admin/users/@user.Id/edit" title="Edit"><svg class="icon"><use href="#i-edit" /></svg></a>
+                            <form method="post" asp-antiforgery="true" action="/admin/users/@user.Id/delete" class="inline-form" data-confirm="Delete @user.Username and all of their shares?">
+                                <button type="submit" class="btn btn-ghost btn-icon text-danger" title="Delete"><svg class="icon"><use href="#i-trash" /></svg></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

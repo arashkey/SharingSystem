@@ -1,0 +1,108 @@
+@model EditSharePageViewModel
+@{
+    ViewData["Title"] = "Edit share";
+    var share = Model.Share;
+}
+<div class="page-header">
+    <div>
+        <h1>Edit share</h1>
+        <a class="muted small" href="/s/@share.Id">@Model.BaseUrl/s/@share.Id</a>
+    </div>
+    <div class="actions">
+        <a class="btn btn-secondary" href="/s/@share.Id"><svg class="icon"><use href="#i-eye" /></svg>View</a>
+        <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/delete" class="inline-form" data-confirm="Do you really want to delete this share and all of its files?">
+            <button type="submit" class="btn btn-danger"><svg class="icon"><use href="#i-trash" /></svg>Delete</button>
+        </form>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <section class="card">
+        <h2 class="card-title">Details</h2>
+        <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/edit" class="form">
+            <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
+            <div class="form-group">
+                <label asp-for="Form.Name"></label>
+                <input asp-for="Form.Name" class="input" />
+                <span asp-validation-for="Form.Name" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Form.Description"></label>
+                <textarea asp-for="Form.Description" class="input" rows="3"></textarea>
+                <span asp-validation-for="Form.Description" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Form.MaxViews"></label>
+                <input asp-for="Form.MaxViews" class="input" placeholder="Unlimited" />
+                <span class="small muted">Current views: @share.Views</span>
+            </div>
+            <div class="form-group">
+                <label>Expiration</label>
+                <p class="small muted">
+                    Current:
+                    @if (share.ExpiresAt is null)
+                    {
+                        <span>never</span>
+                    }
+                    else
+                    {
+                        <time data-utc="@ViewFormat.Iso(share.ExpiresAt.Value)"></time>
+                    }
+                </p>
+                <label class="checkbox"><input asp-for="Form.ChangeExpiration" data-reveal="#expiration-editor" /><span>Change expiration (counted from now)</span></label>
+                <div id="expiration-editor" hidden>
+                    <partial name="_ExpirationInput" for="Form.Expiration" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Form.NewPassword">@(share.HasPassword ? "New password" : "Password protection")</label>
+                <input asp-for="Form.NewPassword" class="input" autocomplete="new-password" placeholder="@(share.HasPassword ? "Keep current password" : "No password")" />
+                @if (share.HasPassword)
+                {
+                    <label class="checkbox"><input asp-for="Form.RemovePassword" /><span>Remove password</span></label>
+                }
+            </div>
+            <div class="actions end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2 class="card-title">Files <span class="muted">(@share.Files.Count · @ViewFormat.Bytes(share.TotalSize))</span></h2>
+        <table class="table">
+            <tbody>
+                @foreach (var file in share.Files)
+                {
+                    <tr>
+                        <td class="file-name"><svg class="icon"><use href="#i-file" /></svg>@file.Name</td>
+                        <td class="col-size">@ViewFormat.Bytes(file.Size)</td>
+                        <td class="text-right">
+                            <form method="post" asp-antiforgery="true" action="/account/shares/@share.Id/files/@file.Id/delete" class="inline-form" data-confirm="Delete this file?">
+                                <button type="submit" class="btn btn-ghost btn-icon text-danger" title="Delete file"><svg class="icon"><use href="#i-trash" /></svg></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h3 class="subtitle">Add files</h3>
+        <div class="upload compact"
+             data-upload-app
+             data-mode="edit"
+             data-share-id="@share.Id"
+             data-chunk-size="@Model.Limits.ChunkSizeBytes"
+             data-max-size="@Math.Max(0, Model.Limits.MaxShareSizeBytes - share.TotalSize)">
+            <partial name="_Dropzone" model="Math.Max(0, Model.Limits.MaxShareSizeBytes - share.TotalSize)" />
+            <div class="actions end upload-actions" data-file-actions hidden>
+                <span class="muted" data-total-size></span>
+                <button type="button" class="btn btn-primary" data-start><svg class="icon"><use href="#i-upload" /></svg>Upload</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/js/upload.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,90 @@
+@model ShareListViewModel
+@{
+    var isAdminView = ViewData["AdminView"] is true;
+    var deleteBase = isAdminView ? "/admin/shares" : "/account/shares";
+}
+@if (Model.Shares.Count == 0)
+{
+    <div class="card empty-state">
+        <svg class="icon empty-icon"><use href="#i-link" /></svg>
+        <h2>It's empty here 👀</h2>
+        <p class="muted">There are no shares yet.</p>
+        @if (!isAdminView)
+        {
+            <a class="btn btn-primary" href="/upload">Create a share</a>
+        }
+    </div>
+}
+else
+{
+    <div class="card table-card">
+        <div class="table-scroll">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        @if (isAdminView)
+                        {
+                            <th>Creator</th>
+                        }
+                        <th>Files</th>
+                        <th>Size</th>
+                        <th>Views</th>
+                        <th>Expires</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var share in Model.Shares)
+                    {
+                        var url = $"{Model.BaseUrl}/s/{share.Id}";
+                        var expired = ViewFormat.IsExpired(share.ExpiresAt);
+                        <tr>
+                            <td>
+                                <a href="/s/@share.Id" class="strong">@(share.Name ?? share.Id)</a>
+                                <div class="small muted">
+                                    @share.Id
+                                    @if (share.HasPassword)
+                                    {
+                                        <svg class="icon icon-xs" aria-label="Password protected"><use href="#i-lock" /></svg>
+                                    }
+                                    @if (share.IsCreatorOnly)
+                                    {
+                                        <span class="badge">Private</span>
+                                    }
+                                </div>
+                            </td>
+                            @if (isAdminView)
+                            {
+                                <td>@(share.CreatorUsername ?? "Anonymous")</td>
+                            }
+                            <td>@share.FileCount</td>
+                            <td>@ViewFormat.Bytes(share.TotalSize)</td>
+                            <td>@share.Views@(share.MaxViews.HasValue ? $" / {share.MaxViews}" : string.Empty)</td>
+                            <td>
+                                @if (share.ExpiresAt is null)
+                                {
+                                    <span class="muted">Never</span>
+                                }
+                                else
+                                {
+                                    <time data-utc="@ViewFormat.Iso(share.ExpiresAt.Value)" class="@(expired ? "text-danger" : string.Empty)"></time>
+                                }
+                            </td>
+                            <td class="text-right nowrap">
+                                <button type="button" class="btn btn-ghost btn-icon" data-copy="@url" title="Copy link"><svg class="icon"><use href="#i-copy" /></svg></button>
+                                @if (!isAdminView)
+                                {
+                                    <a class="btn btn-ghost btn-icon" href="/account/shares/@share.Id/edit" title="Edit"><svg class="icon"><use href="#i-edit" /></svg></a>
+                                }
+                                <form method="post" asp-antiforgery="true" action="@deleteBase/@share.Id/delete" class="inline-form" data-confirm="Do you really want to delete this share and all of its files?">
+                                    <button type="submit" class="btn btn-ghost btn-icon text-danger" title="Delete"><svg class="icon"><use href="#i-trash" /></svg></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

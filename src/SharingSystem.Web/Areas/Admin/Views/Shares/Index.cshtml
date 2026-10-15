@@ -1,0 +1,8 @@
+@model ShareListViewModel
+@{
+    ViewData["Title"] = "Shares";
+    ViewData["AdminView"] = true;
+}
+<div class="page-header"><h1>Share management</h1></div>
+<partial name="_AdminNav" />
+<partial name="_ShareTable" model="Model" view-data="ViewData" />

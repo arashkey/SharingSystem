@@ -1,0 +1,22 @@
+<dialog class="dialog" id="share-result">
+    <div class="dialog-header">
+        <h2>Share ready</h2>
+    </div>
+    <div class="dialog-body">
+        <div data-result-public>
+            <p class="muted">Copy the link below and send it to anyone you want to share the files with.</p>
+            <div class="input-group">
+                <input class="input" readonly data-result-url />
+                <button type="button" class="btn btn-primary" data-copy-from="[data-result-url]"><svg class="icon"><use href="#i-copy" /></svg>Copy</button>
+            </div>
+            <p class="small muted" data-result-expiration></p>
+        </div>
+        <div data-result-private hidden>
+            <p>Your files have been uploaded successfully. The owner of the link has access to them.</p>
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <a class="btn btn-secondary" href="" data-result-open>Open share</a>
+        <button type="button" class="btn btn-primary" data-result-done>Done</button>
+    </div>
+</dialog>

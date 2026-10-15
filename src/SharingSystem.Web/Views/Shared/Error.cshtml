@@ -1,0 +1,12 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="center-page">
+    <div class="card empty-state">
+        <div class="error-code">@Model.StatusCode</div>
+        <h1>Oops!</h1>
+        <p class="muted">@Model.Message</p>
+        <a class="btn btn-primary" href="/">Back to home</a>
+    </div>
+</div>

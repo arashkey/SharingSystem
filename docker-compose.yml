@@ -1,0 +1,16 @@
+services:
+  sharing-system:
+    build: .
+    image: sharing-system:latest
+    container_name: sharing-system
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:8080"
+    environment:
+      Security__EncryptionKey: ${SECURITY_ENCRYPTION_KEY:?SECURITY_ENCRYPTION_KEY must be set in .env}
+      Upload__MaxRequestBodyBytes: ${UPLOAD_MAX_REQUEST_BODY_BYTES:-104857600}
+    volumes:
+      - sharing-data:/app/data
+
+volumes:
+  sharing-data:

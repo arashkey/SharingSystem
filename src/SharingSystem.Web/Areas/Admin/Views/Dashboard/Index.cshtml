@@ -1,0 +1,21 @@
+@model DashboardStatsDto
+@{
+    ViewData["Title"] = "Administration";
+}
+<div class="page-header"><h1>Administration</h1></div>
+<partial name="_AdminNav" />
+
+<div class="stats">
+    <div class="card stat"><svg class="icon"><use href="#i-users" /></svg><div><div class="stat-value">@Model.UserCount</div><div class="stat-label">Users</div></div></div>
+    <div class="card stat"><svg class="icon"><use href="#i-link" /></svg><div><div class="stat-value">@Model.ShareCount</div><div class="stat-label">Shares</div></div></div>
+    <div class="card stat"><svg class="icon"><use href="#i-file" /></svg><div><div class="stat-value">@Model.FileCount</div><div class="stat-label">Files</div></div></div>
+    <div class="card stat"><svg class="icon"><use href="#i-database" /></svg><div><div class="stat-value">@ViewFormat.Bytes(Model.TotalStorageBytes)</div><div class="stat-label">Storage used</div></div></div>
+    <div class="card stat"><svg class="icon"><use href="#i-eye" /></svg><div><div class="stat-value">@Model.TotalViews</div><div class="stat-label">Total views</div></div></div>
+    <div class="card stat"><svg class="icon"><use href="#i-inbox" /></svg><div><div class="stat-value">@Model.ActiveReverseShareCount</div><div class="stat-label">Active reverse shares</div></div></div>
+</div>
+
+<div class="grid grid-3">
+    <a class="card link-card" href="/admin/users"><h3>User management</h3><p class="muted">Create, edit and delete users and manage administrator rights.</p></a>
+    <a class="card link-card" href="/admin/shares"><h3>Share management</h3><p class="muted">See all shares of all users and delete them.</p></a>
+    <a class="card link-card" href="/admin/settings"><h3>Configuration</h3><p class="muted">General, share, e-mail, SMTP and legal settings.</p></a>
+</div>

@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.db
+*.db-shm
+*.db-wal
+src/SharingSystem.Web/data/
+.env
+*.zip

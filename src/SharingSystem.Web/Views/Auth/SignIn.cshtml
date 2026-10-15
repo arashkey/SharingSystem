@@ -1,0 +1,32 @@
+@model SignInViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+<div class="auth-page">
+    <div class="card auth-card">
+        <h1>Welcome back</h1>
+        @if (Model.CanRegister)
+        {
+            <p class="muted">You don't have an account yet? <a href="/auth/sign-up">Sign up</a></p>
+        }
+        <form method="post" asp-antiforgery="true" action="/auth/sign-in" class="form">
+            <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="form-group">
+                <label asp-for="EmailOrUsername"></label>
+                <input asp-for="EmailOrUsername" class="input" autocomplete="username" autofocus />
+                <span asp-validation-for="EmailOrUsername" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="input" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="field-error"></span>
+            </div>
+            @if (Model.CanResetPassword)
+            {
+                <a class="small" href="/auth/forgot-password">Forgot your password?</a>
+            }
+            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        </form>
+    </div>
+</div>

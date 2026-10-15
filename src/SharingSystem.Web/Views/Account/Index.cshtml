@@ -1,0 +1,113 @@
+@model AccountPageViewModel
+@{
+    ViewData["Title"] = "My account";
+    var passwordForm = new ChangePasswordForm();
+    var totpForm = new TotpForm();
+}
+<div class="page-header">
+    <h1>My account</h1>
+</div>
+
+<div class="grid grid-2">
+    <section class="card">
+        <h2 class="card-title">Account info</h2>
+        <form method="post" asp-antiforgery="true" action="/account/profile" class="form">
+            <div class="form-group">
+                <label asp-for="Profile.Username">Username</label>
+                <input asp-for="Profile.Username" name="Username" class="input" autocomplete="username" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Profile.Email">E-mail</label>
+                <input asp-for="Profile.Email" name="Email" class="input" autocomplete="email" />
+            </div>
+            <div class="actions end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2 class="card-title">Password</h2>
+        <form method="post" asp-antiforgery="true" action="/account/password" class="form">
+            <div class="form-group">
+                <label asp-for="@passwordForm.CurrentPassword"></label>
+                <input asp-for="@passwordForm.CurrentPassword" name="CurrentPassword" class="input" autocomplete="current-password" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@passwordForm.NewPassword"></label>
+                <input asp-for="@passwordForm.NewPassword" name="NewPassword" class="input" autocomplete="new-password" />
+            </div>
+            <div class="form-group">
+                <label asp-for="@passwordForm.ConfirmPassword"></label>
+                <input asp-for="@passwordForm.ConfirmPassword" name="ConfirmPassword" class="input" autocomplete="new-password" />
+            </div>
+            <div class="actions end">
+                <button type="submit" class="btn btn-primary">Change password</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2 class="card-title">Two-factor authentication (TOTP)</h2>
+        @if (Model.Account.TotpEnabled)
+        {
+            <p><span class="badge badge-success">Enabled</span> Your account is protected with an authenticator app.</p>
+            <form method="post" asp-antiforgery="true" action="/account/totp/disable" class="form">
+                <div class="form-group">
+                    <label asp-for="@totpForm.Password">Password</label>
+                    <input asp-for="@totpForm.Password" name="Password" class="input" autocomplete="current-password" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@totpForm.Code"></label>
+                    <input asp-for="@totpForm.Code" name="Code" class="input input-code" inputmode="numeric" maxlength="6" required />
+                </div>
+                <div class="actions end">
+                    <button type="submit" class="btn btn-danger">Disable 2FA</button>
+                </div>
+            </form>
+        }
+        else if (Model.TotpSetup is not null)
+        {
+            <p class="muted">Scan the QR code with an authenticator app (e.g. Google Authenticator, Aegis, 1Password) and enter the code to finish the setup.</p>
+            <div class="totp-setup">
+                <img src="@Model.TotpSetup.QrCodeDataUri" alt="TOTP QR code" width="200" height="200" />
+                <div>
+                    <div class="small muted">Or enter this key manually:</div>
+                    <code class="secret">@Model.TotpSetup.Secret</code>
+                </div>
+            </div>
+            <form method="post" asp-antiforgery="true" action="/account/totp/enable" class="form">
+                <div class="form-group">
+                    <label asp-for="@totpForm.Code"></label>
+                    <input asp-for="@totpForm.Code" name="Code" class="input input-code" inputmode="numeric" maxlength="6" required autofocus />
+                </div>
+                <div class="actions end">
+                    <button type="submit" class="btn btn-primary">Enable 2FA</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <p class="muted">Add an extra layer of security by requiring a code from an authenticator app when signing in.</p>
+            <form method="post" asp-antiforgery="true" action="/account/totp/setup" class="form">
+                <div class="form-group">
+                    <label asp-for="@totpForm.Password">Confirm with your password</label>
+                    <input asp-for="@totpForm.Password" name="Password" class="input" autocomplete="current-password" required />
+                </div>
+                <div class="actions end">
+                    <button type="submit" class="btn btn-secondary">Set up 2FA</button>
+                </div>
+            </form>
+        }
+    </section>
+
+    <section class="card">
+        <h2 class="card-title">Appearance</h2>
+        <p class="muted">Choose the color scheme of the interface. The choice is stored in this browser.</p>
+        <div class="segmented" data-theme-picker>
+            <button type="button" class="btn btn-secondary" data-theme-value="light"><svg class="icon"><use href="#i-sun" /></svg>Light</button>
+            <button type="button" class="btn btn-secondary" data-theme-value="dark"><svg class="icon"><use href="#i-moon" /></svg>Dark</button>
+            <button type="button" class="btn btn-secondary" data-theme-value="system">System</button>
+        </div>
+    </section>
+</div>
