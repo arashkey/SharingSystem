@@ -41,10 +41,10 @@
                 break;
             case "text": {
                 element = document.createElement("pre");
-                element.textContent = "Loading…";
+                element.textContent = window.app.t("Loading…");
                 const response = await fetch(url);
                 // textContent never interprets the file as HTML.
-                element.textContent = response.ok ? await response.text() : "The preview could not be loaded.";
+                element.textContent = response.ok ? await response.text() : window.app.t("The preview could not be loaded.");
                 break;
             }
         }

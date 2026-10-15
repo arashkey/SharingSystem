@@ -22,5 +22,6 @@ public sealed class ExpirationInput
     [Display(Name = "Expires after")]
     public int Value { get; set; } = DefaultValue;
 
+    [Display(Name = "Unit")]
     public ExpirationUnit Unit { get; set; } = ExpirationUnit.Days;
 }

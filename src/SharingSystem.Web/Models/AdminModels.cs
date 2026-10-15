@@ -9,6 +9,7 @@ public sealed class CreateUserForm
     [Required]
     [StringLength(DomainLimits.UsernameMaxLength, MinimumLength = DomainLimits.UsernameMinLength)]
     [RegularExpression(DomainLimits.UsernamePattern, ErrorMessage = "Only letters, digits, dots, dashes and underscores are allowed.")]
+    [Display(Name = "Username")]
     public string Username { get; set; } = string.Empty;
 
     [Required]
@@ -32,6 +33,7 @@ public sealed class EditUserForm
     [Required]
     [StringLength(DomainLimits.UsernameMaxLength, MinimumLength = DomainLimits.UsernameMinLength)]
     [RegularExpression(DomainLimits.UsernamePattern, ErrorMessage = "Only letters, digits, dots, dashes and underscores are allowed.")]
+    [Display(Name = "Username")]
     public string Username { get; set; } = string.Empty;
 
     [Required]

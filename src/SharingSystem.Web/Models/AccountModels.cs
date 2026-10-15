@@ -16,6 +16,7 @@ public sealed class ProfileForm
     [Required]
     [StringLength(DomainLimits.UsernameMaxLength, MinimumLength = DomainLimits.UsernameMinLength)]
     [RegularExpression(DomainLimits.UsernamePattern, ErrorMessage = "Only letters, digits, dots, dashes and underscores are allowed.")]
+    [Display(Name = "Username")]
     public string Username { get; set; } = string.Empty;
 
     [Required]
@@ -47,6 +48,7 @@ public sealed class ChangePasswordForm
 public sealed class TotpForm
 {
     [DataType(DataType.Password)]
+    [Display(Name = "Password")]
     public string? Password { get; set; }
 
     [Display(Name = "Verification code")]

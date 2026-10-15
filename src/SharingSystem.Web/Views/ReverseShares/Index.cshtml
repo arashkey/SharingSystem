@@ -1,21 +1,21 @@
 @model ReverseSharesPageViewModel
 @{
-    ViewData["Title"] = "Reverse shares";
+    ViewData["Title"] = Localizer["Reverse shares"].Value;
 }
 <div class="page-header">
     <div>
-        <h1>Reverse shares</h1>
-        <p class="muted">A reverse share is a link that allows other people to upload files to you — even without an account.</p>
+        <h1>@Localizer["Reverse shares"]</h1>
+        <p class="muted">@Localizer["A reverse share is a link that allows other people to upload files to you — even without an account."]</p>
     </div>
-    <button type="button" class="btn btn-primary" data-dialog-open="create-reverse-share"><svg class="icon"><use href="#i-plus" /></svg>Create</button>
+    <button type="button" class="btn btn-primary" data-dialog-open="create-reverse-share"><svg class="icon"><use href="#i-plus" /></svg>@Localizer["Create"]</button>
 </div>
 
 @if (Model.ReverseShares.Count == 0)
 {
     <div class="card empty-state">
         <svg class="icon empty-icon"><use href="#i-inbox" /></svg>
-        <h2>It's empty here 👀</h2>
-        <p class="muted">You don't have any reverse shares yet.</p>
+        <h2>@Localizer["It's empty here 👀"]</h2>
+        <p class="muted">@Localizer["You don't have any reverse shares yet."]</p>
     </div>
 }
 else
@@ -25,12 +25,12 @@ else
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Shares</th>
-                        <th>Remaining uses</th>
-                        <th>Max. share size</th>
-                        <th>Expires</th>
-                        <th>Options</th>
-                        <th class="text-right">Actions</th>
+                        <th>@Localizer["Shares"]</th>
+                        <th>@Localizer["Remaining uses"]</th>
+                        <th>@Localizer["Max. share size"]</th>
+                        <th>@Localizer["Expires"]</th>
+                        <th>@Localizer["Options"]</th>
+                        <th class="text-right">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,12 +40,12 @@ else
                             <td>
                                 @if (reverseShare.Shares.Count == 0)
                                 {
-                                    <span class="muted">No shares created yet</span>
+                                    <span class="muted">@Localizer["No shares created yet"]</span>
                                 }
                                 else
                                 {
                                     <details>
-                                        <summary>@reverseShare.Shares.Count share(s)</summary>
+                                        <summary>@Localizer["{0} share(s)", reverseShare.Shares.Count]</summary>
                                         <ul class="plain-list">
                                             @foreach (var share in reverseShare.Shares.Where(s => s.IsCompleted))
                                             {
@@ -59,14 +59,14 @@ else
                             <td>@ViewFormat.Bytes(reverseShare.MaxShareSizeBytes)</td>
                             <td><time data-utc="@ViewFormat.Iso(reverseShare.ExpiresAt)" class="@(ViewFormat.IsExpired(reverseShare.ExpiresAt) ? "text-danger" : string.Empty)"></time></td>
                             <td class="small">
-                                @if (reverseShare.IsSimplified) { <span class="badge">Simplified</span> }
-                                @if (!reverseShare.IsPublicAccess) { <span class="badge">Private</span> }
-                                @if (reverseShare.SendEmailNotification) { <span class="badge">E-mail</span> }
+                                @if (reverseShare.IsSimplified) { <span class="badge">@Localizer["Simplified"]</span> }
+                                @if (!reverseShare.IsPublicAccess) { <span class="badge">@Localizer["Private"]</span> }
+                                @if (reverseShare.SendEmailNotification) { <span class="badge">@Localizer["E-mail"]</span> }
                             </td>
                             <td class="text-right nowrap">
-                                <button type="button" class="btn btn-ghost btn-icon" data-copy="@reverseShare.Url" title="Copy link"><svg class="icon"><use href="#i-copy" /></svg></button>
-                                <form method="post" asp-antiforgery="true" action="/account/reverse-shares/@reverseShare.Id/delete" class="inline-form" data-confirm="Delete this reverse share? Shares created with it are kept.">
-                                    <button type="submit" class="btn btn-ghost btn-icon text-danger" title="Delete"><svg class="icon"><use href="#i-trash" /></svg></button>
+                                <button type="button" class="btn btn-ghost btn-icon" data-copy="@reverseShare.Url" title="@Localizer["Copy link"]"><svg class="icon"><use href="#i-copy" /></svg></button>
+                                <form method="post" asp-antiforgery="true" action="/account/reverse-shares/@reverseShare.Id/delete" class="inline-form" data-confirm="@Localizer["Delete this reverse share? Shares created with it are kept."]">
+                                    <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                                 </form>
                             </td>
                         </tr>
@@ -80,20 +80,20 @@ else
 <dialog class="dialog" id="create-reverse-share" data-open-on-load="@(ViewData.ModelState.IsValid ? "false" : "true")">
     <form method="post" asp-antiforgery="true" action="/account/reverse-shares" class="form">
         <div class="dialog-header">
-            <h2>Create reverse share</h2>
-            <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+            <h2>@Localizer["Create reverse share"]</h2>
+            <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="@Localizer["Close"]"><svg class="icon"><use href="#i-x" /></svg></button>
         </div>
         <div class="dialog-body">
             <div asp-validation-summary="All" class="alert alert-error"></div>
             <div class="form-group">
-                <label>Link expiration</label>
+                <label>@Localizer["Link expiration"]</label>
                 <partial name="_ExpirationInput" for="Form.Expiration" view-data='new ViewDataDictionary(ViewData) { ["HideNever"] = true }' />
             </div>
             <div class="grid grid-2 tight">
                 <div class="form-group">
                     <label asp-for="Form.MaxShareSizeMegabytes"></label>
                     <input asp-for="Form.MaxShareSizeMegabytes" class="input" min="1" />
-                    <span class="small muted">At most @ViewFormat.Bytes(Model.MaxShareSizeBytes)</span>
+                    <span class="small muted">@Localizer["At most {0}", ViewFormat.Bytes(Model.MaxShareSizeBytes)]</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Form.MaxUseCount"></label>
@@ -108,8 +108,8 @@ else
             <label class="checkbox"><input asp-for="Form.IsPublicAccess" /><span>@Html.DisplayNameFor(m => m.Form.IsPublicAccess)</span></label>
         </div>
         <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" data-dialog-close>Cancel</button>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-secondary" data-dialog-close>@Localizer["Cancel"]</button>
+            <button type="submit" class="btn btn-primary">@Localizer["Create"]</button>
         </div>
     </form>
 </dialog>

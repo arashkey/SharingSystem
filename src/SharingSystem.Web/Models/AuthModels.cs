@@ -11,6 +11,7 @@ public sealed class SignInViewModel
 
     [Required]
     [DataType(DataType.Password)]
+    [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;
 
     public string? ReturnUrl { get; set; }
@@ -25,6 +26,7 @@ public sealed class SignUpViewModel
     [Required]
     [StringLength(DomainLimits.UsernameMaxLength, MinimumLength = DomainLimits.UsernameMinLength)]
     [RegularExpression(DomainLimits.UsernamePattern, ErrorMessage = "Only letters, digits, dots, dashes and underscores are allowed.")]
+    [Display(Name = "Username")]
     public string Username { get; set; } = string.Empty;
 
     [Required]
@@ -36,6 +38,7 @@ public sealed class SignUpViewModel
     [Required]
     [DataType(DataType.Password)]
     [StringLength(DomainLimits.PasswordMaxLength, MinimumLength = DomainLimits.PasswordMinLength)]
+    [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;
 
     [Required]

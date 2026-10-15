@@ -27,7 +27,7 @@ public sealed class ReverseSharesController(
             && await TryExecuteAsync(async () =>
                 created = await reverseShareService.CreateAsync(form.Adapt<CreateReverseShareRequest>(), cancellationToken)))
         {
-            FlashSuccess($"Reverse share created: {created!.Url}");
+            FlashSuccess("Reverse share created: {0}", created!.Url);
             return RedirectToAction(nameof(Index));
         }
 

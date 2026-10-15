@@ -1,9 +1,9 @@
 @model ShareListViewModel
 @{
-    ViewData["Title"] = "My shares";
+    ViewData["Title"] = Localizer["My shares"].Value;
 }
 <div class="page-header">
-    <h1>My shares</h1>
-    <a class="btn btn-primary" href="/upload"><svg class="icon"><use href="#i-plus" /></svg>Create share</a>
+    <h1>@Localizer["My shares"]</h1>
+    <a class="btn btn-primary" href="/upload"><svg class="icon"><use href="#i-plus" /></svg>@Localizer["Create share"]</a>
 </div>
 <partial name="_ShareTable" model="Model" />

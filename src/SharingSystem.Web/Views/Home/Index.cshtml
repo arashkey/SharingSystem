@@ -5,17 +5,17 @@
 }
 <section class="hero">
     <div class="hero-text">
-        <h1>A <span class="accent">self-hosted</span> file sharing platform.</h1>
-        <p class="lead">Do you really want to give your personal files in the hand of third parties like WeTransfer?
-            @Model.AppName lets you share files with anyone — simple, secure and on your own server.</p>
+        <h1>@HtmlLocalizer["A <span class=\"accent\">self-hosted</span> file sharing platform."]</h1>
+        <p class="lead">@Localizer["Do you really want to give your personal files in the hand of third parties like WeTransfer?"]
+            @Localizer["{0} lets you share files with anyone — simple, secure and on your own server.", Model.AppName]</p>
         <div class="actions">
             @if (canUpload)
             {
-                <a class="btn btn-primary btn-lg" href="/upload"><svg class="icon"><use href="#i-upload" /></svg>Start sharing</a>
+                <a class="btn btn-primary btn-lg" href="/upload"><svg class="icon"><use href="#i-upload" /></svg>@Localizer["Start sharing"]</a>
             }
             else
             {
-                <a class="btn btn-primary btn-lg" href="/auth/sign-in">Get started</a>
+                <a class="btn btn-primary btn-lg" href="/auth/sign-in">@Localizer["Get started"]</a>
             }
         </div>
     </div>
@@ -27,22 +27,22 @@
 <section class="features">
     <div class="card feature">
         <svg class="icon feature-icon"><use href="#i-shield" /></svg>
-        <h3>Privacy</h3>
-        <p class="muted">Your files stay on your server. Protect shares with a password and limit the number of views.</p>
+        <h3>@Localizer["Privacy"]</h3>
+        <p class="muted">@Localizer["Your files stay on your server. Protect shares with a password and limit the number of views."]</p>
     </div>
     <div class="card feature">
         <svg class="icon feature-icon"><use href="#i-upload" /></svg>
-        <h3>No annoying file size limit</h3>
-        <p class="muted">Files are uploaded in chunks, so even very large files can be shared reliably.</p>
+        <h3>@Localizer["No annoying file size limit"]</h3>
+        <p class="muted">@Localizer["Files are uploaded in chunks, so even very large files can be shared reliably."]</p>
     </div>
     <div class="card feature">
         <svg class="icon feature-icon"><use href="#i-inbox" /></svg>
-        <h3>Reverse shares</h3>
-        <p class="muted">Create a link that lets others upload files to you — no account needed on their side.</p>
+        <h3>@Localizer["Reverse shares"]</h3>
+        <p class="muted">@Localizer["Create a link that lets others upload files to you — no account needed on their side."]</p>
     </div>
     <div class="card feature">
         <svg class="icon feature-icon"><use href="#i-clock" /></svg>
-        <h3>Expiration</h3>
-        <p class="muted">Shares expire automatically and are removed from the server when they are no longer needed.</p>
+        <h3>@Localizer["Expiration"]</h3>
+        <p class="muted">@Localizer["Shares expire automatically and are removed from the server when they are no longer needed."]</p>
     </div>
 </section>

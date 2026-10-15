@@ -1,0 +1,1072 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Persian (fa) UI texts. The resource name is the English text shown when no translation exists. -->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Menu" xml:space="preserve">
+    <value>منو</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>آپلود</value>
+  </data>
+  <data name="My shares" xml:space="preserve">
+    <value>اشتراک‌های من</value>
+  </data>
+  <data name="Reverse shares" xml:space="preserve">
+    <value>اشتراک‌های معکوس</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="Change language" xml:space="preserve">
+    <value>تغییر زبان</value>
+  </data>
+  <data name="Toggle theme" xml:space="preserve">
+    <value>تغییر پوسته</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>حساب کاربری</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="Sign up" xml:space="preserve">
+    <value>ثبت‌نام</value>
+  </data>
+  <data name="Imprint" xml:space="preserve">
+    <value>اطلاعات حقوقی</value>
+  </data>
+  <data name="Privacy policy" xml:space="preserve">
+    <value>حریم خصوصی</value>
+  </data>
+  <data name="My account" xml:space="preserve">
+    <value>حساب من</value>
+  </data>
+  <data name="Account info" xml:space="preserve">
+    <value>اطلاعات حساب</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>نام کاربری</value>
+  </data>
+  <data name="E-mail" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>ذخیره</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>رمز عبور</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>تغییر رمز عبور</value>
+  </data>
+  <data name="Two-factor authentication (TOTP)" xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای (TOTP)</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Your account is protected with an authenticator app." xml:space="preserve">
+    <value>حساب شما با یک برنامهٔ احراز هویت محافظت می‌شود.</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>غیرفعال کردن ورود دومرحله‌ای</value>
+  </data>
+  <data name="Scan the QR code with an authenticator app (e.g. Google Authenticator, Aegis, 1Password) and enter the code to finish the setup." xml:space="preserve">
+    <value>کد QR را با یک برنامهٔ احراز هویت (مثل Google Authenticator، Aegis یا 1Password) اسکن کنید و برای تکمیل راه‌اندازی، کد آن را وارد کنید.</value>
+  </data>
+  <data name="TOTP QR code" xml:space="preserve">
+    <value>کد QR برای TOTP</value>
+  </data>
+  <data name="Or enter this key manually:" xml:space="preserve">
+    <value>یا این کلید را دستی وارد کنید:</value>
+  </data>
+  <data name="Enable 2FA" xml:space="preserve">
+    <value>فعال کردن ورود دومرحله‌ای</value>
+  </data>
+  <data name="Add an extra layer of security by requiring a code from an authenticator app when signing in." xml:space="preserve">
+    <value>با درخواست کد از برنامهٔ احراز هویت هنگام ورود، یک لایهٔ امنیتی اضافه کنید.</value>
+  </data>
+  <data name="Confirm with your password" xml:space="preserve">
+    <value>با رمز عبور خود تأیید کنید</value>
+  </data>
+  <data name="Set up 2FA" xml:space="preserve">
+    <value>راه‌اندازی ورود دومرحله‌ای</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>ظاهر</value>
+  </data>
+  <data name="Choose the color scheme of the interface. The choice is stored in this browser." xml:space="preserve">
+    <value>طرح رنگی رابط کاربری را انتخاب کنید. این انتخاب در همین مرورگر ذخیره می‌شود.</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>روشن</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>تیره</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>سیستم</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>رمز عبور فعلی</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>رمز عبور جدید</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>تکرار رمز عبور جدید</value>
+  </data>
+  <data name="Verification code" xml:space="preserve">
+    <value>کد تأیید</value>
+  </data>
+  <data name="Forgot password" xml:space="preserve">
+    <value>فراموشی رمز عبور</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>رمز عبور خود را فراموش کرده‌اید؟</value>
+  </data>
+  <data name="Enter your e-mail address and we will send you a link to reset your password." xml:space="preserve">
+    <value>نشانی ایمیل خود را وارد کنید تا پیوند بازنشانی رمز عبور برایتان ارسال شود.</value>
+  </data>
+  <data name="Send reset link" xml:space="preserve">
+    <value>ارسال پیوند بازنشانی</value>
+  </data>
+  <data name="Back to sign in" xml:space="preserve">
+    <value>بازگشت به صفحهٔ ورود</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>بازنشانی رمز عبور</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>تکرار رمز عبور</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>خوش برگشتید</value>
+  </data>
+  <data name="You don't have an account yet?" xml:space="preserve">
+    <value>هنوز حساب کاربری ندارید؟</value>
+  </data>
+  <data name="E-mail or username" xml:space="preserve">
+    <value>ایمیل یا نام کاربری</value>
+  </data>
+  <data name="Initial setup" xml:space="preserve">
+    <value>راه‌اندازی اولیه</value>
+  </data>
+  <data name="Create the admin account" xml:space="preserve">
+    <value>ساخت حساب مدیر</value>
+  </data>
+  <data name="No user exists yet. The first account becomes the administrator." xml:space="preserve">
+    <value>هنوز هیچ کاربری وجود ندارد. نخستین حساب، مدیر سامانه خواهد بود.</value>
+  </data>
+  <data name="You already have an account?" xml:space="preserve">
+    <value>حساب کاربری دارید؟</value>
+  </data>
+  <data name="Create admin account" xml:space="preserve">
+    <value>ساخت حساب مدیر</value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای</value>
+  </data>
+  <data name="Enter the 6-digit code from your authenticator app." xml:space="preserve">
+    <value>کد ۶ رقمی برنامهٔ احراز هویت خود را وارد کنید.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>تأیید</value>
+  </data>
+  <data name="A &lt;span class=&quot;accent&quot;&gt;self-hosted&lt;/span&gt; file sharing platform." xml:space="preserve">
+    <value>سامانهٔ اشتراک‌گذاری فایل &lt;span class=&quot;accent&quot;&gt;روی سرور خودتان&lt;/span&gt;.</value>
+  </data>
+  <data name="Do you really want to give your personal files in the hand of third parties like WeTransfer?" xml:space="preserve">
+    <value>واقعاً می‌خواهید فایل‌های شخصی‌تان را به سرویس‌هایی مثل WeTransfer بسپارید؟</value>
+  </data>
+  <data name="{0} lets you share files with anyone — simple, secure and on your own server." xml:space="preserve">
+    <value>با {0} فایل‌هایتان را با هر کسی به اشتراک بگذارید — ساده، امن و روی سرور خودتان.</value>
+  </data>
+  <data name="Start sharing" xml:space="preserve">
+    <value>شروع اشتراک‌گذاری</value>
+  </data>
+  <data name="Get started" xml:space="preserve">
+    <value>شروع کنید</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>حریم خصوصی</value>
+  </data>
+  <data name="Your files stay on your server. Protect shares with a password and limit the number of views." xml:space="preserve">
+    <value>فایل‌ها روی سرور خودتان می‌مانند. اشتراک‌ها را با رمز عبور محافظت کنید و تعداد بازدید را محدود کنید.</value>
+  </data>
+  <data name="No annoying file size limit" xml:space="preserve">
+    <value>بدون محدودیت آزاردهندهٔ حجم</value>
+  </data>
+  <data name="Files are uploaded in chunks, so even very large files can be shared reliably." xml:space="preserve">
+    <value>فایل‌ها تکه‌تکه آپلود می‌شوند، پس حتی فایل‌های بسیار حجیم هم با اطمینان به اشتراک گذاشته می‌شوند.</value>
+  </data>
+  <data name="Create a link that lets others upload files to you — no account needed on their side." xml:space="preserve">
+    <value>پیوندی بسازید تا دیگران برایتان فایل آپلود کنند — بدون نیاز به حساب کاربری.</value>
+  </data>
+  <data name="Expiration" xml:space="preserve">
+    <value>انقضا</value>
+  </data>
+  <data name="Shares expire automatically and are removed from the server when they are no longer needed." xml:space="preserve">
+    <value>اشتراک‌ها به‌طور خودکار منقضی و وقتی دیگر لازم نیستند از سرور حذف می‌شوند.</value>
+  </data>
+  <data name="A reverse share is a link that allows other people to upload files to you — even without an account." xml:space="preserve">
+    <value>اشتراک معکوس پیوندی است که دیگران با آن می‌توانند برای شما فایل آپلود کنند — حتی بدون حساب کاربری.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>ایجاد</value>
+  </data>
+  <data name="It's empty here 👀" xml:space="preserve">
+    <value>اینجا خالی است 👀</value>
+  </data>
+  <data name="You don't have any reverse shares yet." xml:space="preserve">
+    <value>هنوز هیچ اشتراک معکوسی ندارید.</value>
+  </data>
+  <data name="Shares" xml:space="preserve">
+    <value>اشتراک‌ها</value>
+  </data>
+  <data name="Remaining uses" xml:space="preserve">
+    <value>دفعات باقی‌مانده</value>
+  </data>
+  <data name="Max. share size" xml:space="preserve">
+    <value>حداکثر حجم اشتراک</value>
+  </data>
+  <data name="Expires" xml:space="preserve">
+    <value>انقضا</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>گزینه‌ها</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>عملیات</value>
+  </data>
+  <data name="No shares created yet" xml:space="preserve">
+    <value>هنوز اشتراکی ساخته نشده</value>
+  </data>
+  <data name="{0} share(s)" xml:space="preserve">
+    <value>{0} اشتراک</value>
+  </data>
+  <data name="Simplified" xml:space="preserve">
+    <value>ساده</value>
+  </data>
+  <data name="Private" xml:space="preserve">
+    <value>خصوصی</value>
+  </data>
+  <data name="Copy link" xml:space="preserve">
+    <value>کپی پیوند</value>
+  </data>
+  <data name="Delete this reverse share? Shares created with it are kept." xml:space="preserve">
+    <value>این اشتراک معکوس حذف شود؟ اشتراک‌هایی که با آن ساخته شده‌اند باقی می‌مانند.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Create reverse share" xml:space="preserve">
+    <value>ایجاد اشتراک معکوس</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>بستن</value>
+  </data>
+  <data name="Link expiration" xml:space="preserve">
+    <value>انقضای پیوند</value>
+  </data>
+  <data name="At most {0}" xml:space="preserve">
+    <value>حداکثر {0}</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>انصراف</value>
+  </data>
+  <data name="Maximum share size (MB)" xml:space="preserve">
+    <value>حداکثر حجم اشتراک (مگابایت)</value>
+  </data>
+  <data name="Maximum use count" xml:space="preserve">
+    <value>حداکثر دفعات استفاده</value>
+  </data>
+  <data name="Send me an e-mail when a share is created" xml:space="preserve">
+    <value>هنگام ساخته شدن اشتراک به من ایمیل بزن</value>
+  </data>
+  <data name="Simplified mode (hide share options)" xml:space="preserve">
+    <value>حالت ساده (پنهان کردن گزینه‌های اشتراک)</value>
+  </data>
+  <data name="Public access (visitors can open the created shares)" xml:space="preserve">
+    <value>دسترسی عمومی (بازدیدکنندگان می‌توانند اشتراک‌های ساخته‌شده را باز کنند)</value>
+  </data>
+  <data name="Never expires" xml:space="preserve">
+    <value>بدون انقضا</value>
+  </data>
+  <data name="Expires after" xml:space="preserve">
+    <value>منقضی شدن پس از</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>واحد</value>
+  </data>
+  <data name="Password required" xml:space="preserve">
+    <value>رمز عبور لازم است</value>
+  </data>
+  <data name="This share is protected. Please enter the password to access it." xml:space="preserve">
+    <value>این اشتراک محافظت‌شده است. برای دسترسی، رمز عبور را وارد کنید.</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="{0} files" xml:space="preserve">
+    <value>{0} فایل</value>
+  </data>
+  <data name="{0} views of {1}" xml:space="preserve">
+    <value>{0} بازدید از {1}</value>
+  </data>
+  <data name="{0} views" xml:space="preserve">
+    <value>{0} بازدید</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>ویرایش</value>
+  </data>
+  <data name="Download all" xml:space="preserve">
+    <value>دانلود همه</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>حجم</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>پیش‌نمایش</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>دانلود</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطا</value>
+  </data>
+  <data name="Oops!" xml:space="preserve">
+    <value>اوه!</value>
+  </data>
+  <data name="Back to home" xml:space="preserve">
+    <value>بازگشت به خانه</value>
+  </data>
+  <data name="Select files" xml:space="preserve">
+    <value>انتخاب فایل‌ها</value>
+  </data>
+  <data name="Upload files" xml:space="preserve">
+    <value>آپلود فایل‌ها</value>
+  </data>
+  <data name="Drag 'n' drop files here to start your share. Files can be up to &lt;strong&gt;{0}&lt;/strong&gt; in total." xml:space="preserve">
+    <value>فایل‌ها را برای شروع اشتراک اینجا رها کنید. مجموع حجم فایل‌ها حداکثر &lt;strong&gt;{0}&lt;/strong&gt; است.</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>دقیقه</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>ساعت</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>روز</value>
+  </data>
+  <data name="Weeks" xml:space="preserve">
+    <value>هفته</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>ماه</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>سال</value>
+  </data>
+  <data name="Share ready" xml:space="preserve">
+    <value>اشتراک آماده است</value>
+  </data>
+  <data name="Copy the link below and send it to anyone you want to share the files with." xml:space="preserve">
+    <value>پیوند زیر را کپی کنید و برای هر کسی که می‌خواهید فایل‌ها را با او به اشتراک بگذارید بفرستید.</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>کپی</value>
+  </data>
+  <data name="Your files have been uploaded successfully. The owner of the link has access to them." xml:space="preserve">
+    <value>فایل‌های شما با موفقیت آپلود شد. صاحب پیوند به آن‌ها دسترسی دارد.</value>
+  </data>
+  <data name="Open share" xml:space="preserve">
+    <value>باز کردن اشتراک</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>انجام شد</value>
+  </data>
+  <data name="&lt;strong&gt;{0}&lt;/strong&gt; invited you to upload files." xml:space="preserve">
+    <value>&lt;strong&gt;{0}&lt;/strong&gt; از شما دعوت کرده است فایل آپلود کنید.</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>اشتراک‌گذاری</value>
+  </data>
+  <data name="Share options" xml:space="preserve">
+    <value>گزینه‌های اشتراک</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>پیوند</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>تولید</value>
+  </data>
+  <data name="The maximum expiration is {0} hours." xml:space="preserve">
+    <value>حداکثر زمان انقضا {0} ساعت است.</value>
+  </data>
+  <data name="Description and security options" xml:space="preserve">
+    <value>توضیحات و گزینه‌های امنیتی</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="Password protection" xml:space="preserve">
+    <value>محافظت با رمز عبور</value>
+  </data>
+  <data name="Maximum views" xml:space="preserve">
+    <value>حداکثر بازدید</value>
+  </data>
+  <data name="Unlimited" xml:space="preserve">
+    <value>نامحدود</value>
+  </data>
+  <data name="E-mail recipients" xml:space="preserve">
+    <value>گیرندگان ایمیل</value>
+  </data>
+  <data name="Recipients receive the link by e-mail." xml:space="preserve">
+    <value>گیرندگان پیوند را با ایمیل دریافت می‌کنند.</value>
+  </data>
+  <data name="There are no shares yet." xml:space="preserve">
+    <value>هنوز اشتراکی وجود ندارد.</value>
+  </data>
+  <data name="Create a share" xml:space="preserve">
+    <value>ایجاد اشتراک</value>
+  </data>
+  <data name="Creator" xml:space="preserve">
+    <value>سازنده</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>فایل‌ها</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>بازدیدها</value>
+  </data>
+  <data name="Password protected" xml:space="preserve">
+    <value>محافظت‌شده با رمز عبور</value>
+  </data>
+  <data name="Anonymous" xml:space="preserve">
+    <value>ناشناس</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>هرگز</value>
+  </data>
+  <data name="Do you really want to delete this share and all of its files?" xml:space="preserve">
+    <value>آیا واقعاً می‌خواهید این اشتراک و همهٔ فایل‌هایش را حذف کنید؟</value>
+  </data>
+  <data name="Edit share" xml:space="preserve">
+    <value>ویرایش اشتراک</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>مشاهده</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>جزئیات</value>
+  </data>
+  <data name="Current views: {0}" xml:space="preserve">
+    <value>بازدیدهای فعلی: {0}</value>
+  </data>
+  <data name="Current:" xml:space="preserve">
+    <value>فعلی:</value>
+  </data>
+  <data name="Change expiration (counted from now)" xml:space="preserve">
+    <value>تغییر انقضا (از همین حالا)</value>
+  </data>
+  <data name="Change expiration" xml:space="preserve">
+    <value>تغییر انقضا</value>
+  </data>
+  <data name="Keep current password" xml:space="preserve">
+    <value>حفظ رمز عبور فعلی</value>
+  </data>
+  <data name="No password" xml:space="preserve">
+    <value>بدون رمز عبور</value>
+  </data>
+  <data name="Remove password" xml:space="preserve">
+    <value>حذف رمز عبور</value>
+  </data>
+  <data name="Delete this file?" xml:space="preserve">
+    <value>این فایل حذف شود؟</value>
+  </data>
+  <data name="Delete file" xml:space="preserve">
+    <value>حذف فایل</value>
+  </data>
+  <data name="Add files" xml:space="preserve">
+    <value>افزودن فایل</value>
+  </data>
+  <data name="Create share" xml:space="preserve">
+    <value>ایجاد اشتراک</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>کاربران</value>
+  </data>
+  <data name="Storage used" xml:space="preserve">
+    <value>فضای استفاده‌شده</value>
+  </data>
+  <data name="Total views" xml:space="preserve">
+    <value>مجموع بازدیدها</value>
+  </data>
+  <data name="Active reverse shares" xml:space="preserve">
+    <value>اشتراک‌های معکوس فعال</value>
+  </data>
+  <data name="User management" xml:space="preserve">
+    <value>مدیریت کاربران</value>
+  </data>
+  <data name="Create, edit and delete users and manage administrator rights." xml:space="preserve">
+    <value>ساخت، ویرایش و حذف کاربران و مدیریت دسترسی مدیر.</value>
+  </data>
+  <data name="Share management" xml:space="preserve">
+    <value>مدیریت اشتراک‌ها</value>
+  </data>
+  <data name="See all shares of all users and delete them." xml:space="preserve">
+    <value>مشاهده و حذف همهٔ اشتراک‌های همهٔ کاربران.</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>پیکربندی</value>
+  </data>
+  <data name="General, share, e-mail, SMTP and legal settings." xml:space="preserve">
+    <value>تنظیمات عمومی، اشتراک‌گذاری، ایمیل، SMTP و حقوقی.</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>داشبورد</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عمومی</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>حقوقی</value>
+  </data>
+  <data name="Name of the application, shown in the header and in e-mails." xml:space="preserve">
+    <value>نام برنامه که در سربرگ و ایمیل‌ها نمایش داده می‌شود.</value>
+  </data>
+  <data name="Public URL used in links and e-mails. Leave empty to use the URL of the current request." xml:space="preserve">
+    <value>نشانی عمومی که در پیوندها و ایمیل‌ها استفاده می‌شود. برای استفاده از نشانی درخواست فعلی، خالی بگذارید.</value>
+  </data>
+  <data name="How long users stay signed in." xml:space="preserve">
+    <value>مدت زمانی که کاربران وارد سامانه می‌مانند.</value>
+  </data>
+  <data name="Files are uploaded in pieces of this size (at most {0}, the server request limit). Lower it if a reverse proxy limits the request size." xml:space="preserve">
+    <value>فایل‌ها در تکه‌هایی با این حجم آپلود می‌شوند (حداکثر {0}، یعنی محدودیت درخواست سرور). اگر reverse proxy حجم درخواست را محدود می‌کند، این مقدار را کمتر کنید.</value>
+  </data>
+  <data name="Available placeholders:" xml:space="preserve">
+    <value>متغیرهای قابل استفاده:</value>
+  </data>
+  <data name="•••••••• (stored encrypted, leave empty to keep)" xml:space="preserve">
+    <value>•••••••• (رمزنگاری‌شده ذخیره شده؛ برای حفظ آن خالی بگذارید)</value>
+  </data>
+  <data name="No password stored" xml:space="preserve">
+    <value>رمز عبوری ذخیره نشده</value>
+  </data>
+  <data name="Save configuration" xml:space="preserve">
+    <value>ذخیرهٔ پیکربندی</value>
+  </data>
+  <data name="Test e-mail" xml:space="preserve">
+    <value>ایمیل آزمایشی</value>
+  </data>
+  <data name="Save the SMTP settings first, then send a test e-mail." xml:space="preserve">
+    <value>ابتدا تنظیمات SMTP را ذخیره کنید، سپس ایمیل آزمایشی بفرستید.</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="No compression" xml:space="preserve">
+    <value>بدون فشرده‌سازی</value>
+  </data>
+  <data name="Fastest" xml:space="preserve">
+    <value>سریع‌ترین</value>
+  </data>
+  <data name="Optimal" xml:space="preserve">
+    <value>بهینه</value>
+  </data>
+  <data name="Smallest size" xml:space="preserve">
+    <value>کمترین حجم</value>
+  </data>
+  <data name="Application name" xml:space="preserve">
+    <value>نام برنامه</value>
+  </data>
+  <data name="Application URL" xml:space="preserve">
+    <value>نشانی برنامه</value>
+  </data>
+  <data name="Show home page" xml:space="preserve">
+    <value>نمایش صفحهٔ خانه</value>
+  </data>
+  <data name="Session duration (hours)" xml:space="preserve">
+    <value>مدت نشست (ساعت)</value>
+  </data>
+  <data name="Allow registration" xml:space="preserve">
+    <value>اجازهٔ ثبت‌نام</value>
+  </data>
+  <data name="Allow unauthenticated shares" xml:space="preserve">
+    <value>اجازهٔ اشتراک‌گذاری بدون ورود</value>
+  </data>
+  <data name="Maximum expiration (hours, 0 = unlimited)" xml:space="preserve">
+    <value>حداکثر زمان انقضا (ساعت، ۰ = نامحدود)</value>
+  </data>
+  <data name="Zip compression" xml:space="preserve">
+    <value>فشرده‌سازی zip</value>
+  </data>
+  <data name="Upload chunk size (MB)" xml:space="preserve">
+    <value>حجم هر تکهٔ آپلود (مگابایت)</value>
+  </data>
+  <data name="Allow sending shares to e-mail recipients" xml:space="preserve">
+    <value>اجازهٔ ارسال اشتراک به گیرندگان ایمیل</value>
+  </data>
+  <data name="Share recipients subject" xml:space="preserve">
+    <value>موضوع ایمیل گیرندگان اشتراک</value>
+  </data>
+  <data name="Share recipients message" xml:space="preserve">
+    <value>متن ایمیل گیرندگان اشتراک</value>
+  </data>
+  <data name="Reverse share subject" xml:space="preserve">
+    <value>موضوع ایمیل اشتراک معکوس</value>
+  </data>
+  <data name="Reverse share message" xml:space="preserve">
+    <value>متن ایمیل اشتراک معکوس</value>
+  </data>
+  <data name="Reset password subject" xml:space="preserve">
+    <value>موضوع ایمیل بازنشانی رمز عبور</value>
+  </data>
+  <data name="Reset password message" xml:space="preserve">
+    <value>متن ایمیل بازنشانی رمز عبور</value>
+  </data>
+  <data name="Invite subject" xml:space="preserve">
+    <value>موضوع ایمیل دعوت</value>
+  </data>
+  <data name="Invite message" xml:space="preserve">
+    <value>متن ایمیل دعوت</value>
+  </data>
+  <data name="Enable SMTP" xml:space="preserve">
+    <value>فعال کردن SMTP</value>
+  </data>
+  <data name="Host" xml:space="preserve">
+    <value>میزبان</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>پورت</value>
+  </data>
+  <data name="Sender e-mail" xml:space="preserve">
+    <value>ایمیل فرستنده</value>
+  </data>
+  <data name="Remove stored password" xml:space="preserve">
+    <value>حذف رمز عبور ذخیره‌شده</value>
+  </data>
+  <data name="Allow unauthorized (self-signed) certificates" xml:space="preserve">
+    <value>پذیرش گواهی‌های نامعتبر (self-signed)</value>
+  </data>
+  <data name="Show imprint and privacy policy" xml:space="preserve">
+    <value>نمایش اطلاعات حقوقی و حریم خصوصی</value>
+  </data>
+  <data name="Send test e-mail to" xml:space="preserve">
+    <value>ارسال ایمیل آزمایشی به</value>
+  </data>
+  <data name="Create user" xml:space="preserve">
+    <value>ایجاد کاربر</value>
+  </data>
+  <data name="Password (leave empty to send an invitation e-mail)" xml:space="preserve">
+    <value>رمز عبور (برای ارسال ایمیل دعوت خالی بگذارید)</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>مدیر</value>
+  </data>
+  <data name="Edit user" xml:space="preserve">
+    <value>ویرایش کاربر</value>
+  </data>
+  <data name="New password (optional)" xml:space="preserve">
+    <value>رمز عبور جدید (اختیاری)</value>
+  </data>
+  <data name="Disable two-factor authentication" xml:space="preserve">
+    <value>غیرفعال کردن احراز هویت دومرحله‌ای</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>نقش</value>
+  </data>
+  <data name="2FA" xml:space="preserve">
+    <value>ورود دومرحله‌ای</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>تاریخ ایجاد</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>کاربر</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>غیرفعال</value>
+  </data>
+  <data name="Delete {0} and all of their shares?" xml:space="preserve">
+    <value>کاربر {0} و همهٔ اشتراک‌هایش حذف شود؟</value>
+  </data>
+  <data name="Only letters, digits, dots, dashes and underscores are allowed." xml:space="preserve">
+    <value>فقط حروف، ارقام، نقطه، خط تیره و زیرخط مجاز است.</value>
+  </data>
+  <data name="The passwords do not match." xml:space="preserve">
+    <value>رمزهای عبور یکسان نیستند.</value>
+  </data>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>فیلد «{0}» الزامی است.</value>
+  </data>
+  <data name="The field {0} must be a string with a maximum length of {1}." xml:space="preserve">
+    <value>فیلد «{0}» حداکثر می‌تواند {1} نویسه باشد.</value>
+  </data>
+  <data name="The field {0} must be a string with a minimum length of {2} and a maximum length of {1}." xml:space="preserve">
+    <value>فیلد «{0}» باید بین {2} تا {1} نویسه باشد.</value>
+  </data>
+  <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
+    <value>مقدار فیلد «{0}» باید بین {1} و {2} باشد.</value>
+  </data>
+  <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
+    <value>فیلد «{0}» یک نشانی ایمیل معتبر نیست.</value>
+  </data>
+  <data name="The {0} field is not a valid fully-qualified http, https, or ftp URL." xml:space="preserve">
+    <value>فیلد «{0}» یک نشانی کامل و معتبر http، https یا ftp نیست.</value>
+  </data>
+  <data name="The value '{0}' is invalid." xml:space="preserve">
+    <value>مقدار «{0}» نامعتبر است.</value>
+  </data>
+  <data name="The value '{0}' is not valid for {1}." xml:space="preserve">
+    <value>مقدار «{0}» برای «{1}» معتبر نیست.</value>
+  </data>
+  <data name="The value '{0}' is not valid." xml:space="preserve">
+    <value>مقدار «{0}» معتبر نیست.</value>
+  </data>
+  <data name="The supplied value is invalid for {0}." xml:space="preserve">
+    <value>مقدار واردشده برای «{0}» نامعتبر است.</value>
+  </data>
+  <data name="The supplied value is invalid." xml:space="preserve">
+    <value>مقدار واردشده نامعتبر است.</value>
+  </data>
+  <data name="The field {0} must be a number." xml:space="preserve">
+    <value>فیلد «{0}» باید عدد باشد.</value>
+  </data>
+  <data name="The field must be a number." xml:space="preserve">
+    <value>این فیلد باید عدد باشد.</value>
+  </data>
+  <data name="A value for the '{0}' parameter or property was not provided." xml:space="preserve">
+    <value>مقداری برای «{0}» ارسال نشده است.</value>
+  </data>
+  <data name="A value is required." xml:space="preserve">
+    <value>وارد کردن مقدار الزامی است.</value>
+  </data>
+  <data name="A non-empty request body is required." xml:space="preserve">
+    <value>بدنهٔ درخواست نباید خالی باشد.</value>
+  </data>
+  <data name="Your profile has been updated." xml:space="preserve">
+    <value>نمایهٔ شما به‌روزرسانی شد.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>رمز عبور شما تغییر کرد.</value>
+  </data>
+  <data name="Two-factor authentication is now enabled." xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای فعال شد.</value>
+  </data>
+  <data name="Two-factor authentication is now disabled." xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای غیرفعال شد.</value>
+  </data>
+  <data name="The sign-in session expired. Please sign in again." xml:space="preserve">
+    <value>نشست ورود منقضی شده است. لطفاً دوباره وارد شوید.</value>
+  </data>
+  <data name="Registration is disabled." xml:space="preserve">
+    <value>ثبت‌نام غیرفعال است.</value>
+  </data>
+  <data name="Welcome! You are the administrator of this instance." xml:space="preserve">
+    <value>خوش آمدید! شما مدیر این سامانه هستید.</value>
+  </data>
+  <data name="Welcome!" xml:space="preserve">
+    <value>خوش آمدید!</value>
+  </data>
+  <data name="If an account with this e-mail exists, a reset link has been sent." xml:space="preserve">
+    <value>اگر حسابی با این ایمیل وجود داشته باشد، پیوند بازنشانی ارسال شد.</value>
+  </data>
+  <data name="Your password has been changed. You can sign in now." xml:space="preserve">
+    <value>رمز عبور شما تغییر کرد. اکنون می‌توانید وارد شوید.</value>
+  </data>
+  <data name="Reverse share created: {0}" xml:space="preserve">
+    <value>اشتراک معکوس ساخته شد: {0}</value>
+  </data>
+  <data name="The reverse share has been deleted. Shares created with it are kept." xml:space="preserve">
+    <value>اشتراک معکوس حذف شد. اشتراک‌هایی که با آن ساخته شده‌اند باقی ماندند.</value>
+  </data>
+  <data name="The share has been updated." xml:space="preserve">
+    <value>اشتراک به‌روزرسانی شد.</value>
+  </data>
+  <data name="The file has been deleted." xml:space="preserve">
+    <value>فایل حذف شد.</value>
+  </data>
+  <data name="The share has been deleted." xml:space="preserve">
+    <value>اشتراک حذف شد.</value>
+  </data>
+  <data name="The settings have been saved." xml:space="preserve">
+    <value>تنظیمات ذخیره شد.</value>
+  </data>
+  <data name="A test e-mail has been sent to {0}." xml:space="preserve">
+    <value>ایمیل آزمایشی به {0} ارسال شد.</value>
+  </data>
+  <data name="The user has been created and an invitation e-mail has been sent." xml:space="preserve">
+    <value>کاربر ساخته شد و ایمیل دعوت ارسال شد.</value>
+  </data>
+  <data name="The user has been created." xml:space="preserve">
+    <value>کاربر ساخته شد.</value>
+  </data>
+  <data name="The user has been updated." xml:space="preserve">
+    <value>کاربر به‌روزرسانی شد.</value>
+  </data>
+  <data name="The user and all of their shares have been deleted." xml:space="preserve">
+    <value>کاربر و همهٔ اشتراک‌هایش حذف شدند.</value>
+  </data>
+  <data name="The page you are looking for does not exist." xml:space="preserve">
+    <value>صفحه‌ای که به دنبال آن هستید وجود ندارد.</value>
+  </data>
+  <data name="You are not allowed to access this page." xml:space="preserve">
+    <value>اجازهٔ دسترسی به این صفحه را ندارید.</value>
+  </data>
+  <data name="The uploaded content is too large." xml:space="preserve">
+    <value>حجم محتوای آپلودشده بیش از حد مجاز است.</value>
+  </data>
+  <data name="An unexpected error occurred." xml:space="preserve">
+    <value>خطای غیرمنتظره‌ای رخ داد.</value>
+  </data>
+  <data name="Something went wrong." xml:space="preserve">
+    <value>مشکلی پیش آمد.</value>
+  </data>
+  <data name="Open the share page first to get access to its files." xml:space="preserve">
+    <value>برای دسترسی به فایل‌ها، ابتدا صفحهٔ اشتراک را باز کنید.</value>
+  </data>
+  <data name="The username must contain {0} to {1} letters, digits, dots, dashes or underscores." xml:space="preserve">
+    <value>نام کاربری باید از {0} تا {1} حرف، رقم، نقطه، خط تیره یا زیرخط تشکیل شده باشد.</value>
+  </data>
+  <data name="The e-mail address is invalid." xml:space="preserve">
+    <value>نشانی ایمیل نامعتبر است.</value>
+  </data>
+  <data name="The password must contain {0} to {1} characters." xml:space="preserve">
+    <value>رمز عبور باید بین {0} تا {1} نویسه باشد.</value>
+  </data>
+  <data name="This username is already taken." xml:space="preserve">
+    <value>این نام کاربری قبلاً گرفته شده است.</value>
+  </data>
+  <data name="This e-mail address is already in use." xml:space="preserve">
+    <value>این نشانی ایمیل قبلاً استفاده شده است.</value>
+  </data>
+  <data name="You are not allowed to perform this action." xml:space="preserve">
+    <value>اجازهٔ انجام این کار را ندارید.</value>
+  </data>
+  <data name="Two-factor authentication is already enabled." xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای از قبل فعال است.</value>
+  </data>
+  <data name="Start the two-factor setup first." xml:space="preserve">
+    <value>ابتدا راه‌اندازی احراز هویت دومرحله‌ای را شروع کنید.</value>
+  </data>
+  <data name="The verification code is invalid." xml:space="preserve">
+    <value>کد تأیید نامعتبر است.</value>
+  </data>
+  <data name="Two-factor authentication is not enabled." xml:space="preserve">
+    <value>احراز هویت دومرحله‌ای فعال نیست.</value>
+  </data>
+  <data name="The user does not exist." xml:space="preserve">
+    <value>این کاربر وجود ندارد.</value>
+  </data>
+  <data name="The current password is wrong." xml:space="preserve">
+    <value>رمز عبور فعلی اشتباه است.</value>
+  </data>
+  <data name="You cannot delete your own account." xml:space="preserve">
+    <value>نمی‌توانید حساب خودتان را حذف کنید.</value>
+  </data>
+  <data name="At least one administrator must remain." xml:space="preserve">
+    <value>دست‌کم یک مدیر باید باقی بماند.</value>
+  </data>
+  <data name="A reverse share must expire." xml:space="preserve">
+    <value>اشتراک معکوس باید تاریخ انقضا داشته باشد.</value>
+  </data>
+  <data name="The maximum share size must be between 1 byte and {0}." xml:space="preserve">
+    <value>حداکثر حجم اشتراک باید بین ۱ بایت و {0} باشد.</value>
+  </data>
+  <data name="The maximum use count must be between 1 and {0}." xml:space="preserve">
+    <value>حداکثر دفعات استفاده باید بین ۱ و {0} باشد.</value>
+  </data>
+  <data name="E-mail notifications are not available because SMTP is not configured." xml:space="preserve">
+    <value>اعلان ایمیلی در دسترس نیست، چون SMTP پیکربندی نشده است.</value>
+  </data>
+  <data name="The reverse share does not exist." xml:space="preserve">
+    <value>این اشتراک معکوس وجود ندارد.</value>
+  </data>
+  <data name="This reverse share link is invalid or expired." xml:space="preserve">
+    <value>این پیوند اشتراک معکوس نامعتبر یا منقضی است.</value>
+  </data>
+  <data name="Wrong e-mail/username or password." xml:space="preserve">
+    <value>ایمیل/نام کاربری یا رمز عبور اشتباه است.</value>
+  </data>
+  <data name="Password reset by e-mail is not available. Please contact an administrator." xml:space="preserve">
+    <value>بازنشانی رمز عبور از طریق ایمیل در دسترس نیست. لطفاً با مدیر تماس بگیرید.</value>
+  </data>
+  <data name="The password reset link is invalid or expired." xml:space="preserve">
+    <value>پیوند بازنشانی رمز عبور نامعتبر یا منقضی است.</value>
+  </data>
+  <data name="The password is wrong." xml:space="preserve">
+    <value>رمز عبور اشتباه است.</value>
+  </data>
+  <data name="This share has reached its maximum number of views." xml:space="preserve">
+    <value>این اشتراک به حداکثر تعداد بازدید رسیده است.</value>
+  </data>
+  <data name="The file does not exist." xml:space="preserve">
+    <value>این فایل وجود ندارد.</value>
+  </data>
+  <data name="This share does not exist or has expired." xml:space="preserve">
+    <value>این اشتراک وجود ندارد یا منقضی شده است.</value>
+  </data>
+  <data name="The maximum number of views must be at least 1." xml:space="preserve">
+    <value>حداکثر تعداد بازدید باید دست‌کم ۱ باشد.</value>
+  </data>
+  <data name="A share needs at least one file. Delete the share instead." xml:space="preserve">
+    <value>هر اشتراک دست‌کم به یک فایل نیاز دارد. به‌جای آن، اشتراک را حذف کنید.</value>
+  </data>
+  <data name="The share does not exist." xml:space="preserve">
+    <value>این اشتراک وجود ندارد.</value>
+  </data>
+  <data name="A share must expire. The maximum expiration is {0} hours." xml:space="preserve">
+    <value>اشتراک باید تاریخ انقضا داشته باشد. حداکثر زمان انقضا {0} ساعت است.</value>
+  </data>
+  <data name="The expiration must be between 1 and {0}." xml:space="preserve">
+    <value>مقدار انقضا باید بین ۱ و {0} باشد.</value>
+  </data>
+  <data name="The expiration unit is invalid." xml:space="preserve">
+    <value>واحد انقضا نامعتبر است.</value>
+  </data>
+  <data name="The expiration cannot be longer than {0} hours." xml:space="preserve">
+    <value>زمان انقضا نمی‌تواند بیشتر از {0} ساعت باشد.</value>
+  </data>
+  <data name="You need to sign in to create a share." xml:space="preserve">
+    <value>برای ساخت اشتراک باید وارد شوید.</value>
+  </data>
+  <data name="The chunk index is invalid." xml:space="preserve">
+    <value>شمارهٔ تکه نامعتبر است.</value>
+  </data>
+  <data name="The file identifier is missing." xml:space="preserve">
+    <value>شناسهٔ فایل ارسال نشده است.</value>
+  </data>
+  <data name="This file was already uploaded." xml:space="preserve">
+    <value>این فایل قبلاً آپلود شده است.</value>
+  </data>
+  <data name="The chunk was received out of order. Please restart the upload." xml:space="preserve">
+    <value>تکه خارج از ترتیب دریافت شد. لطفاً آپلود را از نو شروع کنید.</value>
+  </data>
+  <data name="The share exceeds the maximum size of {0}." xml:space="preserve">
+    <value>حجم اشتراک از حداکثر مجاز ({0}) بیشتر است.</value>
+  </data>
+  <data name="The chunk is larger than the configured chunk size." xml:space="preserve">
+    <value>حجم تکه از حجم تنظیم‌شده بیشتر است.</value>
+  </data>
+  <data name="The chunk size does not match the server configuration. Please reload the page." xml:space="preserve">
+    <value>حجم تکه با پیکربندی سرور هم‌خوانی ندارد. لطفاً صفحه را دوباره بارگذاری کنید.</value>
+  </data>
+  <data name="Add at least one file to the share." xml:space="preserve">
+    <value>دست‌کم یک فایل به اشتراک اضافه کنید.</value>
+  </data>
+  <data name="This reverse share link has no remaining uses." xml:space="preserve">
+    <value>دفعات استفادهٔ این پیوند اشتراک معکوس تمام شده است.</value>
+  </data>
+  <data name="The link must contain {0} to {1} letters, digits, dashes or underscores." xml:space="preserve">
+    <value>پیوند باید از {0} تا {1} حرف، رقم، خط تیره یا زیرخط تشکیل شده باشد.</value>
+  </data>
+  <data name="This link is already in use." xml:space="preserve">
+    <value>این پیوند قبلاً استفاده شده است.</value>
+  </data>
+  <data name="Sending shares to e-mail recipients is disabled." xml:space="preserve">
+    <value>ارسال اشتراک به گیرندگان ایمیل غیرفعال است.</value>
+  </data>
+  <data name="A share can be sent to at most {0} recipients." xml:space="preserve">
+    <value>هر اشتراک را حداکثر می‌توان برای {0} گیرنده فرستاد.</value>
+  </data>
+  <data name="The e-mail address &quot;{0}&quot; is invalid." xml:space="preserve">
+    <value>نشانی ایمیل «{0}» نامعتبر است.</value>
+  </data>
+  <data name="SMTP is not configured, so the invitation cannot be sent." xml:space="preserve">
+    <value>SMTP پیکربندی نشده است، بنابراین دعوت‌نامه ارسال نمی‌شود.</value>
+  </data>
+  <data name="Enable and save the SMTP settings before sending a test e-mail." xml:space="preserve">
+    <value>پیش از ارسال ایمیل آزمایشی، تنظیمات SMTP را فعال و ذخیره کنید.</value>
+  </data>
+  <data name="Sending the test e-mail failed: {0}" xml:space="preserve">
+    <value>ارسال ایمیل آزمایشی ناموفق بود: {0}</value>
+  </data>
+  <data name="You need to sign in first." xml:space="preserve">
+    <value>ابتدا باید وارد شوید.</value>
+  </data>
+  <data name="The application name must contain 1 to {0} characters." xml:space="preserve">
+    <value>نام برنامه باید بین ۱ تا {0} نویسه باشد.</value>
+  </data>
+  <data name="The application URL must be an absolute http(s) URL." xml:space="preserve">
+    <value>نشانی برنامه باید یک نشانی کامل http یا https باشد.</value>
+  </data>
+  <data name="The session duration must be between 1 and {0} hours." xml:space="preserve">
+    <value>مدت نشست باید بین ۱ و {0} ساعت باشد.</value>
+  </data>
+  <data name="The maximum share size must be at least {0}." xml:space="preserve">
+    <value>حداکثر حجم اشتراک باید دست‌کم {0} باشد.</value>
+  </data>
+  <data name="The maximum expiration cannot be negative." xml:space="preserve">
+    <value>حداکثر زمان انقضا نمی‌تواند منفی باشد.</value>
+  </data>
+  <data name="The chunk size must be between {0} and {1}." xml:space="preserve">
+    <value>حجم تکه باید بین {0} و {1} باشد.</value>
+  </data>
+  <data name="SMTP host and sender e-mail are required when SMTP is enabled." xml:space="preserve">
+    <value>وقتی SMTP فعال است، میزبان SMTP و ایمیل فرستنده الزامی است.</value>
+  </data>
+  <data name="The SMTP port is invalid." xml:space="preserve">
+    <value>پورت SMTP نامعتبر است.</value>
+  </data>
+  <data name="SMTP is not configured." xml:space="preserve">
+    <value>SMTP پیکربندی نشده است.</value>
+  </data>
+  <data name="Copied to clipboard" xml:space="preserve">
+    <value>در کلیپ‌بورد کپی شد</value>
+  </data>
+  <data name="Loading…" xml:space="preserve">
+    <value>در حال بارگذاری…</value>
+  </data>
+  <data name="The preview could not be loaded." xml:space="preserve">
+    <value>پیش‌نمایش بارگذاری نشد.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="{0} file(s) · {1}" xml:space="preserve">
+    <value>{0} فایل · {1}</value>
+  </data>
+  <data name=" — exceeds the limit of {0}" xml:space="preserve">
+    <value> — بیشتر از سقف {0}</value>
+  </data>
+  <data name="Request failed ({0})" xml:space="preserve">
+    <value>درخواست ناموفق بود ({0})</value>
+  </data>
+  <data name="Upload failed ({0})" xml:space="preserve">
+    <value>آپلود ناموفق بود ({0})</value>
+  </data>
+  <data name="Network error" xml:space="preserve">
+    <value>خطای شبکه</value>
+  </data>
+  <data name="Waiting…" xml:space="preserve">
+    <value>در انتظار…</value>
+  </data>
+  <data name="Failed" xml:space="preserve">
+    <value>ناموفق</value>
+  </data>
+</root>

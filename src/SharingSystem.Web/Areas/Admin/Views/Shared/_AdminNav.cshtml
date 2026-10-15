@@ -5,8 +5,8 @@
                : path.StartsWith(target, StringComparison.OrdinalIgnoreCase)) ? "active" : string.Empty;
 }
 <nav class="subnav">
-    <a class="subnav-link @Active("/admin", exact: true)" href="/admin"><svg class="icon"><use href="#i-grid" /></svg>Dashboard</a>
-    <a class="subnav-link @Active("/admin/users")" href="/admin/users"><svg class="icon"><use href="#i-users" /></svg>Users</a>
-    <a class="subnav-link @Active("/admin/shares")" href="/admin/shares"><svg class="icon"><use href="#i-link" /></svg>Shares</a>
-    <a class="subnav-link @Active("/admin/settings")" href="/admin/settings"><svg class="icon"><use href="#i-settings" /></svg>Configuration</a>
+    <a class="subnav-link @Active("/admin", exact: true)" href="/admin"><svg class="icon"><use href="#i-grid" /></svg>@Localizer["Dashboard"]</a>
+    <a class="subnav-link @Active("/admin/users")" href="/admin/users"><svg class="icon"><use href="#i-users" /></svg>@Localizer["Users"]</a>
+    <a class="subnav-link @Active("/admin/shares")" href="/admin/shares"><svg class="icon"><use href="#i-link" /></svg>@Localizer["Shares"]</a>
+    <a class="subnav-link @Active("/admin/settings")" href="/admin/settings"><svg class="icon"><use href="#i-settings" /></svg>@Localizer["Configuration"]</a>
 </nav>

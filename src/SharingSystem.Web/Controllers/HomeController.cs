@@ -45,7 +45,7 @@ public sealed class HomeController(ISettingsService settingsService) : AppContro
         };
 
         Response.StatusCode = code;
-        return View(new ErrorViewModel { StatusCode = code, Message = message });
+        return View(new ErrorViewModel { StatusCode = code, Message = Localizer[message] });
     }
 
     private async Task<IActionResult> LegalAsync(string title, Func<AppSettingsDto, string?> selector, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public sealed class HomeController(ISettingsService settingsService) : AppContro
             return NotFound();
         }
 
-        ViewData["Title"] = title;
+        ViewData["Title"] = Localizer[title].Value;
         return View("Legal", text);
     }
 }

@@ -16,6 +16,9 @@ A lightweight, self-hosted file sharing platform built with **ASP.NET Core 10 MV
   (general, share limits, e-mail templates, SMTP with test e-mail, imprint/privacy pages)
 - Automatic cleanup of expired shares, abandoned uploads and expired reverse shares
 - Light/dark theme, responsive layout
+- Bilingual UI: English and Persian (right-to-left layout, Vazirmatn font, Solar Hijri dates). The language follows the
+  browser and can be switched in the header; texts live in `src/SharingSystem.Web/Localization/SharedResource.fa.resx`
+  (resource key = English text)
 
 ## Quick start (development)
 

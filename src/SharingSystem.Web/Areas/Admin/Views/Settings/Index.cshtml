@@ -1,19 +1,19 @@
 @model SettingsForm
 @inject Microsoft.Extensions.Options.IOptions<SharingSystem.Application.Options.UploadOptions> UploadOptions
 @{
-    ViewData["Title"] = "Configuration";
+    ViewData["Title"] = Localizer["Configuration"].Value;
     var testEmail = new TestEmailForm();
 }
-<div class="page-header"><h1>Configuration</h1></div>
+<div class="page-header"><h1>@Localizer["Configuration"]</h1></div>
 <partial name="_AdminNav" />
 
 <div class="settings-layout" data-tabs>
     <aside class="tab-list" role="tablist">
-        <button type="button" class="tab active" data-tab="general">General</button>
-        <button type="button" class="tab" data-tab="share">Share</button>
-        <button type="button" class="tab" data-tab="email">E-mail</button>
+        <button type="button" class="tab active" data-tab="general">@Localizer["General"]</button>
+        <button type="button" class="tab" data-tab="share">@Localizer["Share"]</button>
+        <button type="button" class="tab" data-tab="email">@Localizer["E-mail"]</button>
         <button type="button" class="tab" data-tab="smtp">SMTP</button>
-        <button type="button" class="tab" data-tab="legal">Legal</button>
+        <button type="button" class="tab" data-tab="legal">@Localizer["Legal"]</button>
     </aside>
 
     <div class="tab-content">
@@ -21,27 +21,27 @@
             <div asp-validation-summary="All" class="alert alert-error"></div>
 
             <section class="card" data-tab-panel="general">
-                <h2 class="card-title">General</h2>
+                <h2 class="card-title">@Localizer["General"]</h2>
                 <div class="form-group">
                     <label asp-for="AppName"></label>
                     <input asp-for="AppName" class="input" />
-                    <span class="small muted">Name of the application, shown in the header and in e-mails.</span>
+                    <span class="small muted">@Localizer["Name of the application, shown in the header and in e-mails."]</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="AppUrl"></label>
-                    <input asp-for="AppUrl" class="input" placeholder="https://share.example.com" />
-                    <span class="small muted">Public URL used in links and e-mails. Leave empty to use the URL of the current request.</span>
+                    <input asp-for="AppUrl" class="input ltr" placeholder="https://share.example.com" />
+                    <span class="small muted">@Localizer["Public URL used in links and e-mails. Leave empty to use the URL of the current request."]</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="SessionDurationHours"></label>
                     <input asp-for="SessionDurationHours" class="input" min="1" />
-                    <span class="small muted">How long users stay signed in.</span>
+                    <span class="small muted">@Localizer["How long users stay signed in."]</span>
                 </div>
                 <label class="checkbox"><input asp-for="ShowHomePage" /><span>@Html.DisplayNameFor(m => m.ShowHomePage)</span></label>
             </section>
 
             <section class="card" data-tab-panel="share" hidden>
-                <h2 class="card-title">Share</h2>
+                <h2 class="card-title">@Localizer["Share"]</h2>
                 <label class="checkbox"><input asp-for="AllowRegistration" /><span>@Html.DisplayNameFor(m => m.AllowRegistration)</span></label>
                 <label class="checkbox"><input asp-for="AllowUnauthenticatedShares" /><span>@Html.DisplayNameFor(m => m.AllowUnauthenticatedShares)</span></label>
                 <div class="grid grid-2 tight">
@@ -56,19 +56,19 @@
                     <div class="form-group">
                         <label asp-for="ChunkSizeMegabytes"></label>
                         <input asp-for="ChunkSizeMegabytes" class="input" min="1" />
-                        <span class="small muted">Files are uploaded in pieces of this size (at most @ViewFormat.Bytes(UploadOptions.Value.MaxRequestBodyBytes), the server request limit). Lower it if a reverse proxy limits the request size.</span>
+                        <span class="small muted">@Localizer["Files are uploaded in pieces of this size (at most {0}, the server request limit). Lower it if a reverse proxy limits the request size.", ViewFormat.Bytes(UploadOptions.Value.MaxRequestBodyBytes)]</span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ZipCompression"></label>
-                        <select asp-for="ZipCompression" asp-items="Html.GetEnumSelectList<ZipCompression>()" class="input"></select>
+                        <select asp-for="ZipCompression" asp-items="Localizer.EnumSelectList<ZipCompression>()" class="input"></select>
                     </div>
                 </div>
             </section>
 
             <section class="card" data-tab-panel="email" hidden>
-                <h2 class="card-title">E-mail</h2>
+                <h2 class="card-title">@Localizer["E-mail"]</h2>
                 <label class="checkbox"><input asp-for="EnableShareEmailRecipients" /><span>@Html.DisplayNameFor(m => m.EnableShareEmailRecipients)</span></label>
-                <p class="small muted">Available placeholders: <code>{creator}</code> <code>{shareUrl}</code> <code>{desc}</code> <code>{expires}</code> <code>{url}</code> <code>{password}</code> <code>{email}</code> <code>{appName}</code></p>
+                <p class="small muted">@Localizer["Available placeholders:"] <code>{creator}</code> <code>{shareUrl}</code> <code>{desc}</code> <code>{expires}</code> <code>{url}</code> <code>{password}</code> <code>{email}</code> <code>{appName}</code></p>
                 <div class="form-group"><label asp-for="ShareRecipientsSubject"></label><input asp-for="ShareRecipientsSubject" class="input" /></div>
                 <div class="form-group"><label asp-for="ShareRecipientsMessage"></label><textarea asp-for="ShareRecipientsMessage" class="input" rows="6"></textarea></div>
                 <div class="form-group"><label asp-for="ReverseShareSubject"></label><input asp-for="ReverseShareSubject" class="input" /></div>
@@ -83,16 +83,16 @@
                 <h2 class="card-title">SMTP</h2>
                 <label class="checkbox"><input asp-for="SmtpEnabled" /><span>@Html.DisplayNameFor(m => m.SmtpEnabled)</span></label>
                 <div class="grid grid-2 tight">
-                    <div class="form-group"><label asp-for="SmtpHost"></label><input asp-for="SmtpHost" class="input" placeholder="smtp.example.com" /></div>
+                    <div class="form-group"><label asp-for="SmtpHost"></label><input asp-for="SmtpHost" class="input ltr" placeholder="smtp.example.com" /></div>
                     <div class="form-group"><label asp-for="SmtpPort"></label><input asp-for="SmtpPort" class="input" /></div>
                     <div class="form-group"><label asp-for="SmtpFromEmail"></label><input asp-for="SmtpFromEmail" class="input" placeholder="noreply@example.com" /></div>
-                    <div class="form-group"><label asp-for="SmtpUsername"></label><input asp-for="SmtpUsername" class="input" autocomplete="off" /></div>
+                    <div class="form-group"><label asp-for="SmtpUsername"></label><input asp-for="SmtpUsername" class="input ltr" autocomplete="off" /></div>
                 </div>
                 <input type="hidden" asp-for="HasSmtpPassword" />
                 <div class="form-group">
                     <label asp-for="NewSmtpPassword"></label>
                     <input asp-for="NewSmtpPassword" class="input" autocomplete="new-password"
-                           placeholder="@(Model.HasSmtpPassword ? "•••••••• (stored encrypted, leave empty to keep)" : "No password stored")" />
+                           placeholder="@(Model.HasSmtpPassword ? Localizer["•••••••• (stored encrypted, leave empty to keep)"] : Localizer["No password stored"])" />
                 </div>
                 @if (Model.HasSmtpPassword)
                 {
@@ -102,23 +102,23 @@
             </section>
 
             <section class="card" data-tab-panel="legal" hidden>
-                <h2 class="card-title">Legal</h2>
+                <h2 class="card-title">@Localizer["Legal"]</h2>
                 <label class="checkbox"><input asp-for="LegalEnabled" /><span>@Html.DisplayNameFor(m => m.LegalEnabled)</span></label>
                 <div class="form-group"><label asp-for="ImprintText"></label><textarea asp-for="ImprintText" class="input" rows="6"></textarea></div>
                 <div class="form-group"><label asp-for="PrivacyPolicyText"></label><textarea asp-for="PrivacyPolicyText" class="input" rows="6"></textarea></div>
             </section>
 
             <div class="actions end sticky-actions">
-                <button type="submit" class="btn btn-primary">Save configuration</button>
+                <button type="submit" class="btn btn-primary">@Localizer["Save configuration"]</button>
             </div>
         </form>
 
         <form method="post" asp-antiforgery="true" action="/admin/settings/test-email" class="card form" data-tab-panel="smtp" hidden>
-            <h2 class="card-title">Test e-mail</h2>
-            <p class="small muted">Save the SMTP settings first, then send a test e-mail.</p>
+            <h2 class="card-title">@Localizer["Test e-mail"]</h2>
+            <p class="small muted">@Localizer["Save the SMTP settings first, then send a test e-mail."]</p>
             <div class="input-group">
                 <input asp-for="@testEmail.Email" name="Email" class="input" placeholder="you@example.com" required />
-                <button type="submit" class="btn btn-secondary"><svg class="icon"><use href="#i-mail" /></svg>Send</button>
+                <button type="submit" class="btn btn-secondary"><svg class="icon"><use href="#i-mail" /></svg>@Localizer["Send"]</button>
             </div>
         </form>
     </div>

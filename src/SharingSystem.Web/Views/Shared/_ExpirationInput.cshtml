@@ -3,13 +3,13 @@
 <div class="expiration" data-expiration>
     <div class="row">
         <input asp-for="Value" type="number" min="1" max="@ExpirationCalculator.MaxValue" class="input" data-expiration-field />
-        <select asp-for="Unit" asp-items="Html.GetEnumSelectList<ExpirationUnit>()" class="input" data-expiration-field></select>
+        <select asp-for="Unit" asp-items="Localizer.EnumSelectList<ExpirationUnit>()" class="input" data-expiration-field></select>
     </div>
     @if (ViewData["HideNever"] is not true)
     {
         <label class="checkbox">
             <input asp-for="NeverExpires" data-never-toggle />
-            <span>Never expires</span>
+            <span>@Localizer["Never expires"]</span>
         </label>
     }
 </div>

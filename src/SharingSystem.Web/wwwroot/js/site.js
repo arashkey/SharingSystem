@@ -1,11 +1,37 @@
-// Site-wide UI helpers: theme, toasts, clipboard, confirmations, dialogs, tabs and local time formatting.
+// Site-wide UI helpers: translations, theme, toasts, clipboard, confirmations, dialogs, tabs and local time formatting.
 (function () {
     "use strict";
 
     const TOAST_DURATION_MS = 3000;
     const THEME_KEY = "theme";
+    const PERSIAN = "fa";
+    // Persian pages use the Solar Hijri calendar and Persian digits (the defaults of the fa-IR locale).
+    const PERSIAN_LOCALE = "fa-IR";
 
     const app = (window.app = window.app || {});
+
+    // Translations rendered by the layout (key = English text); missing keys fall back to the English text.
+    const translations = (() => {
+        try {
+            return JSON.parse(document.getElementById("i18n")?.textContent || "{}");
+        } catch {
+            return {};
+        }
+    })();
+
+    /** Translates a text and fills in {0}-style placeholders. */
+    app.t = function (key, ...args) {
+        const text = translations[key] ?? key;
+        return text.replace(/\{(\d+)\}/g, (match, index) => (index < args.length ? String(args[index]) : match));
+    };
+
+    // undefined keeps the browser's own locale on English pages.
+    app.locale = document.documentElement.lang === PERSIAN ? PERSIAN_LOCALE : undefined;
+
+    /** Formats a number for the page language (Persian digits on Persian pages). */
+    app.formatNumber = function (value) {
+        return app.locale ? Number(value).toLocaleString(app.locale) : String(value);
+    };
 
     app.toast = function (message, type) {
         const host = document.querySelector("[data-toast-host]");
@@ -29,7 +55,7 @@
             document.execCommand("copy");
             area.remove();
         }
-        app.toast("Copied to clipboard");
+        app.toast(app.t("Copied to clipboard"));
     };
 
     app.formatBytes = function (bytes) {
@@ -40,14 +66,17 @@
             value /= 1024;
             index++;
         }
-        return (index === 0 ? value : value.toFixed(2).replace(/\.?0+$/, "")) + " " + units[index];
+        const rounded = index === 0 ? value : value.toFixed(2).replace(/\.?0+$/, "");
+        return app.formatNumber(rounded) + " " + units[index];
     };
 
     app.formatLocalTime = function (root) {
         (root || document).querySelectorAll("time[data-utc]").forEach((element) => {
             const date = new Date(element.dataset.utc);
             if (isNaN(date)) return;
-            element.textContent = element.hasAttribute("data-date-only") ? date.toLocaleDateString() : date.toLocaleString();
+            element.textContent = element.hasAttribute("data-date-only")
+                ? date.toLocaleDateString(app.locale)
+                : date.toLocaleString(app.locale);
             element.title = date.toISOString();
         });
     };

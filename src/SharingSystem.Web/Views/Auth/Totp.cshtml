@@ -1,11 +1,11 @@
 @model TotpViewModel
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = Localizer["Two-factor authentication"].Value;
 }
 <div class="auth-page">
     <div class="card auth-card">
-        <h1>Two-factor authentication</h1>
-        <p class="muted">Enter the 6-digit code from your authenticator app.</p>
+        <h1>@Localizer["Two-factor authentication"]</h1>
+        <p class="muted">@Localizer["Enter the 6-digit code from your authenticator app."]</p>
         <form method="post" asp-antiforgery="true" action="/auth/totp" class="form">
             <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
             <input type="hidden" asp-for="ReturnUrl" />
@@ -14,7 +14,7 @@
                 <input asp-for="Code" class="input input-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus />
                 <span asp-validation-for="Code" class="field-error"></span>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            <button type="submit" class="btn btn-primary btn-block">@Localizer["Verify"]</button>
         </form>
     </div>
 </div>

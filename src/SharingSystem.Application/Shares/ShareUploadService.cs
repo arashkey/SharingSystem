@@ -156,9 +156,9 @@ public sealed partial class ShareUploadService(
         if (result.LimitExceeded)
         {
             await fileStorage.DeletePartialFileAsync(share.Id, fileId, cancellationToken);
-            throw AppException.Validation(remainingBytes < chunkSize
-                ? $"The share exceeds the maximum size of {ByteSize.Format(maxShareSize)}."
-                : "The chunk is larger than the configured chunk size.");
+            throw remainingBytes < chunkSize
+                ? AppException.Validation("The share exceeds the maximum size of {0}.", ByteSize.Format(maxShareSize))
+                : AppException.Validation("The chunk is larger than the configured chunk size.");
         }
 
         if (!isLastChunk && result.BytesWritten != chunkSize)
@@ -297,8 +297,9 @@ public sealed partial class ShareUploadService(
         if (!IsValidShareId(id))
         {
             throw AppException.Validation(
-                $"The link must contain {DomainLimits.ShareIdMinLength} to {DomainLimits.ShareIdMaxLength} " +
-                "letters, digits, dashes or underscores.");
+                "The link must contain {0} to {1} letters, digits, dashes or underscores.",
+                DomainLimits.ShareIdMinLength,
+                DomainLimits.ShareIdMaxLength);
         }
 
         if (await dbContext.Shares.AnyAsync(s => s.Id == id, cancellationToken))
@@ -345,13 +346,13 @@ public sealed partial class ShareUploadService(
 
         if (normalized.Count > DomainLimits.MaxRecipients)
         {
-            throw AppException.Validation($"A share can be sent to at most {DomainLimits.MaxRecipients} recipients.");
+            throw AppException.Validation("A share can be sent to at most {0} recipients.", DomainLimits.MaxRecipients);
         }
 
         var invalid = normalized.FirstOrDefault(r => !MailAddress.TryCreate(r, out _));
         if (invalid is not null)
         {
-            throw AppException.Validation($"The e-mail address \"{invalid}\" is invalid.");
+            throw AppException.Validation("The e-mail address \"{0}\" is invalid.", invalid);
         }
 
         return normalized;

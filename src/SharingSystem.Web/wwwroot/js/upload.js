@@ -88,7 +88,7 @@
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "btn btn-ghost btn-icon text-danger";
-        remove.title = "Remove";
+        remove.title = app.t("Remove");
         remove.innerHTML = '<svg class="icon"><use href="#i-trash" /></svg>';
         remove.addEventListener("click", () => {
             items = items.filter((item) => item.file !== file);
@@ -112,8 +112,8 @@
 
         const total = totalSize();
         const tooLarge = total > config.maxSize;
-        totalSizeLabel.textContent = `${items.length} file(s) · ${app.formatBytes(total)}` +
-            (tooLarge ? ` — exceeds the limit of ${app.formatBytes(config.maxSize)}` : "");
+        totalSizeLabel.textContent = app.t("{0} file(s) · {1}", app.formatNumber(items.length), app.formatBytes(total)) +
+            (tooLarge ? app.t(" — exceeds the limit of {0}", app.formatBytes(config.maxSize)) : "");
         totalSizeLabel.classList.toggle("text-danger", tooLarge);
         startButton.disabled = !hasFiles || tooLarge || uploading;
     }
@@ -126,7 +126,7 @@
             if (data.errors) return Object.values(data.errors).flat().join(" ");
             if (data.title) return data.title;
         } catch { /* not JSON */ }
-        return `Request failed (${response.status})`;
+        return app.t("Request failed ({0})", response.status);
     }
 
     async function postJson(url, body, uploadToken) {
@@ -152,13 +152,13 @@
                 if (request.status >= 200 && request.status < 300) {
                     resolve(data);
                 } else {
-                    const error = new Error(data?.message || data?.title || `Upload failed (${request.status})`);
+                    const error = new Error(data?.message || data?.title || app.t("Upload failed ({0})", request.status));
                     error.retryable = request.status >= HTTP_SERVER_ERROR;
                     reject(error);
                 }
             };
             request.onerror = () => {
-                const error = new Error("Network error");
+                const error = new Error(app.t("Network error"));
                 error.retryable = true;
                 reject(error);
             };
@@ -198,16 +198,17 @@
 
     function prepareProgress(item) {
         const cell = item.row.lastElementChild;
-        cell.innerHTML = '<div class="progress"><div class="progress-bar"></div></div><div class="status-text">Waiting…</div>';
+        cell.innerHTML = '<div class="progress"><div class="progress-bar"></div></div><div class="status-text"></div>';
         item.bar = cell.querySelector(".progress-bar");
         item.status = cell.querySelector(".status-text");
+        item.status.textContent = app.t("Waiting…");
     }
 
     function setProgress(item, fraction, done) {
         const percent = Math.min(100, Math.round(fraction * 100));
         item.bar.style.width = percent + "%";
         item.bar.classList.toggle("done", !!done);
-        item.status.textContent = done ? "Done" : percent + "%";
+        item.status.textContent = done ? app.t("Done") : app.formatNumber(percent) + "%";
     }
 
     async function uploadAll(shareId, uploadToken) {
@@ -219,7 +220,7 @@
                 await uploadFile(shareId, uploadToken, item);
             } catch (error) {
                 item.bar.classList.add("error");
-                item.status.textContent = "Failed";
+                item.status.textContent = app.t("Failed");
                 throw error;
             }
         }
@@ -266,7 +267,7 @@
             if (!idInput.checkValidity()) return;
             const response = await fetch(`/api/shares/available?id=${encodeURIComponent(idInput.value.trim())}`);
             if (response.ok && !(await response.json()).isAvailable) {
-                idError.textContent = "This link is already in use.";
+                idError.textContent = app.t("This link is already in use.");
             }
         });
 

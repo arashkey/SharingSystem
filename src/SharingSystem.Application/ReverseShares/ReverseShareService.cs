@@ -89,12 +89,12 @@ public sealed class ReverseShareService(
         if (request.MaxShareSizeBytes < 1 || request.MaxShareSizeBytes > settings.MaxShareSizeBytes)
         {
             throw AppException.Validation(
-                $"The maximum share size must be between 1 byte and {ByteSize.Format(settings.MaxShareSizeBytes)}.");
+                "The maximum share size must be between 1 byte and {0}.", ByteSize.Format(settings.MaxShareSizeBytes));
         }
 
         if (request.MaxUseCount is < 1 or > MaxUseCountLimit)
         {
-            throw AppException.Validation($"The maximum use count must be between 1 and {MaxUseCountLimit}.");
+            throw AppException.Validation("The maximum use count must be between 1 and {0}.", MaxUseCountLimit);
         }
 
         if (request.SendEmailNotification && !settings.CanSendEmails)

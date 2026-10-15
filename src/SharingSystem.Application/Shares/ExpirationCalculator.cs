@@ -17,7 +17,7 @@ public static class ExpirationCalculator
             if (maxExpirationHours > 0)
             {
                 throw AppException.Validation(
-                    $"A share must expire. The maximum expiration is {maxExpirationHours} hours.");
+                    "A share must expire. The maximum expiration is {0} hours.", maxExpirationHours);
             }
 
             return null;
@@ -25,7 +25,7 @@ public static class ExpirationCalculator
 
         if (request.Value is < 1 or > MaxValue)
         {
-            throw AppException.Validation($"The expiration must be between 1 and {MaxValue}.");
+            throw AppException.Validation("The expiration must be between 1 and {0}.", MaxValue);
         }
 
         var expiresAt = request.Unit switch
@@ -41,7 +41,7 @@ public static class ExpirationCalculator
 
         if (maxExpirationHours > 0 && expiresAt > utcNow.AddHours(maxExpirationHours))
         {
-            throw AppException.Validation($"The expiration cannot be longer than {maxExpirationHours} hours.");
+            throw AppException.Validation("The expiration cannot be longer than {0} hours.", maxExpirationHours);
         }
 
         return expiresAt;

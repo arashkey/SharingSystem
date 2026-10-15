@@ -1,16 +1,16 @@
 @model long
-<div class="dropzone" data-dropzone tabindex="0" role="button" aria-label="Select files">
+<div class="dropzone" data-dropzone tabindex="0" role="button" aria-label="@Localizer["Select files"]">
     <div class="dropzone-icon"><svg class="icon"><use href="#i-upload" /></svg></div>
-    <h2>Upload files</h2>
-    <p class="muted">Drag 'n' drop files here to start your share. Files can be up to <strong>@ViewFormat.Bytes(Model)</strong> in total.</p>
-    <span class="btn btn-primary">Select files</span>
+    <h2>@Localizer["Upload files"]</h2>
+    <p class="muted">@HtmlLocalizer["Drag 'n' drop files here to start your share. Files can be up to <strong>{0}</strong> in total.", ViewFormat.Bytes(Model)]</p>
+    <span class="btn btn-primary">@Localizer["Select files"]</span>
     <input type="file" multiple hidden data-file-input />
 </div>
 
 <div class="card file-panel" data-file-panel hidden>
     <table class="table">
         <thead>
-            <tr><th>Name</th><th class="col-size">Size</th><th class="col-status"></th></tr>
+            <tr><th>@Localizer["Name"]</th><th class="col-size">@Localizer["Size"]</th><th class="col-status"></th></tr>
         </thead>
         <tbody data-file-list></tbody>
     </table>

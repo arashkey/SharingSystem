@@ -1,6 +1,6 @@
 @model UploadPageViewModel
 @{
-    ViewData["Title"] = "Upload";
+    ViewData["Title"] = Localizer["Upload"].Value;
     var maxExpiration = Model.Limits.MaxExpirationHours;
 }
 <div class="upload"
@@ -15,7 +15,7 @@
     {
         <div class="alert alert-info">
             <svg class="icon"><use href="#i-inbox" /></svg>
-            <span><strong>@Model.ReverseShareCreator</strong> invited you to upload files.</span>
+            <span>@HtmlLocalizer["<strong>{0}</strong> invited you to upload files.", Model.ReverseShareCreator ?? string.Empty]</span>
         </div>
     }
 
@@ -24,7 +24,7 @@
     <div class="actions end upload-actions" data-file-actions hidden>
         <span class="muted" data-total-size></span>
         <button type="button" class="btn btn-primary btn-lg" data-start>
-            <svg class="icon"><use href="#i-send" /></svg>Share
+            <svg class="icon icon-flip"><use href="#i-send" /></svg>@Localizer["Share"]
         </button>
     </div>
 </div>
@@ -32,76 +32,76 @@
 <dialog class="dialog" id="share-options">
     <form method="dialog" class="form" data-options-form>
         <div class="dialog-header">
-            <h2>Share options</h2>
-            <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+            <h2>@Localizer["Share options"]</h2>
+            <button type="button" class="btn btn-ghost btn-icon" data-dialog-close aria-label="@Localizer["Close"]"><svg class="icon"><use href="#i-x" /></svg></button>
         </div>
         <div class="dialog-body">
             <div class="form-group">
-                <label for="opt-id">Link</label>
-                <div class="input-group">
+                <label for="opt-id">@Localizer["Link"]</label>
+                <div class="input-group" dir="ltr">
                     <span class="input-addon">@Model.BaseUrl/s/</span>
                     <input id="opt-id" class="input" value="@Model.SuggestedId" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_\-]+" required data-opt-id />
-                    <button type="button" class="btn btn-secondary" data-generate-id>Generate</button>
+                    <button type="button" class="btn btn-secondary" data-generate-id>@Localizer["Generate"]</button>
                 </div>
                 <span class="field-error" data-id-error></span>
             </div>
 
             <div class="form-group">
-                <label for="opt-expiration">Expiration</label>
+                <label for="opt-expiration">@Localizer["Expiration"]</label>
                 <div class="expiration" data-expiration>
                     <div class="row">
                         <input id="opt-expiration" type="number" min="1" max="@ExpirationCalculator.MaxValue" value="7" class="input" data-opt-exp-value data-expiration-field />
                         <select class="input" data-opt-exp-unit data-expiration-field>
                             @foreach (var unit in Enum.GetValues<ExpirationUnit>())
                             {
-                                <option value="@unit" selected="@(unit == ExpirationUnit.Days)">@unit</option>
+                                <option value="@unit" selected="@(unit == ExpirationUnit.Days)">@Localizer.EnumDisplayName(unit)</option>
                             }
                         </select>
                     </div>
                     @if (maxExpiration == 0)
                     {
-                        <label class="checkbox"><input type="checkbox" data-opt-never data-never-toggle /><span>Never expires</span></label>
+                        <label class="checkbox"><input type="checkbox" data-opt-never data-never-toggle /><span>@Localizer["Never expires"]</span></label>
                     }
                     else
                     {
-                        <span class="small muted">The maximum expiration is @maxExpiration hours.</span>
+                        <span class="small muted">@Localizer["The maximum expiration is {0} hours.", maxExpiration]</span>
                     }
                 </div>
             </div>
 
             <details class="details">
-                <summary>Description and security options</summary>
+                <summary>@Localizer["Description and security options"]</summary>
                 <div class="form-group">
-                    <label for="opt-name">Name</label>
+                    <label for="opt-name">@Localizer["Name"]</label>
                     <input id="opt-name" class="input" maxlength="100" data-opt-name />
                 </div>
                 <div class="form-group">
-                    <label for="opt-description">Description</label>
+                    <label for="opt-description">@Localizer["Description"]</label>
                     <textarea id="opt-description" class="input" rows="3" maxlength="1024" data-opt-description></textarea>
                 </div>
                 <div class="grid grid-2 tight">
                     <div class="form-group">
-                        <label for="opt-password">Password protection</label>
+                        <label for="opt-password">@Localizer["Password protection"]</label>
                         <input id="opt-password" type="password" class="input" autocomplete="new-password" data-opt-password />
                     </div>
                     <div class="form-group">
-                        <label for="opt-max-views">Maximum views</label>
-                        <input id="opt-max-views" type="number" min="1" class="input" placeholder="Unlimited" data-opt-max-views />
+                        <label for="opt-max-views">@Localizer["Maximum views"]</label>
+                        <input id="opt-max-views" type="number" min="1" class="input" placeholder="@Localizer["Unlimited"]" data-opt-max-views />
                     </div>
                 </div>
                 @if (Model.CanSendToRecipients)
                 {
                     <div class="form-group">
-                        <label for="opt-recipients">E-mail recipients</label>
-                        <textarea id="opt-recipients" class="input" rows="2" placeholder="alice@example.com, bob@example.com" data-opt-recipients></textarea>
-                        <span class="small muted">Recipients receive the link by e-mail.</span>
+                        <label for="opt-recipients">@Localizer["E-mail recipients"]</label>
+                        <textarea id="opt-recipients" class="input ltr" rows="2" placeholder="alice@example.com, bob@example.com" data-opt-recipients></textarea>
+                        <span class="small muted">@Localizer["Recipients receive the link by e-mail."]</span>
                     </div>
                 }
             </details>
         </div>
         <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" data-dialog-close>Cancel</button>
-            <button type="submit" class="btn btn-primary">Share</button>
+            <button type="button" class="btn btn-secondary" data-dialog-close>@Localizer["Cancel"]</button>
+            <button type="submit" class="btn btn-primary">@Localizer["Share"]</button>
         </div>
     </form>
 </dialog>

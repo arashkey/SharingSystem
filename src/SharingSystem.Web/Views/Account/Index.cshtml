@@ -1,33 +1,33 @@
 @model AccountPageViewModel
 @{
-    ViewData["Title"] = "My account";
+    ViewData["Title"] = Localizer["My account"].Value;
     var passwordForm = new ChangePasswordForm();
     var totpForm = new TotpForm();
 }
 <div class="page-header">
-    <h1>My account</h1>
+    <h1>@Localizer["My account"]</h1>
 </div>
 
 <div class="grid grid-2">
     <section class="card">
-        <h2 class="card-title">Account info</h2>
+        <h2 class="card-title">@Localizer["Account info"]</h2>
         <form method="post" asp-antiforgery="true" action="/account/profile" class="form">
             <div class="form-group">
-                <label asp-for="Profile.Username">Username</label>
-                <input asp-for="Profile.Username" name="Username" class="input" autocomplete="username" />
+                <label asp-for="Profile.Username">@Localizer["Username"]</label>
+                <input asp-for="Profile.Username" name="Username" class="input ltr" autocomplete="username" />
             </div>
             <div class="form-group">
-                <label asp-for="Profile.Email">E-mail</label>
+                <label asp-for="Profile.Email">@Localizer["E-mail"]</label>
                 <input asp-for="Profile.Email" name="Email" class="input" autocomplete="email" />
             </div>
             <div class="actions end">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
             </div>
         </form>
     </section>
 
     <section class="card">
-        <h2 class="card-title">Password</h2>
+        <h2 class="card-title">@Localizer["Password"]</h2>
         <form method="post" asp-antiforgery="true" action="/account/password" class="form">
             <div class="form-group">
                 <label asp-for="@passwordForm.CurrentPassword"></label>
@@ -42,19 +42,19 @@
                 <input asp-for="@passwordForm.ConfirmPassword" name="ConfirmPassword" class="input" autocomplete="new-password" />
             </div>
             <div class="actions end">
-                <button type="submit" class="btn btn-primary">Change password</button>
+                <button type="submit" class="btn btn-primary">@Localizer["Change password"]</button>
             </div>
         </form>
     </section>
 
     <section class="card">
-        <h2 class="card-title">Two-factor authentication (TOTP)</h2>
+        <h2 class="card-title">@Localizer["Two-factor authentication (TOTP)"]</h2>
         @if (Model.Account.TotpEnabled)
         {
-            <p><span class="badge badge-success">Enabled</span> Your account is protected with an authenticator app.</p>
+            <p><span class="badge badge-success">@Localizer["Enabled"]</span> @Localizer["Your account is protected with an authenticator app."]</p>
             <form method="post" asp-antiforgery="true" action="/account/totp/disable" class="form">
                 <div class="form-group">
-                    <label asp-for="@totpForm.Password">Password</label>
+                    <label asp-for="@totpForm.Password">@Localizer["Password"]</label>
                     <input asp-for="@totpForm.Password" name="Password" class="input" autocomplete="current-password" required />
                 </div>
                 <div class="form-group">
@@ -62,17 +62,17 @@
                     <input asp-for="@totpForm.Code" name="Code" class="input input-code" inputmode="numeric" maxlength="6" required />
                 </div>
                 <div class="actions end">
-                    <button type="submit" class="btn btn-danger">Disable 2FA</button>
+                    <button type="submit" class="btn btn-danger">@Localizer["Disable 2FA"]</button>
                 </div>
             </form>
         }
         else if (Model.TotpSetup is not null)
         {
-            <p class="muted">Scan the QR code with an authenticator app (e.g. Google Authenticator, Aegis, 1Password) and enter the code to finish the setup.</p>
+            <p class="muted">@Localizer["Scan the QR code with an authenticator app (e.g. Google Authenticator, Aegis, 1Password) and enter the code to finish the setup."]</p>
             <div class="totp-setup">
-                <img src="@Model.TotpSetup.QrCodeDataUri" alt="TOTP QR code" width="200" height="200" />
+                <img src="@Model.TotpSetup.QrCodeDataUri" alt="@Localizer["TOTP QR code"]" width="200" height="200" />
                 <div>
-                    <div class="small muted">Or enter this key manually:</div>
+                    <div class="small muted">@Localizer["Or enter this key manually:"]</div>
                     <code class="secret">@Model.TotpSetup.Secret</code>
                 </div>
             </div>
@@ -82,32 +82,32 @@
                     <input asp-for="@totpForm.Code" name="Code" class="input input-code" inputmode="numeric" maxlength="6" required autofocus />
                 </div>
                 <div class="actions end">
-                    <button type="submit" class="btn btn-primary">Enable 2FA</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Enable 2FA"]</button>
                 </div>
             </form>
         }
         else
         {
-            <p class="muted">Add an extra layer of security by requiring a code from an authenticator app when signing in.</p>
+            <p class="muted">@Localizer["Add an extra layer of security by requiring a code from an authenticator app when signing in."]</p>
             <form method="post" asp-antiforgery="true" action="/account/totp/setup" class="form">
                 <div class="form-group">
-                    <label asp-for="@totpForm.Password">Confirm with your password</label>
+                    <label asp-for="@totpForm.Password">@Localizer["Confirm with your password"]</label>
                     <input asp-for="@totpForm.Password" name="Password" class="input" autocomplete="current-password" required />
                 </div>
                 <div class="actions end">
-                    <button type="submit" class="btn btn-secondary">Set up 2FA</button>
+                    <button type="submit" class="btn btn-secondary">@Localizer["Set up 2FA"]</button>
                 </div>
             </form>
         }
     </section>
 
     <section class="card">
-        <h2 class="card-title">Appearance</h2>
-        <p class="muted">Choose the color scheme of the interface. The choice is stored in this browser.</p>
+        <h2 class="card-title">@Localizer["Appearance"]</h2>
+        <p class="muted">@Localizer["Choose the color scheme of the interface. The choice is stored in this browser."]</p>
         <div class="segmented" data-theme-picker>
-            <button type="button" class="btn btn-secondary" data-theme-value="light"><svg class="icon"><use href="#i-sun" /></svg>Light</button>
-            <button type="button" class="btn btn-secondary" data-theme-value="dark"><svg class="icon"><use href="#i-moon" /></svg>Dark</button>
-            <button type="button" class="btn btn-secondary" data-theme-value="system">System</button>
+            <button type="button" class="btn btn-secondary" data-theme-value="light"><svg class="icon"><use href="#i-sun" /></svg>@Localizer["Light"]</button>
+            <button type="button" class="btn btn-secondary" data-theme-value="dark"><svg class="icon"><use href="#i-moon" /></svg>@Localizer["Dark"]</button>
+            <button type="button" class="btn btn-secondary" data-theme-value="system">@Localizer["System"]</button>
         </div>
     </section>
 </div>

@@ -12,6 +12,7 @@ using SharingSystem.Infrastructure;
 using SharingSystem.Infrastructure.Persistence;
 using SharingSystem.Infrastructure.Storage;
 using SharingSystem.Web.Infrastructure;
+using SharingSystem.Web.Localization;
 
 const string DataProtectionKeysFolder = "keys";
 const string ApplicationName = "SharingSystem";
@@ -37,6 +38,7 @@ builder.Services.AddOptions<CookieLifetimeOptions>()
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
+builder.Services.AddAppLocalization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, HttpCurrentUser>();
 builder.Services.AddScoped<IAppUrlResolver, AppUrlResolver>();
@@ -101,6 +103,8 @@ builder.Services
         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         options.Filters.Add<AppExceptionFilter>();
     })
+    .AddViewLocalization()
+    .AddAppDataAnnotationsLocalization()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 var app = builder.Build();
@@ -125,6 +129,7 @@ app.Use(async (context, next) =>
     await next();
 });
 
+app.UseRequestLocalization();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseRateLimiter();

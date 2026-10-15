@@ -40,7 +40,7 @@ public sealed class SettingsController(
         if (ModelState.IsValid
             && await TryExecuteAsync(() => notificationService.SendTestEmailAsync(form.Email, cancellationToken)))
         {
-            FlashSuccess($"A test e-mail has been sent to {form.Email}.");
+            FlashSuccess("A test e-mail has been sent to {0}.", form.Email);
         }
         else
         {

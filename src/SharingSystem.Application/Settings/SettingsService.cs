@@ -108,7 +108,7 @@ public sealed class SettingsService(
     {
         if (string.IsNullOrWhiteSpace(request.AppName) || request.AppName.Length > DomainLimits.AppNameMaxLength)
         {
-            throw AppException.Validation($"The application name must contain 1 to {DomainLimits.AppNameMaxLength} characters.");
+            throw AppException.Validation("The application name must contain 1 to {0} characters.", DomainLimits.AppNameMaxLength);
         }
 
         if (!string.IsNullOrWhiteSpace(request.AppUrl)
@@ -120,12 +120,12 @@ public sealed class SettingsService(
 
         if (request.SessionDurationHours is < 1 or > MaxSessionDurationHours)
         {
-            throw AppException.Validation($"The session duration must be between 1 and {MaxSessionDurationHours} hours.");
+            throw AppException.Validation("The session duration must be between 1 and {0} hours.", MaxSessionDurationHours);
         }
 
         if (request.MaxShareSizeBytes < MinShareSizeBytes)
         {
-            throw AppException.Validation($"The maximum share size must be at least {ByteSize.Format(MinShareSizeBytes)}.");
+            throw AppException.Validation("The maximum share size must be at least {0}.", ByteSize.Format(MinShareSizeBytes));
         }
 
         if (request.MaxExpirationHours < 0)
@@ -137,7 +137,7 @@ public sealed class SettingsService(
         if (request.ChunkSizeBytes < MinChunkSizeBytes || request.ChunkSizeBytes > maxChunkSize)
         {
             throw AppException.Validation(
-                $"The chunk size must be between {ByteSize.Format(MinChunkSizeBytes)} and {ByteSize.Format(maxChunkSize)}.");
+                "The chunk size must be between {0} and {1}.", ByteSize.Format(MinChunkSizeBytes), ByteSize.Format(maxChunkSize));
         }
 
         if (request.SmtpEnabled)

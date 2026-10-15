@@ -122,7 +122,7 @@ public sealed class NotificationService(
         catch (Exception exception) when (exception is not OperationCanceledException)
         {
             logger.LogWarning(exception, "Sending the test e-mail failed");
-            throw AppException.Validation($"Sending the test e-mail failed: {exception.Message}");
+            throw AppException.Validation("Sending the test e-mail failed: {0}", exception.Message);
         }
     }
 

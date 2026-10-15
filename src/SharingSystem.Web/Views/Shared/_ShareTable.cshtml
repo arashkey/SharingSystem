@@ -7,11 +7,11 @@
 {
     <div class="card empty-state">
         <svg class="icon empty-icon"><use href="#i-link" /></svg>
-        <h2>It's empty here 👀</h2>
-        <p class="muted">There are no shares yet.</p>
+        <h2>@Localizer["It's empty here 👀"]</h2>
+        <p class="muted">@Localizer["There are no shares yet."]</p>
         @if (!isAdminView)
         {
-            <a class="btn btn-primary" href="/upload">Create a share</a>
+            <a class="btn btn-primary" href="/upload">@Localizer["Create a share"]</a>
         }
     </div>
 }
@@ -22,16 +22,16 @@ else
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>@Localizer["Name"]</th>
                         @if (isAdminView)
                         {
-                            <th>Creator</th>
+                            <th>@Localizer["Creator"]</th>
                         }
-                        <th>Files</th>
-                        <th>Size</th>
-                        <th>Views</th>
-                        <th>Expires</th>
-                        <th class="text-right">Actions</th>
+                        <th>@Localizer["Files"]</th>
+                        <th>@Localizer["Size"]</th>
+                        <th>@Localizer["Views"]</th>
+                        <th>@Localizer["Expires"]</th>
+                        <th class="text-right">@Localizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,17 +46,17 @@ else
                                     @share.Id
                                     @if (share.HasPassword)
                                     {
-                                        <svg class="icon icon-xs" aria-label="Password protected"><use href="#i-lock" /></svg>
+                                        <svg class="icon icon-xs" aria-label="@Localizer["Password protected"]"><use href="#i-lock" /></svg>
                                     }
                                     @if (share.IsCreatorOnly)
                                     {
-                                        <span class="badge">Private</span>
+                                        <span class="badge">@Localizer["Private"]</span>
                                     }
                                 </div>
                             </td>
                             @if (isAdminView)
                             {
-                                <td>@(share.CreatorUsername ?? "Anonymous")</td>
+                                <td>@(share.CreatorUsername ?? Localizer["Anonymous"].Value)</td>
                             }
                             <td>@share.FileCount</td>
                             <td>@ViewFormat.Bytes(share.TotalSize)</td>
@@ -64,7 +64,7 @@ else
                             <td>
                                 @if (share.ExpiresAt is null)
                                 {
-                                    <span class="muted">Never</span>
+                                    <span class="muted">@Localizer["Never"]</span>
                                 }
                                 else
                                 {
@@ -72,13 +72,13 @@ else
                                 }
                             </td>
                             <td class="text-right nowrap">
-                                <button type="button" class="btn btn-ghost btn-icon" data-copy="@url" title="Copy link"><svg class="icon"><use href="#i-copy" /></svg></button>
+                                <button type="button" class="btn btn-ghost btn-icon" data-copy="@url" title="@Localizer["Copy link"]"><svg class="icon"><use href="#i-copy" /></svg></button>
                                 @if (!isAdminView)
                                 {
-                                    <a class="btn btn-ghost btn-icon" href="/account/shares/@share.Id/edit" title="Edit"><svg class="icon"><use href="#i-edit" /></svg></a>
+                                    <a class="btn btn-ghost btn-icon" href="/account/shares/@share.Id/edit" title="@Localizer["Edit"]"><svg class="icon"><use href="#i-edit" /></svg></a>
                                 }
-                                <form method="post" asp-antiforgery="true" action="@deleteBase/@share.Id/delete" class="inline-form" data-confirm="Do you really want to delete this share and all of its files?">
-                                    <button type="submit" class="btn btn-ghost btn-icon text-danger" title="Delete"><svg class="icon"><use href="#i-trash" /></svg></button>
+                                <form method="post" asp-antiforgery="true" action="@deleteBase/@share.Id/delete" class="inline-form" data-confirm="@Localizer["Do you really want to delete this share and all of its files?"]">
+                                    <button type="submit" class="btn btn-ghost btn-icon text-danger" title="@Localizer["Delete"]"><svg class="icon"><use href="#i-trash" /></svg></button>
                                 </form>
                             </td>
                         </tr>

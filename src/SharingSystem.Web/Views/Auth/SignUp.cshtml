@@ -1,24 +1,24 @@
 @model SignUpViewModel
 @{
-    ViewData["Title"] = Model.IsInitialSetup ? "Initial setup" : "Sign up";
+    ViewData["Title"] = Model.IsInitialSetup ? Localizer["Initial setup"].Value : Localizer["Sign up"].Value;
 }
 <div class="auth-page">
     <div class="card auth-card">
         @if (Model.IsInitialSetup)
         {
-            <h1>Create the admin account</h1>
-            <p class="muted">No user exists yet. The first account becomes the administrator.</p>
+            <h1>@Localizer["Create the admin account"]</h1>
+            <p class="muted">@Localizer["No user exists yet. The first account becomes the administrator."]</p>
         }
         else
         {
-            <h1>Sign up</h1>
-            <p class="muted">You already have an account? <a href="/auth/sign-in">Sign in</a></p>
+            <h1>@Localizer["Sign up"]</h1>
+            <p class="muted">@Localizer["You already have an account?"] <a href="/auth/sign-in">@Localizer["Sign in"]</a></p>
         }
         <form method="post" asp-antiforgery="true" action="/auth/sign-up" class="form">
             <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
             <div class="form-group">
                 <label asp-for="Username"></label>
-                <input asp-for="Username" class="input" autocomplete="username" autofocus />
+                <input asp-for="Username" class="input ltr" autocomplete="username" autofocus />
                 <span asp-validation-for="Username" class="field-error"></span>
             </div>
             <div class="form-group">
@@ -36,7 +36,7 @@
                 <input asp-for="ConfirmPassword" class="input" autocomplete="new-password" />
                 <span asp-validation-for="ConfirmPassword" class="field-error"></span>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">@(Model.IsInitialSetup ? "Create admin account" : "Sign up")</button>
+            <button type="submit" class="btn btn-primary btn-block">@(Model.IsInitialSetup ? Localizer["Create admin account"] : Localizer["Sign up"])</button>
         </form>
     </div>
 </div>

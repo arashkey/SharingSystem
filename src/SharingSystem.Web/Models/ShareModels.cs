@@ -33,9 +33,11 @@ public sealed class EditSharePageViewModel
 public sealed class EditShareForm
 {
     [StringLength(DomainLimits.ShareNameMaxLength)]
+    [Display(Name = "Name")]
     public string? Name { get; set; }
 
     [StringLength(DomainLimits.ShareDescriptionMaxLength)]
+    [Display(Name = "Description")]
     public string? Description { get; set; }
 
     [Range(1, int.MaxValue)]
@@ -67,6 +69,7 @@ public sealed class SharePasswordViewModel
 
     [Required]
     [DataType(DataType.Password)]
+    [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;
 }
 

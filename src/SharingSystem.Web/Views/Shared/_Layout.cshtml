@@ -7,16 +7,22 @@
     var title = ViewData["Title"] as string;
     var canUpload = isAuthenticated || settings.AllowUnauthenticatedShares;
     var path = Context.Request.Path.Value ?? string.Empty;
+    var language = SupportedCultures.Current();
+    var alternateLanguage = SupportedCultures.Alternate();
     string Active(string prefix) => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@language" dir="@(SupportedCultures.IsRightToLeft() ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
     <title>@(string.IsNullOrEmpty(title) ? settings.AppName : $"{title} · {settings.AppName}")</title>
     <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    @if (language == SupportedCultures.Persian)
+    {
+        <link rel="preload" href="~/fonts/vazirmatn/Vazirmatn-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    }
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script>
         (function () {
@@ -35,43 +41,50 @@
                 <img src="~/favicon.svg" alt="" width="28" height="28" />
                 <span>@settings.AppName</span>
             </a>
-            <button class="btn btn-ghost btn-icon nav-toggle" type="button" data-nav-toggle aria-label="Menu">
+            <button class="btn btn-ghost btn-icon nav-toggle" type="button" data-nav-toggle aria-label="@Localizer["Menu"]">
                 <svg class="icon"><use href="#i-menu" /></svg>
             </button>
             <nav class="nav" data-nav>
                 @if (canUpload)
                 {
-                    <a class="nav-link @Active("/upload")" href="/upload"><svg class="icon"><use href="#i-upload" /></svg>Upload</a>
+                    <a class="nav-link @Active("/upload")" href="/upload"><svg class="icon"><use href="#i-upload" /></svg>@Localizer["Upload"]</a>
                 }
                 @if (isAuthenticated)
                 {
-                    <a class="nav-link @Active("/account/shares")" href="/account/shares"><svg class="icon"><use href="#i-link" /></svg>My shares</a>
-                    <a class="nav-link @Active("/account/reverse-shares")" href="/account/reverse-shares"><svg class="icon"><use href="#i-inbox" /></svg>Reverse shares</a>
+                    <a class="nav-link @Active("/account/shares")" href="/account/shares"><svg class="icon"><use href="#i-link" /></svg>@Localizer["My shares"]</a>
+                    <a class="nav-link @Active("/account/reverse-shares")" href="/account/reverse-shares"><svg class="icon"><use href="#i-inbox" /></svg>@Localizer["Reverse shares"]</a>
                 }
                 @if (isAdmin)
                 {
-                    <a class="nav-link @Active("/admin")" href="/admin"><svg class="icon"><use href="#i-shield" /></svg>Admin</a>
+                    <a class="nav-link @Active("/admin")" href="/admin"><svg class="icon"><use href="#i-shield" /></svg>@Localizer["Admin"]</a>
                 }
                 <span class="nav-spacer"></span>
-                <button class="btn btn-ghost btn-icon" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+                <form method="post" asp-antiforgery="true" action="/language" class="inline-form">
+                    <input type="hidden" name="culture" value="@alternateLanguage" />
+                    <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                    <button class="btn btn-ghost btn-sm" type="submit" lang="@alternateLanguage" title="@Localizer["Change language"]">
+                        <svg class="icon"><use href="#i-globe" /></svg>@SupportedCultures.GetNativeName(alternateLanguage)
+                    </button>
+                </form>
+                <button class="btn btn-ghost btn-icon" type="button" data-theme-toggle aria-label="@Localizer["Toggle theme"]" title="@Localizer["Toggle theme"]">
                     <svg class="icon icon-sun"><use href="#i-sun" /></svg>
                     <svg class="icon icon-moon"><use href="#i-moon" /></svg>
                 </button>
                 @if (isAuthenticated)
                 {
-                    <a class="nav-link @Active("/account")" href="/account" title="Account"><svg class="icon"><use href="#i-user" /></svg>@User.Identity!.Name</a>
+                    <a class="nav-link @Active("/account")" href="/account" title="@Localizer["Account"]"><svg class="icon"><use href="#i-user" /></svg>@User.Identity!.Name</a>
                     <form method="post" asp-antiforgery="true" action="/auth/sign-out" class="inline-form">
-                        <button class="btn btn-ghost btn-icon" type="submit" title="Sign out" aria-label="Sign out">
-                            <svg class="icon"><use href="#i-logout" /></svg>
+                        <button class="btn btn-ghost btn-icon" type="submit" title="@Localizer["Sign out"]" aria-label="@Localizer["Sign out"]">
+                            <svg class="icon icon-flip"><use href="#i-logout" /></svg>
                         </button>
                     </form>
                 }
                 else
                 {
-                    <a class="btn btn-secondary btn-sm" href="/auth/sign-in">Sign in</a>
+                    <a class="btn btn-secondary btn-sm" href="/auth/sign-in">@Localizer["Sign in"]</a>
                     @if (settings.AllowRegistration)
                     {
-                        <a class="btn btn-primary btn-sm" href="/auth/sign-up">Sign up</a>
+                        <a class="btn btn-primary btn-sm" href="/auth/sign-up">@Localizer["Sign up"]</a>
                     }
                 }
             </nav>
@@ -91,11 +104,11 @@
                 <span class="footer-links">
                     @if (!string.IsNullOrWhiteSpace(settings.ImprintText))
                     {
-                        <a href="/imprint">Imprint</a>
+                        <a href="/imprint">@Localizer["Imprint"]</a>
                     }
                     @if (!string.IsNullOrWhiteSpace(settings.PrivacyPolicyText))
                     {
-                        <a href="/privacy">Privacy policy</a>
+                        <a href="/privacy">@Localizer["Privacy policy"]</a>
                     }
                 </span>
             }
@@ -103,6 +116,7 @@
     </footer>
 
     <div class="toast-host" data-toast-host></div>
+    <script type="application/json" id="i18n">@Json.Serialize(ClientStrings.Translate(Localizer))</script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

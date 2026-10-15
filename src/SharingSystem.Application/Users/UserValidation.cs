@@ -22,8 +22,9 @@ public static partial class UserValidation
             || !UsernameRegex().IsMatch(username))
         {
             throw AppException.Validation(
-                $"The username must contain {DomainLimits.UsernameMinLength} to {DomainLimits.UsernameMaxLength} " +
-                "letters, digits, dots, dashes or underscores.");
+                "The username must contain {0} to {1} letters, digits, dots, dashes or underscores.",
+                DomainLimits.UsernameMinLength,
+                DomainLimits.UsernameMaxLength);
         }
     }
 
@@ -44,7 +45,9 @@ public static partial class UserValidation
             || password.Length > DomainLimits.PasswordMaxLength)
         {
             throw AppException.Validation(
-                $"The password must contain {DomainLimits.PasswordMinLength} to {DomainLimits.PasswordMaxLength} characters.");
+                "The password must contain {0} to {1} characters.",
+                DomainLimits.PasswordMinLength,
+                DomainLimits.PasswordMaxLength);
         }
     }
 
