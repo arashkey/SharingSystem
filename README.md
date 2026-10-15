@@ -56,3 +56,7 @@ See the Persian guide for the recommended backup schedule and the safeguards for
 | `SharingSystem.Application` | Use cases/services, DTOs, abstractions, Mapster mappings |
 | `SharingSystem.Infrastructure` | EF Core (SQLite), migrations, local file storage, AES-GCM secret protection, PBKDF2 hashing, TOTP, SMTP (MailKit), cleanup job |
 | `SharingSystem.Web` | MVC controllers and views, admin area, upload API, cookie authentication |
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
