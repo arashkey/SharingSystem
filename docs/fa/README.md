@@ -82,13 +82,35 @@ dotnet run --project src/SharingSystem.Web
 
 ## اجرا با Docker
 
-```bash
-cp .env.example .env
-# مقدار SECURITY_ENCRYPTION_KEY را در .env قرار دهید:
-openssl rand -base64 32
+ساخت image به صورت **آفلاین** انجام می‌شود: برنامه روی خود سیستم (Host) و با کش محلی NuGet پابلیش می‌شود و Dockerfile فقط خروجی پابلیش را کپی می‌کند؛ پس در زمان ساخت image به اینترنت نیازی نیست.
 
-docker compose up -d --build
+پیش‌نیازها:
+- فایل `.env` (از روی `.env.example` بسازید و مقدار `SECURITY_ENCRYPTION_KEY` را با `openssl rand -base64 32` پر کنید)
+- image پایهٔ `mcr.microsoft.com/dotnet/aspnet:10.0` یک بار (وقتی اینترنت دارید) pull شده و در کش Docker باشد
+
+```bat
+copy .env.example .env
+make-docker.bat
 ```
+
+اسکریپت `make-docker.bat` این کارها را انجام می‌دهد:
+1. نسخه را از `<Version>` در فایل `src/SharingSystem.Web/SharingSystem.Web.csproj` می‌خواند
+2. برنامه را در پوشهٔ `publish/` پابلیش می‌کند و فایل‌های native غیر `linux-x64` و فایل‌های `.pdb` را حذف می‌کند
+3. image را با تگ همان نسخه (مثلاً `sharing-system:1.0.0`) و `latest` می‌سازد و container را بالا می‌آورد (volume داده‌ها حذف نمی‌شود)
+4. image را در فایل `sharing-system-<نسخه>.docker` ذخیره می‌کند؛ اگر فایلی با همان نسخه از قبل باشد، به `.bak.docker` تغییر نام داده می‌شود
+
+> **نسخه‌گذاری:** برای انتشار نسخهٔ جدید فقط مقدار `<Version>` را در `SharingSystem.Web.csproj` تغییر دهید. همین نسخه در پایین همهٔ صفحه‌ها (فوتر) برای همهٔ کاربران نمایش داده می‌شود.
+
+نصب روی سرور دیگر (بدون اینترنت):
+
+```bash
+docker load -i sharing-system-1.0.0.docker
+docker compose up -d
+```
+
+> image به‌طور پیش‌فرض با تگ `latest` اجرا می‌شود؛ برای اجرای یک نسخهٔ مشخص، `APP_VERSION=1.0.0` را در `.env` قرار دهید.
+>
+> image بر پایهٔ Debian است نه Alpine، چون Alpine بدون ICU اجرا می‌شود و زبان فارسی و تقویم شمسی در آن کار نمی‌کند.
 
 سپس آدرس http://localhost:3000 را باز کنید. داده‌ها (SQLite، فایل‌ها، کلیدهای Data Protection) در volume با نام `sharing-data` نگه‌داری می‌شوند.
 
@@ -181,7 +203,7 @@ sh scripts/restore.sh /path/to/backups/sharing-backup-20261016-020000.tar
 ./scripts/restore.ps1 -File D:\backups\sharing-backup-20261016-020000.tar
 ```
 
-روی سرور جدید: اول `.env` قبلی را بگذارید و `docker compose up -d --build` را اجرا کنید تا container ساخته شود، بعد restore را اجرا کنید.
+روی سرور جدید: اول `.env` قبلی را بگذارید، image را با `docker load -i sharing-system-<نسخه>.docker` بارگذاری و `docker compose up -d` را اجرا کنید تا container ساخته شود، بعد restore را اجرا کنید.
 
 > نام container و image به‌طور پیش‌فرض `sharing-system` و `sharing-system:latest` است و با متغیرهای `CONTAINER_NAME` و `IMAGE_NAME` (یا پارامترهای `-Container` و `-Image` در PowerShell) قابل تغییرند.
 >

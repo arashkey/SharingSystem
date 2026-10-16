@@ -1,9 +1,16 @@
-**/bin/
-**/obj/
-**/data/
-**/*.db
-.env
-.git/
-.vs/
-.vscode/
-*.zip
+# The image is runtime-only: it needs ONLY the published output, so the build
+# context is an allowlist. Everything is excluded first, then re-included.
+*
+
+# re-include only what the Dockerfile actually copies
+!Dockerfile
+!publish/
+
+# never ship secrets, VCS metadata, local data or debug symbols
+**/.env
+**/.git
+**/.vs
+**/.vscode
+publish/data/
+publish/**/*.db
+publish/**/*.pdb

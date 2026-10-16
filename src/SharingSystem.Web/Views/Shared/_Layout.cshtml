@@ -99,7 +99,13 @@
 
     <footer class="footer">
         <div class="container footer-inner">
-            <span class="muted">@appName</span>
+            <span class="muted">
+                @appName
+                @if (!string.IsNullOrEmpty(AppVersion.Current))
+                {
+                    <span class="app-version" dir="ltr" title="@Localizer["Version"]">v@(AppVersion.Current)</span>
+                }
+            </span>
             @if (settings.LegalEnabled)
             {
                 <span class="footer-links">

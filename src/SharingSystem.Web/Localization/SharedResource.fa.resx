@@ -1087,4 +1087,7 @@
   <data name="{0}–{1} of {2}" xml:space="preserve">
     <value>{0} تا {1} از {2}</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>نسخه</value>
+  </data>
 </root>

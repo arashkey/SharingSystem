@@ -31,9 +31,21 @@ Open http://localhost:5069. The first registered user becomes the administrator.
 
 ## Docker
 
+The image is runtime-only: the app is published on the host with the local NuGet cache, so the image build works
+offline (the base image `mcr.microsoft.com/dotnet/aspnet:10.0` must be in the local Docker cache).
+
+```bat
+copy .env.example .env         & rem then set SECURITY_ENCRYPTION_KEY (openssl rand -base64 32)
+make-docker.bat
+```
+
+The script reads the version from `<Version>` in `src/SharingSystem.Web/SharingSystem.Web.csproj`, publishes the app,
+builds and starts the image, and exports it to `sharing-system-<version>.docker` (tags `<version>` and `latest`).
+The running version is shown in the page footer. On another server:
+
 ```bash
-cp .env.example .env           # then set SECURITY_ENCRYPTION_KEY (openssl rand -base64 32)
-docker compose up -d --build
+docker load -i sharing-system-1.0.0.docker
+docker compose up -d
 ```
 
 Open http://localhost:3000. Data (SQLite database, files, keys) is stored in the `sharing-data` volume.

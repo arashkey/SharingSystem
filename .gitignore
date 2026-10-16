@@ -10,5 +10,9 @@ src/SharingSystem.Web/data/
 .env
 *.zip
 
+# Host publish output and exported images created by make-docker.bat
+publish/
+*.docker
+
 # Backups created by scripts/backup.*
 backups/

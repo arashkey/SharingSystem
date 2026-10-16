@@ -1,7 +1,12 @@
 services:
   sharing-system:
-    build: .
-    image: sharing-system:latest
+    # The image is runtime-only: run make-docker.bat first so "publish/" exists.
+    build:
+      context: .
+      args:
+        APP_VERSION: ${APP_VERSION:-latest}
+    # make-docker.bat sets APP_VERSION from <Version> in SharingSystem.Web.csproj and also tags "latest".
+    image: sharing-system:${APP_VERSION:-latest}
     container_name: sharing-system
     restart: unless-stopped
     ports:
