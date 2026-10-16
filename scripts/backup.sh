@@ -18,6 +18,8 @@ SNAPSHOT="$(docker exec "$CONTAINER" dotnet SharingSystem.Web.dll backup-databas
 
 echo "Archiving the database snapshot, uploaded files and keys..."
 # Unfinished uploads (*.part) and cached zip archives are skipped: they are temporary.
+# The image's BusyBox tar honours only one -C, so the snapshot copy and symlinks to the data
+# folders are staged in one directory and archived with -h (follow symlinks).
 docker run --rm --user 0 --entrypoint sh \
     --volumes-from "$CONTAINER:ro" \
     -v "$BACKUP_DIR:/backup" \
@@ -26,7 +28,9 @@ docker run --rm --user 0 --entrypoint sh \
         set -e
         mkdir -p /tmp/stage
         cp "$SNAPSHOT" /tmp/stage/sharing.db
-        tar -cf "/backup/$NAME" --exclude="*.part" -C /app/data uploads keys -C /tmp/stage sharing.db
+        ln -s /app/data/uploads /tmp/stage/uploads
+        ln -s /app/data/keys /tmp/stage/keys
+        tar -chf "/backup/$NAME" --exclude="*.part" -C /tmp/stage uploads keys sharing.db
         chown "$HOST_UID:$HOST_GID" "/backup/$NAME"'
 
 echo "Backup written to $BACKUP_DIR/$NAME"

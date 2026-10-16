@@ -86,7 +86,7 @@ dotnet run --project src/SharingSystem.Web
 
 پیش‌نیازها:
 - فایل `.env` (از روی `.env.example` بسازید و مقدار `SECURITY_ENCRYPTION_KEY` را با `openssl rand -base64 32` پر کنید)
-- image پایهٔ `mcr.microsoft.com/dotnet/aspnet:10.0` یک بار (وقتی اینترنت دارید) pull شده و در کش Docker باشد
+- image پایهٔ `mcr.microsoft.com/dotnet/aspnet:10.0-alpine-extra` یک بار (وقتی اینترنت دارید) pull شده و در کش Docker باشد. نسخهٔ `-extra` کتابخانهٔ ICU را دارد که فرهنگ فارسی به آن نیاز دارد. این image حدود ۶۵ مگابایت از image پیش‌فرض Debian کوچک‌تر است
 
 ```bat
 copy .env.example .env
@@ -95,9 +95,9 @@ make-docker.bat
 
 اسکریپت `make-docker.bat` این کارها را انجام می‌دهد:
 1. نسخه را از `<Version>` در فایل `src/SharingSystem.Web/SharingSystem.Web.csproj` می‌خواند
-2. برنامه را در پوشهٔ `publish/` پابلیش می‌کند و فایل‌های native غیر `linux-x64` و فایل‌های `.pdb` را حذف می‌کند
+2. برنامه را در پوشهٔ `publish/` پابلیش می‌کند و فایل‌های native غیر `linux-musl-x64` (Alpine) و فایل‌های `.pdb` را حذف می‌کند
 3. image را با تگ همان نسخه (مثلاً `sharing-system:1.0.0`) و `latest` می‌سازد و container را بالا می‌آورد (volume داده‌ها حذف نمی‌شود)
-4. image را در فایل `sharing-system-<نسخه>.docker` ذخیره می‌کند؛ اگر فایلی با همان نسخه از قبل باشد، به `.bak.docker` تغییر نام داده می‌شود
+4. image را به صورت فشرده (gzip) در فایل `sharing-system-<نسخه>.docker` ذخیره می‌کند؛ اگر فایلی با همان نسخه از قبل باشد، به `.bak.docker` تغییر نام داده می‌شود. `docker load` فایل فشرده را مستقیم می‌خواند
 
 > **نسخه‌گذاری:** برای انتشار نسخهٔ جدید فقط مقدار `<Version>` را در `SharingSystem.Web.csproj` تغییر دهید. همین نسخه در پایین همهٔ صفحه‌ها (فوتر) برای همهٔ کاربران نمایش داده می‌شود.
 

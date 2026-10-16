@@ -20,8 +20,11 @@ if ($LASTEXITCODE -ne 0) { throw "The database snapshot failed." }
 
 Write-Host "Archiving the database snapshot, uploaded files and keys..."
 # Unfinished uploads (*.part) and cached zip archives are skipped: they are temporary.
+# The image's BusyBox tar honours only one -C, so the snapshot copy and symlinks to the data
+# folders are staged in one directory and archived with -h (follow symlinks).
 $script = 'set -e; mkdir -p /tmp/stage; cp "$SNAPSHOT" /tmp/stage/sharing.db; ' +
-          'tar -cf "/backup/$NAME" --exclude="*.part" -C /app/data uploads keys -C /tmp/stage sharing.db'
+          'ln -s /app/data/uploads /tmp/stage/uploads; ln -s /app/data/keys /tmp/stage/keys; ' +
+          'tar -chf "/backup/$NAME" --exclude="*.part" -C /tmp/stage uploads keys sharing.db'
 docker run --rm --user 0 --entrypoint sh --volumes-from "${Container}:ro" -v "${backupPath}:/backup" `
     -e "SNAPSHOT=$snapshot" -e "NAME=$name" $Image -c $script
 if ($LASTEXITCODE -ne 0) { throw "Archiving the data failed." }

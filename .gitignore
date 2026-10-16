@@ -13,6 +13,7 @@ src/SharingSystem.Web/data/
 # Host publish output and exported images created by make-docker.bat
 publish/
 *.docker
+*.tmp.tar
 
 # Backups created by scripts/backup.*
 backups/

@@ -32,7 +32,8 @@ Open http://localhost:5069. The first registered user becomes the administrator.
 ## Docker
 
 The image is runtime-only: the app is published on the host with the local NuGet cache, so the image build works
-offline (the base image `mcr.microsoft.com/dotnet/aspnet:10.0` must be in the local Docker cache).
+offline (the base image `mcr.microsoft.com/dotnet/aspnet:10.0-alpine-extra` must be in the local Docker cache; the
+`-extra` variant includes ICU, which the Persian culture needs).
 
 ```bat
 copy .env.example .env         & rem then set SECURITY_ENCRYPTION_KEY (openssl rand -base64 32)
@@ -40,7 +41,8 @@ make-docker.bat
 ```
 
 The script reads the version from `<Version>` in `src/SharingSystem.Web/SharingSystem.Web.csproj`, publishes the app,
-builds and starts the image, and exports it to `sharing-system-<version>.docker` (tags `<version>` and `latest`).
+builds and starts the image, and exports it gzip compressed to `sharing-system-<version>.docker` (tags `<version>` and
+`latest`; `docker load` reads the compressed file directly).
 The running version is shown in the page footer. On another server:
 
 ```bash

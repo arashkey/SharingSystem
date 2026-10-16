@@ -8,11 +8,16 @@
 #  Expects one thing in the build context:
 #    * publish/  -> output of "dotnet publish -c Release" produced by make-docker.bat
 #
-#  The Debian based image is used instead of Alpine on purpose: Alpine runs in
-#  invariant globalization mode (no ICU), which breaks the Persian culture and
-#  the Solar Hijri calendar used by the UI.
+#  Base image: Alpine "-extra" (~165 MB vs ~230 MB for the Debian image).
+#    * The plain Alpine image runs in invariant globalization mode (no ICU),
+#      which breaks the Persian culture and the Solar Hijri calendar used by the
+#      UI. The "-extra" variant ships ICU and tzdata, so globalization works.
+#    * Alpine uses musl, so make-docker.bat keeps the linux-musl-x64 native
+#      SQLite library in publish/ instead of linux-x64.
+#    * Chiseled images are not used: they have no shell/tar, which the backup
+#      and restore scripts run inside this image.
 # =============================================================================
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine-extra AS runtime
 
 # Release version, passed by docker-compose.yml from <Version> in SharingSystem.Web.csproj.
 ARG APP_VERSION=latest
