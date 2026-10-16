@@ -242,6 +242,21 @@ textarea.input { resize: vertical; }
     border: 1px solid var(--border); border-inline-end: 0; color: var(--muted); font-size: .85rem; white-space: nowrap;
     max-width: 45%; overflow: hidden; text-overflow: ellipsis;
 }
+/* Show/hide toggle added by site.js. Passwords are LTR like other credentials, so the toggle stays on the right; RTL placeholders keep their direction. */
+.password-field { position: relative; }
+.password-field .input { direction: ltr; text-align: left; padding-right: 2.6rem; }
+:root[dir="rtl"] .password-field .input:placeholder-shown { direction: rtl; text-align: right; }
+.password-toggle {
+    position: absolute; top: 0; bottom: 0; right: 0; width: 2.5rem;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; border: 0; background: transparent; color: var(--muted); cursor: pointer;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.password-toggle:hover { color: var(--text); }
+.password-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.password-toggle .icon-eye-off,
+.password-toggle[aria-pressed="true"] .icon-eye { display: none; }
+.password-toggle[aria-pressed="true"] .icon-eye-off { display: inline; }
 .checkbox { display: flex; align-items: center; gap: .55rem; font-weight: 500; cursor: pointer; }
 .checkbox input { width: 17px; height: 17px; accent-color: var(--primary); }
 .field-error { color: var(--danger); font-size: .82rem; }

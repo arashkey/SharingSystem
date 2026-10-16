@@ -1090,4 +1090,10 @@
   <data name="Version" xml:space="preserve">
     <value>نسخه</value>
   </data>
+  <data name="Show password" xml:space="preserve">
+    <value>نمایش رمز عبور</value>
+  </data>
+  <data name="Hide password" xml:space="preserve">
+    <value>پنهان کردن رمز عبور</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-// Site-wide UI helpers: translations, theme, toasts, clipboard, confirmations, dialogs, tabs and local time formatting.
+// Site-wide UI helpers: translations, theme, toasts, clipboard, confirmations, dialogs, tabs, password toggles and local time formatting.
 (function () {
     "use strict";
 
@@ -111,8 +111,42 @@
         });
     }
 
+    // Password visibility: every password input gets a show/hide button inside a wrapper.
+    function setPasswordVisible(button, visible) {
+        const input = button.parentElement.querySelector("[data-password-input]");
+        if (!input) return;
+        input.type = visible ? "text" : "password";
+        const label = app.t(visible ? "Hide password" : "Show password");
+        button.setAttribute("aria-pressed", String(visible));
+        button.setAttribute("aria-label", label);
+        button.title = label;
+    }
+
+    function addPasswordToggles() {
+        document.querySelectorAll("input[type='password']:not([data-password-input])").forEach((input) => {
+            // Moving the input drops its focus (e.g. autofocus), so restore it afterwards.
+            const hadFocus = document.activeElement === input;
+            const wrapper = document.createElement("div");
+            wrapper.className = "password-field";
+            input.before(wrapper);
+            wrapper.appendChild(input);
+            input.dataset.passwordInput = "";
+
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "password-toggle";
+            button.dataset.passwordToggle = "";
+            if (input.id) button.setAttribute("aria-controls", input.id);
+            button.innerHTML = '<svg class="icon icon-eye"><use href="#i-eye" /></svg><svg class="icon icon-eye-off"><use href="#i-eye-off" /></svg>';
+            wrapper.appendChild(button);
+            setPasswordVisible(button, false);
+
+            if (hadFocus) input.focus();
+        });
+    }
+
     document.addEventListener("click", (event) => {
-        const target = event.target.closest("[data-theme-toggle], [data-theme-value], [data-copy], [data-copy-from], [data-dialog-open], [data-dialog-close], [data-nav-toggle], [data-tab]");
+        const target = event.target.closest("[data-theme-toggle], [data-theme-value], [data-copy], [data-copy-from], [data-dialog-open], [data-dialog-close], [data-nav-toggle], [data-tab], [data-password-toggle]");
         if (!target) return;
 
         if (target.matches("[data-theme-toggle]")) {
@@ -136,6 +170,8 @@
             container.querySelectorAll("[data-tab-panel]").forEach((panel) => {
                 panel.hidden = panel.dataset.tabPanel !== target.dataset.tab;
             });
+        } else if (target.matches("[data-password-toggle]")) {
+            setPasswordVisible(target, target.getAttribute("aria-pressed") !== "true");
         }
     });
 
@@ -164,13 +200,16 @@
     });
 
     // Disabled inputs are not posted; enable them right before submitting so model binding keeps the values.
+    // Revealed passwords are masked again so the browser does not store them as plain form history.
     document.addEventListener("submit", (event) => {
         if (event.defaultPrevented) return;
         event.target.querySelectorAll("[data-expiration-field]:disabled").forEach((field) => (field.disabled = false));
+        event.target.querySelectorAll("[data-password-toggle][aria-pressed='true']").forEach((button) => setPasswordVisible(button, false));
     });
 
     document.addEventListener("DOMContentLoaded", () => {
         app.formatLocalTime();
+        addPasswordToggles();
         syncToggles();
         updateThemePicker();
         document.querySelectorAll("dialog[data-open-on-load='true']").forEach((dialog) => dialog.showModal());

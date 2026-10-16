@@ -21,7 +21,9 @@ public static class ClientStrings
         "Waiting…",
         "Done",
         "Failed",
-        "This link is already in use."
+        "This link is already in use.",
+        "Show password",
+        "Hide password"
     ];
 
     public static IReadOnlyDictionary<string, string> Translate(IStringLocalizer localizer) =>
